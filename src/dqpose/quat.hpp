@@ -26,7 +26,7 @@
  *     This file provides the necessary classes and functions to represent 
  *     and manipulate Quaternions.
  * 
- *     \cite https://github.com/zhaojiawei392
+ *     \cite https://github.com/zhaojiawei392/dqpose.git
  */
 
 #pragma once
@@ -48,7 +48,7 @@ constexpr int PRINT_PRECISION = 12;
 constexpr double FLOAT_ERROR_THRESHOLD = 0.0001;
 constexpr bool VERBOSE = false;
 
-// Forward declaration
+// Forward declarations
 template<typename qScalar, typename = std::enable_if_t<std::is_arithmetic_v<qScalar>>>
 class Quat;
 template<typename qScalar, typename = std::enable_if_t<std::is_arithmetic_v<qScalar>>>
@@ -341,8 +341,9 @@ public:
         return oss.str();
     };
     // data
-    inline qScalar* data() noexcept {return _data.data();}
-    inline const qScalar* data() const noexcept {return _data.data();}
+    inline qScalar* data() noexcept { return _data.data(); }
+    inline const qScalar* data() const noexcept { return _data.data(); }
+    inline Arr4 array() const noexcept { return _data; }
     inline Arr4 vrep_array() const noexcept { return Arr4{x(), y(), z(), w()}; }
     // Defaults
 
