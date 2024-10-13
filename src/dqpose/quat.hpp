@@ -71,7 +71,7 @@ protected:
 #define _Y_ _data[2]
 #define _Z_ _data[3]
 public:
-    // Constructor
+    // Scalar Constructor
     explicit Quat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
     :_data{ w, x, y, z } {
 
@@ -377,7 +377,7 @@ protected:
         this->_W_ = 0;
     }
 public:
-    // Scalars Constructor
+    // Scalar Constructor
     explicit PureQuat(const qScalar x, const qScalar y, const qScalar z) noexcept
     : Quat<qScalar>( 0, x, y, z ) {
 
@@ -501,7 +501,7 @@ protected:
         this->normalize();
     }
 public:
-    // Scalars Constructor 
+    // Scalar Constructor 
     explicit UnitQuat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
     : Quat<qScalar>( w, x, y, z ) {
         this->normalize();
@@ -580,7 +580,7 @@ template<typename qScalar, typename>
 class UnitPureQuat : public UnitQuat<qScalar>, public PureQuat<qScalar>
 {
 public:
-    // Scalars Constructor
+    // Scalar Constructor
     explicit UnitPureQuat(const qScalar x, const qScalar y, const qScalar z) noexcept
     : Quat<qScalar>(0, x, y, z), UnitQuat<qScalar>(0, x, y, z), PureQuat<qScalar>(x, y, z){
         this->normalize();
