@@ -1,0 +1,21 @@
+<input type="text" id="search" placeholder="Search...">
+<ul id="function-list">
+    <li>void MyClass::doSomething()</li>
+    <li>int MyClass::getValue()</li>
+    <li>static MyClass* MyClass::createInstance()</li>
+</ul>
+
+<script>
+document.getElementById('search').addEventListener('input', function() {
+    var input = this.value.toLowerCase();
+    var list = document.getElementById('function-list').getElementsByTagName('li');
+    for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        if (item.textContent.toLowerCase().includes(input)) {
+            item.style.display = '';
+        } else {
+            item.style.display = 'none';
+        }
+    }
+});
+</script>
