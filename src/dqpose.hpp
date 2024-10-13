@@ -27,7 +27,7 @@
  *     and manipulate 3D poses using dual quaternions in a lightweight 
  *     multi-platform C++ library.
  * 
- *     \cite https://github.com/zhaojiawei392
+ *     \cite https://github.com/zhaojiawei392/dqpose.git
  */
 
 #pragma once
