@@ -329,7 +329,7 @@ class PureQuat: virtual public Quat<qScalar>
 { 
 public:
     // Scalar Constructor
-    explicit PureQuat(const qScalar x, const qScalar y, const qScalar z) noexcept
+    explicit PureQuat(const qScalar x, const qScalar y=0, const qScalar z=0) noexcept
     : Quat<qScalar>( 0, x, y, z ) {
 
     }
