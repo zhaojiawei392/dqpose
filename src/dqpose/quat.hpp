@@ -228,28 +228,13 @@ public:
     inline qScalar norm() const noexcept {
         return std::sqrt( square( w() ) + square( x() ) + square( y() ) + square( z() ));
     }
-    // pow
-    template<typename Scalar>
-    inline std::enable_if_t<std::is_arithmetic_v<Scalar>, Quat>
-    pow(const Scalar index) const noexcept{
-        const qScalar init_norm = norm();
-        const qScalar init_rotate_angle = 2 * acos(w() / init_norm);
-        if (init_rotate_angle == 0){
-            const qScalar w_ = std::pow(w(), index);
-            return Quat(w);
+    // normalized
+    inline Quat normalized() const {
+        const qScalar norm = this->norm();
+        if (norm == 0) {
+            throw std::runtime_error("Error: Quat normalized() Cannot normalize a 0 Quaternion.");
         }
-        const qScalar res_norm = std::pow(init_norm, index);
-        const qScalar res_rotate_angle = init_rotate_angle * index;
-        const qScalar vec3_norm = std::sqrt( square( x() ) + square( y() ) + square( z() ));
-
-        const qScalar cos_ = cos(res_rotate_angle);
-        const qScalar sin_ = sin(res_rotate_angle);
-
-        const qScalar w_ = cos_ * res_norm;
-        const qScalar x_ = sin_ * x() / vec3_norm * res_norm;
-        const qScalar y_ = sin_ * y() / vec3_norm * res_norm;
-        const qScalar z_ = sin_ * z() / vec3_norm * res_norm;
-        return Quat(w_, x_, y_, z_);   
+        return *this * (1 / norm); 
     }
     // conj
     inline Quat conj() const noexcept {
@@ -270,47 +255,38 @@ public:
     }
     // log
     inline Quat log() const noexcept {
-        const qScalar init_norm = norm();
-        const qScalar init_angle = acos(w());
-        if (init_angle == 0){
-            const qScalar w_ = std::log(w());
-            return Quat(w_);
-        }
         const qScalar vec3_norm = std::sqrt( square( x() ) + square( y() ) + square( z() ));
-
-        const qScalar w_ = std::log(init_norm);
-        const qScalar x_ = init_angle * x() / vec3_norm;
-        const qScalar y_ = init_angle * y() / vec3_norm;
-        const qScalar z_ = init_angle * z() / vec3_norm;
+        if (vec3_norm == 0) {
+            return Quat(std::log(w()));
+        }
+        const qScalar this_norm = norm();
+        const qScalar this_theta = acos(w() / this_norm);
+        const qScalar w_ = std::log(this_norm);
+        const qScalar x_ = this_theta * x() / vec3_norm;
+        const qScalar y_ = this_theta * y() / vec3_norm;
+        const qScalar z_ = this_theta * z() / vec3_norm;
         return Quat(w_, x_, y_, z_);  
     }
     // exp
     inline Quat exp() const noexcept {        
-        const qScalar init_norm = norm();
-        const qScalar init_rotate_angle = 2 * acos(w() / norm);
-        if (init_rotate_angle == 0){
-            const qScalar w_ = std::exp(w());
-            return Quat(w_);
-        }
         const qScalar vec3_norm = std::sqrt( square( x() ) + square( y() ) + square( z() ));
-        
-        const qScalar exp_ = std::exp(w());
+        const qScalar exp_ = std::exp(w());        
+        if (vec3_norm == 0) {
+            return Quat(exp_);
+        }
         const qScalar cos_ = cos(vec3_norm);
         const qScalar sin_ = sin(vec3_norm);
-
         const qScalar w_ = exp_ * cos_;
         const qScalar x_ = exp_ * sin_ * x() / vec3_norm;
         const qScalar y_ = exp_ * sin_ * y() / vec3_norm;
         const qScalar z_ = exp_ * sin_ * z() / vec3_norm;
         return Quat(w_, x_, y_, z_); 
     }
-    // normalized
-    inline Quat normalized() const {
-        const qScalar norm = this->norm();
-        if (norm == 0) {
-            throw std::runtime_error("Error: Quat normalized() Cannot normalize a 0 Quaternion.");
-        }
-        return *this * (1 / norm); 
+    // pow
+    template<typename Scalar>
+    inline std::enable_if_t<std::is_arithmetic_v<Scalar>, Quat>
+    pow(const Scalar index) const noexcept{
+        return (this->log() * index).exp();
     }
     // hamiplus
     inline Mat44 hamiplus() const noexcept {
