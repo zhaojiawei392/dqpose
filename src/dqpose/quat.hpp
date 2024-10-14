@@ -271,17 +271,17 @@ public:
     // log
     inline Quat log() const noexcept {
         const qScalar init_norm = norm();
-        const qScalar init_rotate_angle = 2 * acos(w() / init_norm);
-        if (init_rotate_angle == 0){
+        const qScalar init_angle = acos(w());
+        if (init_angle == 0){
             const qScalar w_ = std::log(w());
-            return Quat(w);
+            return Quat(w_);
         }
         const qScalar vec3_norm = std::sqrt( square( x() ) + square( y() ) + square( z() ));
 
         const qScalar w_ = std::log(init_norm);
-        const qScalar x_ = 0.5 * init_rotate_angle * x() / vec3_norm;
-        const qScalar y_ = 0.5 * init_rotate_angle * y() / vec3_norm;
-        const qScalar z_ = 0.5 * init_rotate_angle * z() / vec3_norm;
+        const qScalar x_ = init_angle * x() / vec3_norm;
+        const qScalar y_ = init_angle * y() / vec3_norm;
+        const qScalar z_ = init_angle * z() / vec3_norm;
         return Quat(w_, x_, y_, z_);  
     }
     // exp
@@ -290,7 +290,7 @@ public:
         const qScalar init_rotate_angle = 2 * acos(w() / norm);
         if (init_rotate_angle == 0){
             const qScalar w_ = std::exp(w());
-            return Quat(w);
+            return Quat(w_);
         }
         const qScalar vec3_norm = std::sqrt( square( x() ) + square( y() ) + square( z() ));
         
