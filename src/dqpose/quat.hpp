@@ -313,7 +313,6 @@ public:
         return oss.str();
     };
     // data
-    inline qScalar* data() noexcept { return _data.data(); }
     inline const qScalar* data() const noexcept { return _data.data(); }
     inline Arr4 array() const noexcept { return _data; }
     inline Arr4 vrep_array() const noexcept { return Arr4{x(), y(), z(), w()}; }
@@ -433,7 +432,6 @@ public:
         return PureQuat(x_, y_, z_);
     }
     // data
-    inline qScalar* data() noexcept { return this->_data.data()+1; }
     inline const qScalar* data() const noexcept { return this->_data.data()+1; }
     // Delete unsafe mutable operators
     Quat<qScalar>& operator+=(const Quat<qScalar>& other) noexcept =delete;
@@ -530,7 +528,6 @@ public:
         return UnitQuat(w_, x_, y_, z_);
     }
     // data
-    inline qScalar* data() noexcept { return this->_data.data(); }
     inline const qScalar* data() const noexcept { return this->_data.data(); }
     // Delete unsafe mutable operators
     Quat<qScalar>& operator+=(const Quat<qScalar>& other) noexcept =delete;
@@ -585,7 +582,6 @@ public:
         this->_norm_should_be_one();
     } 
     // data
-    inline qScalar* data() noexcept { return this->_data.data()+1; }
     inline const qScalar* data() const noexcept { return this->_data.data()+1; }
     // Delete unsafe mutable operators
     Quat<qScalar>& operator+=(const Quat<qScalar>& other) noexcept =delete;
