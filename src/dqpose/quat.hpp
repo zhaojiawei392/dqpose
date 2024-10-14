@@ -183,7 +183,7 @@ public:
     inline Quat operator-() const noexcept { return Quat(-w(), -x(), -y(), -z()); }
     // operator==
     template<typename Scalar>
-    inline bool operator==(const Quat<Scalar>& other) const noexcept{ return _data == other._data; }
+    inline bool operator==(const Quat<Scalar>& other) const noexcept { return _data == other._data; }
     // operator!=
     template<typename Scalar>
     inline bool operator!=(const Quat<Scalar>& other) const noexcept { return _data != other._data; }
