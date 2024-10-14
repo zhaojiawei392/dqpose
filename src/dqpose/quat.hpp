@@ -80,7 +80,7 @@ public:
     }
     // Copy Assignment
     template<typename Scalar>
-    virtual inline Quat& operator=(const Quat<Scalar>& other) noexcept {
+    inline Quat& operator=(const Quat<Scalar>& other) noexcept {
         _W_ = static_cast<qScalar>(other.w());
         _X_ = static_cast<qScalar>(other.x());
         _Y_ = static_cast<qScalar>(other.y());
@@ -119,14 +119,11 @@ public:
         return *this;
     }
     // operator*=
-    template<typename Scalar> 
-    inline std::enable_if_t<std::is_arithmetic_v<Scalar>, Quat&>
-    operator*=(const Scalar scalar) noexcept {
-        const qScalar qscalar = static_cast<qScalar>(scalar);  
-        _W_ *= qscalar;  
-        _X_ *= qscalar; 
-        _Y_ *= qscalar; 
-        _Z_ *= qscalar; 
+    inline Quat& operator*=(const qScalar scalar) noexcept {
+        _W_ *= scalar;  
+        _X_ *= scalar; 
+        _Y_ *= scalar; 
+        _Z_ *= scalar; 
         return *this;
     }
     // normalize
@@ -170,34 +167,21 @@ public:
         return Quat(w_, x_, y_, z_);
     }
     // operator*
-    template<typename Scalar>
-    inline std::enable_if_t<std::is_arithmetic_v<Scalar>, Quat>
-    operator*(const Scalar scalar) const noexcept {
-        const qScalar qscalar = static_cast<qScalar>(scalar);  
-        const qScalar w_ = w() * qscalar;  
-        const qScalar x_ = x() * qscalar; 
-        const qScalar y_ = y() * qscalar; 
-        const qScalar z_ = z() * qscalar; 
+    inline Quat operator*(const qScalar scalar) const noexcept {
+        const qScalar w_ = w() * scalar;  
+        const qScalar x_ = x() * scalar; 
+        const qScalar y_ = y() * scalar; 
+        const qScalar z_ = z() * scalar; 
         return Quat(w_, x_, y_, z_);
     }
     // -operator
-    inline Quat operator-() const noexcept {
-        const qScalar w_ = - w();  
-        const qScalar x_ = - x(); 
-        const qScalar y_ = - y(); 
-        const qScalar z_ = - z(); 
-        return Quat(w_, x_, y_, z_);
-    }
+    inline Quat operator-() const noexcept { return Quat(-w(), -x(), -y(), -z()); }
     // operator==
     template<typename Scalar>
-    inline bool operator==(const Quat<Scalar>& other) const noexcept{
-        return _data == other._data;
-    }
+    inline bool operator==(const Quat<Scalar>& other) const noexcept{ return _data == other._data; }
     // operator!=
     template<typename Scalar>
-    inline bool operator!=(const Quat<Scalar>& other) const noexcept {
-        return _data != other._data;
-    }
+    inline bool operator!=(const Quat<Scalar>& other) const noexcept { return _data != other._data; }
     // dot
     template<typename Scalar>
     inline qScalar dot(const Quat<Scalar>& other) const noexcept {
@@ -280,9 +264,7 @@ public:
         return Quat(w_, x_, y_, z_); 
     }
     // pow
-    template<typename Scalar>
-    inline std::enable_if_t<std::is_arithmetic_v<Scalar>, Quat>
-    pow(const Scalar index) const noexcept{
+    inline Quat pow(const qScalar index) const noexcept{
         return (this->log() * index).exp();
     }
     // hamiplus
@@ -333,28 +315,20 @@ public:
     : Quat<qScalar>( 0, x, y, z ) {
 
     }
-    // Copy Constructor
-    template<typename Scalar>
-    explicit PureQuat(const PureQuat<Scalar>& other) noexcept 
-    : Quat<qScalar>( other ) {
-        this->_W_ = 0;
-    }
     // Quat Constructor
     template<typename Scalar>
     explicit PureQuat(const Quat<Scalar>& other) noexcept
     : Quat<qScalar>( other ) {
         this->_W_ = 0;
     }
-    // Copy Assignment
-    template<typename Scalar>
-    inline PureQuat& operator=(const PureQuat<Scalar>& other) noexcept {
-        Quat<qScalar>::operator=(other);
-    }
     // Quat Assignment
     template<typename Scalar>
-    virtual inline PureQuat& operator=(const Quat<Scalar>& quat) noexcept override {
-        Quat<qScalar>::operator=(quat);
+    inline PureQuat& operator=(const Quat<Scalar>& other) noexcept {
         this->_W_ = 0;
+        this->_X_ = static_cast<qScalar>(other.x());
+        this->_Y_ = static_cast<qScalar>(other.y());
+        this->_Z_ = static_cast<qScalar>(other.z());
+        return *this;
     }
     // operator+=
     template<typename Scalar>
@@ -375,14 +349,11 @@ public:
         return *this; 
     }
     // operator*=
-    template<typename Scalar> 
-    inline std::enable_if_t<std::is_arithmetic_v<Scalar>, PureQuat&>
-    operator*=(const Scalar scalar) noexcept {
-        const qScalar qscalar = static_cast<qScalar>(scalar);
+    inline PureQuat& operator*=(const qScalar scalar) noexcept {
         this->_W_ = 0;  
-        this->_X_ *= qscalar; 
-        this->_Y_ *= qscalar; 
-        this->_Z_ *= qscalar; 
+        this->_X_ *= scalar; 
+        this->_Y_ *= scalar; 
+        this->_Z_ *= scalar; 
         return *this;
     }
     // operator+
@@ -402,24 +373,21 @@ public:
         return PureQuat(x_, y_, z_);
     }
     // operator*
-    template<typename Scalar>
-    inline std::enable_if_t<std::is_arithmetic_v<Scalar>, PureQuat>
-    operator*(const Scalar scalar) const noexcept {
-        const qScalar qscalar = static_cast<qScalar>(scalar);
-        const qScalar x_ = this->x() * qscalar;
-        const qScalar y_ = this->y() * qscalar;
-        const qScalar z_ = this->z() * qscalar;
+    inline PureQuat operator*(const qScalar scalar) const noexcept {
+        const qScalar x_ = this->x() * scalar;
+        const qScalar y_ = this->y() * scalar;
+        const qScalar z_ = this->z() * scalar;
         return PureQuat(x_, y_, z_);
     }
     // data
     inline const qScalar* data() const noexcept { return this->_data.data()+1; }
-    // Delete unsafe mutable operators
-    Quat<qScalar>& operator+=(const Quat<qScalar>& other) noexcept =delete;
-    Quat<qScalar>& operator-=(const Quat<qScalar>& other) noexcept =delete;
-    Quat<qScalar>& operator*=(const Quat<qScalar>& other) noexcept =delete;
-    template<typename Scalar> 
-    std::enable_if_t<std::is_arithmetic_v<Scalar>, Quat<qScalar>&>
-    operator*=(const Scalar scalar) noexcept =delete;
+    // Delete unsafe mutable operators    
+    template<typename Scalar>
+    inline Quat<qScalar>& operator+=(const Quat<Scalar>& other) noexcept =delete;
+    template<typename Scalar>
+    inline Quat<qScalar>& operator-=(const Quat<Scalar>& other) noexcept =delete;
+    template<typename Scalar>
+    inline Quat<qScalar>& operator*=(const Quat<Scalar>& other) noexcept =delete;
     // Defaults
         virtual ~PureQuat()=default;
                 PureQuat()=default;
@@ -438,29 +406,21 @@ public:
     : Quat<qScalar>( w, x, y, z ) {
         this->normalize();
     }
-    // Copy Constructor 
-    template<typename Scalar>
-    explicit UnitQuat(const UnitQuat<Scalar>& other) noexcept
-    : Quat<qScalar>(other) {
-        this->normalize();
-    }
     // Quat Constructor
     template<typename Scalar>
-    explicit UnitQuat(const Quat<Scalar>& quat) noexcept
-    : Quat<qScalar>(quat) {
-        this->normalize();
-    }
-    // Copy Assignment 
-    template<typename Scalar>
-    inline UnitQuat& operator=(const UnitQuat<Scalar>& other) noexcept {
-        Quat<qScalar>::operator=(other);
+    explicit UnitQuat(const Quat<Scalar>& other) noexcept
+    : Quat<qScalar>(other) {
         this->normalize();
     }
     // Quat Assignment 
     template<typename Scalar>
-    virtual inline UnitQuat& operator=(const Quat<Scalar>& quat) noexcept override {
-        Quat<qScalar>::operator=(quat);
+    inline UnitQuat& operator=(const Quat<Scalar>& other) noexcept {
+        this->_W_ = static_cast<qScalar>(other.w());
+        this->_X_ = static_cast<qScalar>(other.x());
+        this->_Y_ = static_cast<qScalar>(other.y());
+        this->_Z_ = static_cast<qScalar>(other.z());
         this->normalize();
+        return *this;
     }
     // operator*=
     template<typename Scalar>
@@ -478,7 +438,7 @@ public:
     }
     // operator*
     template<typename Scalar>
-    inline UnitQuat& operator*(const UnitQuat<Scalar>& other) const noexcept {
+    inline UnitQuat operator*(const UnitQuat<Scalar>& other) const noexcept {
         const qScalar other_w = static_cast<qScalar>(other.w());
         const qScalar other_x = static_cast<qScalar>(other.x());
         const qScalar other_y = static_cast<qScalar>(other.y());
@@ -492,12 +452,13 @@ public:
     // data
     inline const qScalar* data() const noexcept { return this->_data.data(); }
     // Delete unsafe mutable operators
-    Quat<qScalar>& operator+=(const Quat<qScalar>& other) noexcept =delete;
-    Quat<qScalar>& operator-=(const Quat<qScalar>& other) noexcept =delete;
-    Quat<qScalar>& operator*=(const Quat<qScalar>& other) noexcept =delete;
-    template<typename Scalar> 
-    std::enable_if_t<std::is_arithmetic_v<Scalar>, Quat<qScalar>&>
-    operator*=(const Scalar scalar) noexcept =delete;    
+    template<typename Scalar>
+    inline Quat<qScalar>& operator+=(const Quat<Scalar>& other) noexcept =delete;
+    template<typename Scalar>
+    inline Quat<qScalar>& operator-=(const Quat<Scalar>& other) noexcept =delete;
+    template<typename Scalar>
+    inline Quat<qScalar>& operator*=(const Quat<Scalar>& other) noexcept =delete;
+    inline Quat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;   
     // Defaults
         virtual ~UnitQuat()=default;
                 UnitQuat()=default;
@@ -516,13 +477,6 @@ public:
     : Quat<qScalar>(0, x, y, z), UnitQuat<qScalar>(0, x, y, z), PureQuat<qScalar>(x, y, z){
         this->normalize();
     }
-    // Copy Constructor
-    template<typename Scalar>
-    explicit UnitPureQuat(const UnitPureQuat<Scalar>& other) noexcept
-    : Quat<qScalar>( other ) {
-        this->_W_ = 0;
-        this->normalize();
-    }
     // Quat Constructor
     template<typename Scalar>
     explicit UnitPureQuat(const Quat<Scalar>& other) noexcept
@@ -530,28 +484,24 @@ public:
         this->_W_ = 0;
         this->normalize();
     }
-    // Copy Assignment
-    template<typename Scalar>
-    inline UnitPureQuat& operator=(const UnitPureQuat<Scalar>& other) noexcept {
-        Quat<qScalar>::operator=(other);
-        this->_W_ = 0;
-        this->normalize();
-    }
     // Quat Assignment
-    virtual inline UnitPureQuat& operator=(const Quat<qScalar>& other) noexcept override {
-        Quat<qScalar>::operator=(other);
+    inline UnitPureQuat& operator=(const Quat<qScalar>& other) noexcept {
         this->_W_ = 0;
+        this->_X_ = static_cast<qScalar>(other.x());
+        this->_Y_ = static_cast<qScalar>(other.y());
+        this->_Z_ = static_cast<qScalar>(other.z());
         this->normalize();
+        return *this;
     } 
     // data
     inline const qScalar* data() const noexcept { return this->_data.data()+1; }
     // Delete unsafe mutable operators
-    Quat<qScalar>& operator+=(const Quat<qScalar>& other) noexcept =delete;
-    Quat<qScalar>& operator-=(const Quat<qScalar>& other) noexcept =delete;
-    Quat<qScalar>& operator*=(const Quat<qScalar>& other) noexcept =delete;
-    template<typename Scalar> 
-    std::enable_if_t<std::is_arithmetic_v<Scalar>, Quat<qScalar>&>
-    operator*=(const Scalar scalar) noexcept =delete;
+    template<typename Scalar>
+    inline Quat<qScalar>& operator+=(const Quat<Scalar>& other) noexcept =delete;
+    template<typename Scalar>
+    inline Quat<qScalar>& operator-=(const Quat<Scalar>& other) noexcept =delete;
+    template<typename Scalar>
+    inline Quat<qScalar>& operator*=(const Quat<Scalar>& other) noexcept =delete;
     // Default
             virtual ~UnitPureQuat()=default;
                     UnitPureQuat()=default;
