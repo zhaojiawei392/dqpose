@@ -138,6 +138,7 @@ public:
     // purify
     inline Quat& purify() noexcept {
         _W_ = 0;
+        return *this;
     }
     // operator+
     template<typename Scalar>
