@@ -80,7 +80,7 @@ public:
     }
     // Copy Assignment
     template<typename Scalar>
-    inline Quat& operator=(const Quat<Scalar>& other) noexcept {
+    virtual inline Quat& operator=(const Quat<Scalar>& other) noexcept {
         _W_ = static_cast<qScalar>(other.w());
         _X_ = static_cast<qScalar>(other.x());
         _Y_ = static_cast<qScalar>(other.y());
@@ -352,7 +352,7 @@ public:
     }
     // Quat Assignment
     template<typename Scalar>
-    inline PureQuat& operator=(const Quat<Scalar>& quat) {
+    virtual inline PureQuat& operator=(const Quat<Scalar>& quat) noexcept override {
         Quat<qScalar>::operator=(quat);
         this->_W_ = 0;
     }
@@ -458,7 +458,7 @@ public:
     }
     // Quat Assignment 
     template<typename Scalar>
-    inline UnitQuat& operator=(const Quat<Scalar>& quat) {
+    virtual inline UnitQuat& operator=(const Quat<Scalar>& quat) noexcept override {
         Quat<qScalar>::operator=(quat);
         this->normalize();
     }
@@ -538,7 +538,7 @@ public:
         this->normalize();
     }
     // Quat Assignment
-    inline UnitPureQuat& operator=(const Quat<qScalar>& other) {
+    virtual inline UnitPureQuat& operator=(const Quat<qScalar>& other) noexcept override {
         Quat<qScalar>::operator=(other);
         this->_W_ = 0;
         this->normalize();
