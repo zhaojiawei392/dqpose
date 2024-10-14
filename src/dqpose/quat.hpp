@@ -34,7 +34,6 @@
 #include <iomanip>
 #include <cmath>
 #include <array>
-#include <cstdint>
 
 namespace dqpose
 {
