@@ -137,7 +137,7 @@ public:
     inline Quat& normalize() {
         const qScalar norm = this->norm();
         if (norm == 0) {
-            throw std::runtime_error("Error: Cannot normalize a 0 Quaternion.");
+            throw std::runtime_error("Error: Quat& normalize() Cannot normalize a 0 Quaternion.");
         }
         this->operator*=( 1 / norm );
         return *this;
@@ -309,7 +309,7 @@ public:
     inline Quat normalized() const {
         const qScalar norm = this->norm();
         if (norm == 0) {
-            throw std::runtime_error("Error: Cannot normalize a 0 Quaternion.");
+            throw std::runtime_error("Error: Quat normalized() Cannot normalize a 0 Quaternion.");
         }
         return *this * (1 / norm); 
     }
