@@ -135,6 +135,10 @@ public:
         this->operator*=( 1 / norm );
         return *this;
     }
+    // purify
+    inline Quat& purify() noexcept {
+        _W_ = 0;
+    }
     // operator+
     template<typename Scalar>
     inline Quat operator+(const Quat<Scalar>& other) const noexcept {
