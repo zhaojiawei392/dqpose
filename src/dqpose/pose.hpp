@@ -138,34 +138,17 @@ public:
     }
 
     inline UnitAxis& active_rotate(const Rotation& rotation) {
-        const Quat<qScalar>& rotation_quat = rotation.quaternion();
-        _quat = rotation_quat * _quat * rotation_quat.conj();
-        return &this;
     }    
     
     inline UnitAxis& passive_rotate(const Rotation& rotation) {
-        const Quat<qScalar>& rotation_quat = rotation.quaternion();
-        _quat = rotation_quat.conj() * _quat * rotation_quat;
-        return &this;
     }
 
     inline UnitAxis active_rotated(const Rotation& rotation) const {
-        const Quat<qScalar>& rotation_quat = rotation.quaternion();
-        const Quat<qScalar>& res = rotation_quat * _quat * rotation_quat.conj();
-        return UnitAxis(res);
     }    
     
     inline UnitAxis passive_rotated(const Rotation& rotation) const {
-        cosnt Quat<qScalar>& rotation_quat = rotation.quaternion();
-        const Quat<qScalar>& res = rotation_quat.conj() * _quat * rotation_quat;
-        return UnitAxis(res);
     }
 
-    inline UnitPureQuat<qScalar> quaternion() const noexcept { return _quat; }
-
-    inline UnitAxis conj() const noexcept {
-        return UnitAxis(_quat.conj());
-    }
     // Default
         virtual ~UnitAxis()=default;
                 UnitAxis()=default; // {0,0,0}
@@ -188,14 +171,6 @@ public:
     explicit Pose(const UnitDualQuat& udq) 
     : _dq(udq) {
 
-    }
-
-    inline Pose& operator*=(const Pose& other) noexcept {
-        _dq *= other._dq;
-    }
-
-    inline Pose operator*(const Pose& other) noexcept {
-        return Pose(_dq * other._dq);
     }
 
     template<typename First_, typename... Args_>
