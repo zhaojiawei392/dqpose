@@ -61,7 +61,6 @@ class UnitPureQuat;
 template<typename qScalar, typename>
 class Quat {
 public:
-using Arr3 = std::array<qScalar, 3>;
 using Arr4 = std::array<qScalar, 4>;
 using Mat44 = std::array<std::array<qScalar, 4>, 4>;
 protected:
