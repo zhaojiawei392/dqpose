@@ -26,7 +26,7 @@
  *     This file provides the necessary classes and functions to represent 
  *     and manipulate Dual-Quaternion-based Rotation, Translation, Pose.
  * 
- *     \cite https://github.com/zhaojiawei392
+ *     \cite https://github.com/zhaojiawei392/dqpose.git
  */
 
 #pragma once
