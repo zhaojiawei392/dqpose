@@ -60,19 +60,19 @@ public:
     // Scalar Constructor
     explicit DualQuat(const qScalar w1, const qScalar x1=0, const qScalar y1=0, const qScalar z1=0, 
                       const qScalar w2=0, const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
-    : _data( Quat<qScalar>(w1, x1, y1, z1), Quat<qScalar>(w2, x2, y2, z2) ) {
+    : _data{ Quat<qScalar>(w1, x1, y1, z1), Quat<qScalar>(w2, x2, y2, z2) } {
 
     }
     // Quat Constructor
     template<typename Scalar1, typename Scalar2>
     explicit DualQuat(const Quat<Scalar1>& real, const Quat<Scalar2>& dual=Quat<Scalar2>(0)) noexcept
-    : _data( Quat<qScalar>(real), Quat<qScalar>(dual) ) {
+    : _data{ Quat<qScalar>(real), Quat<qScalar>(dual) } {
 
     }
     // Copy Constructor
     template<typename Scalar>
     explicit DualQuat(const DualQuat<Scalar>& other) noexcept
-    : _data( Quat<qScalar>(other.real()), Quat<qScalar>(other.dual()) ) {
+    : _data{ Quat<qScalar>(other.real()), Quat<qScalar>(other.dual()) } {
 
     }
     // Copy Assignment
@@ -326,26 +326,26 @@ public:
     // operator+
     template<typename Scalar>
     inline PureDualQuat operator+(const PureDualQuat<Scalar>& other) const noexcept {
-        return PureDualQuat( _REAL_ + other.real(), _DUAL_ + other.dual() );
+        return PureDualQuat( this->_REAL_ + other.real(), this->_DUAL_ + other.dual() );
     } 
     // operator-
     template<typename Scalar>
     inline PureDualQuat operator-(const PureDualQuat<Scalar>& other) const noexcept {
-        return PureDualQuat( _REAL_ - other.real(), _DUAL_ - other.dual() );
+        return PureDualQuat( this->_REAL_ - other.real(), this->_DUAL_ - other.dual() );
     } 
     // operator*
     inline PureDualQuat operator*(const qScalar scalar) noexcept {
         this->purify();
-        return PureDualQuat( _REAL_ * scalar, _DUAL_ * scalar );
+        return PureDualQuat( this->_REAL_ * scalar, this->_DUAL_ * scalar );
     }
 
     // Delete 
     template<typename Scalar>
-    inline DualQuat& operator+=(const DualQuat<Scalar>& other) noexcept =delete;
+    inline DualQuat<qScalar>& operator+=(const DualQuat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline DualQuat& operator-=(const DualQuat<Scalar>& other) noexcept =delete;
+    inline DualQuat<qScalar>& operator-=(const DualQuat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline DualQuat& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
+    inline DualQuat<qScalar>& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
     // Default
             virtual ~PureDualQuat()=default;
                     PureDualQuat()=default;
@@ -396,18 +396,18 @@ public:
     // operator*
     template<typename Scalar>
     inline UnitDualQuat operator*(const UnitDualQuat<Scalar>& other) const noexcept {
-        const Quat<qScalar>& dual_ = _REAL_ * other.dual() + _DUAL_ * other.real();
-        const Quat<qScalar>& real_ = _REAL_ * other.real();
+        const Quat<qScalar>& dual_ = this->_REAL_ * other.dual() + this->_DUAL_ * other.real();
+        const Quat<qScalar>& real_ = this->_REAL_ * other.real();
         return UnitDualQuat( real_, dual_ );
     } 
     // Delete 
     template<typename Scalar>
-    inline DualQuat& operator+=(const DualQuat<Scalar>& other) noexcept =delete;
+    inline DualQuat<qScalar>& operator+=(const DualQuat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline DualQuat& operator-=(const DualQuat<Scalar>& other) noexcept =delete;
+    inline DualQuat<qScalar>& operator-=(const DualQuat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline DualQuat& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
-    inline DualQuat& operator*=(const qScalar scalar) noexcept =delete;
+    inline DualQuat<qScalar>& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
+    inline DualQuat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;
     // Default
             virtual ~UnitDualQuat()=default;
                     UnitDualQuat()=default;
@@ -451,12 +451,12 @@ public:
     }
     // Delete 
     template<typename Scalar>
-    inline DualQuat& operator+=(const DualQuat<Scalar>& other) noexcept =delete;
+    inline DualQuat<qScalar>& operator+=(const DualQuat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline DualQuat& operator-=(const DualQuat<Scalar>& other) noexcept =delete;
+    inline DualQuat<qScalar>& operator-=(const DualQuat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline DualQuat& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
-    inline DualQuat& operator*=(const qScalar scalar) noexcept =delete;
+    inline DualQuat<qScalar>& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
+    inline DualQuat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;
     // Default
             virtual ~UnitPureDualQuat()=default;
                     UnitPureDualQuat()=default;
