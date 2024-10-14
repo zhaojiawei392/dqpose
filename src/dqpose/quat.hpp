@@ -213,6 +213,10 @@ public:
     inline qScalar norm() const noexcept {
         return std::sqrt( square( w() ) + square( x() ) + square( y() ) + square( z() ));
     }
+    // copied
+    inline Quat copied() const noexcept {
+        return *this;
+    }
     // normalized
     inline Quat normalized() const {
         const qScalar norm = this->norm();
@@ -220,6 +224,10 @@ public:
             throw std::runtime_error("Error: Quat normalized() Cannot normalize a 0 Quaternion.");
         }
         return *this * (1 / norm); 
+    }
+    // purified
+    inline Quat purified() const noexcept {
+        return copied().purify(); 
     }
     // conj
     inline Quat conj() const noexcept {
