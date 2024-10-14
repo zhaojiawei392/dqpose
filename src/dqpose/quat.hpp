@@ -307,7 +307,7 @@ public:
 };
 
 template<typename qScalar, typename>
-class PureQuat: virtual public Quat<qScalar>
+class PureQuat: public Quat<qScalar>
 { 
 public:
     // Scalar Constructor
@@ -398,7 +398,7 @@ public:
 };
 
 template<typename qScalar, typename>
-class UnitQuat : virtual public Quat<qScalar>
+class UnitQuat : public Quat<qScalar>
 {
 public:
     // Scalar Constructor 
@@ -469,18 +469,18 @@ public:
 };
 
 template<typename qScalar, typename>
-class UnitPureQuat : public UnitQuat<qScalar>, public PureQuat<qScalar>
+class UnitPureQuat : public Quat<qScalar>
 {
 public:
     // Scalar Constructor
     explicit UnitPureQuat(const qScalar x, const qScalar y, const qScalar z) noexcept
-    : Quat<qScalar>(0, x, y, z), UnitQuat<qScalar>(0, x, y, z), PureQuat<qScalar>(x, y, z){
+    : Quat<qScalar>(0, x, y, z) {
         this->normalize();
     }
     // Quat Constructor
     template<typename Scalar>
     explicit UnitPureQuat(const Quat<Scalar>& other) noexcept
-    : Quat<qScalar>(other), UnitQuat<qScalar>(other), PureQuat<qScalar>(other) {
+    : Quat<qScalar>(other) {
         this->_W_ = 0;
         this->normalize();
     }
@@ -497,11 +497,12 @@ public:
     inline const qScalar* data() const noexcept { return this->_data.data()+1; }
     // Delete unsafe mutable operators
     template<typename Scalar>
-    inline Quat<qScalar>& operator+=(const Quat<Scalar>& other) noexcept =delete;
+    inline Quat<qScalar>& operator+=(const Quat<Scalar>& ) noexcept =delete;
     template<typename Scalar>
-    inline Quat<qScalar>& operator-=(const Quat<Scalar>& other) noexcept =delete;
+    inline Quat<qScalar>& operator-=(const Quat<Scalar>& ) noexcept =delete;
     template<typename Scalar>
-    inline Quat<qScalar>& operator*=(const Quat<Scalar>& other) noexcept =delete;
+    inline Quat<qScalar>& operator*=(const Quat<Scalar>& ) noexcept =delete;
+    inline Quat<qScalar>& operator*=(const qScalar& ) noexcept =delete;
     // Default
             virtual ~UnitPureQuat()=default;
                     UnitPureQuat()=default;
