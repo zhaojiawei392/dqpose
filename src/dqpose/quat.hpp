@@ -211,17 +211,15 @@ public:
                 + z() * static_cast<qScalar>(other.z());
     }
     // rotation_axis
-    inline Arr3 rotation_axis() const noexcept {
+    inline UnitAxis<qScalar> rotation_axis() const noexcept {
         if (rotation_angle() == 0){
-            const Arr3 res{0, 0, 1};
-            return res;
+            return UnitAxis<qScalar>(0,0,1);
         }
         const qScalar vec3_norm = std::sqrt( square( x() ) + square( y() ) + square( z() ) );
         const qScalar x_ = x() / vec3_norm;
         const qScalar y_ = y() / vec3_norm;
         const qScalar z_ = z() / vec3_norm;
-        const Arr3 res{x_, y_, z_};
-        return res;
+        return UnitAxis<qScalar>(x_, y_, z_);
     }
     // rotation_angle
     inline qScalar rotation_angle() const noexcept {
