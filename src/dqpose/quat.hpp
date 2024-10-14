@@ -618,10 +618,6 @@ operator*(const Scalar1 scalar, const Quat<Scalar2>& quat) noexcept {return quat
 #undef _Y_
 #undef _Z_
 
-using Quati = Quat<int>;
-using UnitQuati = UnitQuat<int>;
-using PureQuati = PureQuat<int>;
-using UnitPureQuati = UnitPureQuat<int>;
 using Quatf = Quat<float>;
 using UnitQuatf = UnitQuat<float>;
 using PureQuatf = PureQuat<float>;
