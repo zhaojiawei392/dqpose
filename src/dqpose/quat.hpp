@@ -62,10 +62,10 @@ using Arr4 = std::array<qScalar, 4>;
 using Mat44 = std::array<std::array<qScalar, 4>, 4>;
 protected:
     Arr4 _data;
-#define _W_ _data[0]
-#define _X_ _data[1]
-#define _Y_ _data[2]
-#define _Z_ _data[3]
+    inline qScalar& w() noexcept {return _data[0];};
+    inline qScalar& x() noexcept {return _data[1];};
+    inline qScalar& y() noexcept {return _data[2];};
+    inline qScalar& z() noexcept {return _data[3];};
 public:
     // Scalar Constructor
     explicit Quat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
@@ -81,28 +81,28 @@ public:
     // Copy Assignment
     template<typename Scalar>
     inline Quat& operator=(const Quat<Scalar>& other) noexcept {
-        _W_ = static_cast<qScalar>(other.w());
-        _X_ = static_cast<qScalar>(other.x());
-        _Y_ = static_cast<qScalar>(other.y());
-        _Z_ = static_cast<qScalar>(other.z());
+        w() = static_cast<qScalar>(other.w());
+        x() = static_cast<qScalar>(other.x());
+        y() = static_cast<qScalar>(other.y());
+        z() = static_cast<qScalar>(other.z());
         return *this;
     }
     // operator+=
     template<typename Scalar>
     inline Quat& operator+=(const Quat<Scalar>& other) noexcept {
-        _W_ += static_cast<qScalar>(other.w());  
-        _X_ += static_cast<qScalar>(other.x()); 
-        _Y_ += static_cast<qScalar>(other.y()); 
-        _Z_ += static_cast<qScalar>(other.z());
+        w() += static_cast<qScalar>(other.w());  
+        x() += static_cast<qScalar>(other.x()); 
+        y() += static_cast<qScalar>(other.y()); 
+        z() += static_cast<qScalar>(other.z());
         return *this; 
     }
     // operator-=
     template<typename Scalar>
     inline Quat& operator-=(const Quat<Scalar>& other) noexcept {
-        _W_ -= static_cast<qScalar>(other.w());  
-        _X_ -= static_cast<qScalar>(other.x()); 
-        _Y_ -= static_cast<qScalar>(other.y()); 
-        _Z_ -= static_cast<qScalar>(other.z());
+        w() -= static_cast<qScalar>(other.w());  
+        x() -= static_cast<qScalar>(other.x()); 
+        y() -= static_cast<qScalar>(other.y()); 
+        z() -= static_cast<qScalar>(other.z());
         return *this; 
     }
     // operator*=
@@ -112,18 +112,18 @@ public:
         const qScalar other_x = static_cast<qScalar>(other.x());
         const qScalar other_y = static_cast<qScalar>(other.y());
         const qScalar other_z = static_cast<qScalar>(other.z());
-        _W_ = w()*other_w - x()*other_x - y()*other_y - z()*other_z;  
-        _X_ = x()*other_w + w()*other_x - z()*other_y + y()*other_z; 
-        _Y_ = y()*other_w + z()*other_x + w()*other_y - x()*other_z; 
-        _Z_ = z()*other_w - y()*other_x + x()*other_y + w()*other_z; 
+        w() = w()*other_w - x()*other_x - y()*other_y - z()*other_z;  
+        x() = x()*other_w + w()*other_x - z()*other_y + y()*other_z; 
+        y() = y()*other_w + z()*other_x + w()*other_y - x()*other_z; 
+        z() = z()*other_w - y()*other_x + x()*other_y + w()*other_z; 
         return *this;
     }
     // operator*=
     inline Quat& operator*=(const qScalar scalar) noexcept {
-        _W_ *= scalar;  
-        _X_ *= scalar; 
-        _Y_ *= scalar; 
-        _Z_ *= scalar; 
+        w() *= scalar;  
+        x() *= scalar; 
+        y() *= scalar; 
+        z() *= scalar; 
         return *this;
     }
     // normalize
@@ -137,7 +137,7 @@ public:
     }
     // purify
     inline Quat& purify() noexcept {
-        _W_ = 0;
+        w() = 0;
         return *this;
     }
     // operator+
@@ -291,10 +291,10 @@ public:
                       { z(),  y(), -x(),  w() } };            
     }
     // Query const
-    inline qScalar w() const noexcept {return _W_;}
-    inline qScalar x() const noexcept {return _X_;}
-    inline qScalar y() const noexcept {return _Y_;}
-    inline qScalar z() const noexcept {return _Z_;}
+    inline qScalar w() const noexcept {return w();}
+    inline qScalar x() const noexcept {return x();}
+    inline qScalar y() const noexcept {return y();}
+    inline qScalar z() const noexcept {return z();}
     // to_string
     inline std::string to_string() const {    
         std::ostringstream oss;
@@ -328,41 +328,41 @@ public:
     template<typename Scalar>
     explicit PureQuat(const Quat<Scalar>& other) noexcept
     : Quat<qScalar>( other ) {
-        this->_W_ = 0;
+        this->w() = 0;
     }
     // Quat Assignment
     template<typename Scalar>
     inline PureQuat& operator=(const Quat<Scalar>& other) noexcept {
-        this->_W_ = 0;
-        this->_X_ = static_cast<qScalar>(other.x());
-        this->_Y_ = static_cast<qScalar>(other.y());
-        this->_Z_ = static_cast<qScalar>(other.z());
+        this->w() = 0;
+        this->x() = static_cast<qScalar>(other.x());
+        this->y() = static_cast<qScalar>(other.y());
+        this->z() = static_cast<qScalar>(other.z());
         return *this;
     }
     // operator+=
     template<typename Scalar>
     inline PureQuat& operator+=(const PureQuat<Scalar>& other) noexcept {
-        this->_W_ = 0;  
-        this->_X_ += static_cast<qScalar>(other.x()); 
-        this->_Y_ += static_cast<qScalar>(other.y()); 
-        this->_Z_ += static_cast<qScalar>(other.z());
+        this->w() = 0;  
+        this->x() += static_cast<qScalar>(other.x()); 
+        this->y() += static_cast<qScalar>(other.y()); 
+        this->z() += static_cast<qScalar>(other.z());
         return *this; 
     }  
     // operator-=  
     template<typename Scalar>
     inline PureQuat& operator-=(const PureQuat& other) noexcept {
-        this->_W_ = 0;  
-        this->_X_ -= static_cast<qScalar>(other.x()); 
-        this->_Y_ -= static_cast<qScalar>(other.y()); 
-        this->_Z_ -= static_cast<qScalar>(other.z());
+        this->w() = 0;  
+        this->x() -= static_cast<qScalar>(other.x()); 
+        this->y() -= static_cast<qScalar>(other.y()); 
+        this->z() -= static_cast<qScalar>(other.z());
         return *this; 
     }
     // operator*=
     inline PureQuat& operator*=(const qScalar scalar) noexcept {
-        this->_W_ = 0;  
-        this->_X_ *= scalar; 
-        this->_Y_ *= scalar; 
-        this->_Z_ *= scalar; 
+        this->w() = 0;  
+        this->x() *= scalar; 
+        this->y() *= scalar; 
+        this->z() *= scalar; 
         return *this;
     }
     // operator+
@@ -428,10 +428,10 @@ public:
     // Quat Assignment 
     template<typename Scalar>
     inline UnitQuat& operator=(const Quat<Scalar>& other) noexcept {
-        this->_W_ = static_cast<qScalar>(other.w());
-        this->_X_ = static_cast<qScalar>(other.x());
-        this->_Y_ = static_cast<qScalar>(other.y());
-        this->_Z_ = static_cast<qScalar>(other.z());
+        this->w() = static_cast<qScalar>(other.w());
+        this->x() = static_cast<qScalar>(other.x());
+        this->y() = static_cast<qScalar>(other.y());
+        this->z() = static_cast<qScalar>(other.z());
         this->normalize();
         return *this;
     }
@@ -442,10 +442,10 @@ public:
         const qScalar other_x = static_cast<qScalar>(other.x());
         const qScalar other_y = static_cast<qScalar>(other.y());
         const qScalar other_z = static_cast<qScalar>(other.z());
-        this->_W_ = this->w()*other_w - this->x()*other_x - this->y()*other_y - this->z()*other_z; 
-        this->_X_ = this->x()*other_w + this->w()*other_x - this->z()*other_y + this->y()*other_z; 
-        this->_Y_ = this->y()*other_w + this->z()*other_x + this->w()*other_y - this->x()*other_z; 
-        this->_Z_ = this->z()*other_w - this->y()*other_x + this->x()*other_y + this->w()*other_z; 
+        this->w() = this->w()*other_w - this->x()*other_x - this->y()*other_y - this->z()*other_z; 
+        this->x() = this->x()*other_w + this->w()*other_x - this->z()*other_y + this->y()*other_z; 
+        this->y() = this->y()*other_w + this->z()*other_x + this->w()*other_y - this->x()*other_z; 
+        this->z() = this->z()*other_w - this->y()*other_x + this->x()*other_y + this->w()*other_z; 
         this->normalize();
         return *this;
     }
@@ -498,15 +498,15 @@ public:
     template<typename Scalar>
     explicit UnitPureQuat(const Quat<Scalar>& other) noexcept
     : Quat<qScalar>(other) {
-        this->_W_ = 0;
+        this->w() = 0;
         this->normalize();
     }
     // Quat Assignment
     inline UnitPureQuat& operator=(const Quat<qScalar>& other) noexcept {
-        this->_W_ = 0;
-        this->_X_ = static_cast<qScalar>(other.x());
-        this->_Y_ = static_cast<qScalar>(other.y());
-        this->_Z_ = static_cast<qScalar>(other.z());
+        this->w() = 0;
+        this->x() = static_cast<qScalar>(other.x());
+        this->y() = static_cast<qScalar>(other.y());
+        this->z() = static_cast<qScalar>(other.z());
         this->normalize();
         return *this;
     } 
@@ -538,11 +538,6 @@ inline std::ostream& operator<<(std::ostream& os, const Quat<Scalar>& quat) {
 template<typename Scalar1, typename Scalar2> 
 inline std::enable_if_t<std::is_arithmetic_v<Scalar1>, Quat<Scalar2>>
 operator*(const Scalar1 scalar, const Quat<Scalar2>& quat) noexcept {return quat * scalar;}
-
-#undef _W_
-#undef _X_
-#undef _Y_
-#undef _Z_
 
 using Quatf = Quat<float>;
 using UnitQuatf = UnitQuat<float>;
