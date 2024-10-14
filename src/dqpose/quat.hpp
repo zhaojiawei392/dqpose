@@ -44,8 +44,6 @@ inline T square(const T& x) {
 }
 
 constexpr int PRINT_PRECISION = 12;
-constexpr double FLOAT_ERROR_THRESHOLD = 0.0001;
-constexpr bool VERBOSE = false;
 
 // Forward declarations
 template<typename qScalar, typename = std::enable_if_t<std::is_arithmetic_v<qScalar>>>
@@ -329,24 +327,6 @@ public:
 template<typename qScalar, typename>
 class PureQuat: virtual public Quat<qScalar>
 { 
-protected:
-    // Unsafe assigment qualification check
-    void _real_should_be_zero() {
-        const qScalar real = std::abs(this->w());
-        if (real > FLOAT_ERROR_THRESHOLD) {
-            std::ostringstream oss;
-            oss << std::fixed << std::setprecision(PRINT_PRECISION)
-                << "Error: " << "Trying to assign a unqualified Quaternion: " << *this << " to a Pure Quaternion.\n";
-            throw std::runtime_error(oss.str());
-        } 
-        if (VERBOSE){
-            std::ostringstream oss;
-            oss << std::fixed << std::setprecision(PRINT_PRECISION)
-                << "Verbose: " << "Assign a Quaternion: " << *this << " to a Pure Quaternion. Real is set to 0.\n";
-            std::cout << oss.str();
-        }
-        this->_W_ = 0;
-    }
 public:
     // Scalar Constructor
     explicit PureQuat(const qScalar x, const qScalar y, const qScalar z) noexcept
@@ -370,11 +350,11 @@ public:
     inline PureQuat& operator=(const PureQuat<Scalar>& other) noexcept {
         Quat<qScalar>::operator=(other);
     }
-    // Unsafe Quat Assignment
+    // Quat Assignment
     template<typename Scalar>
     inline PureQuat& operator=(const Quat<Scalar>& quat) {
         Quat<qScalar>::operator=(quat);
-        _real_should_be_zero();
+        this->_W_ = 0;
     }
     // operator+=
     template<typename Scalar>
@@ -452,24 +432,6 @@ public:
 template<typename qScalar, typename>
 class UnitQuat : virtual public Quat<qScalar>
 {
-protected:
-    // Unsafe assignment qualification check
-    void _norm_should_be_one(){
-        const qScalar norm_err = std::abs(this->norm() - 1);    
-        if (norm_err > FLOAT_ERROR_THRESHOLD) {
-            std::ostringstream oss;
-            oss << std::fixed << std::setprecision(PRINT_PRECISION)
-                << "Error: " << "Trying to assign a unqualified Quaternion: " << *this << " with a norm of " << std::to_string(this->norm()) << " to a Unit Quaternion.\n";
-            throw std::runtime_error(oss.str());
-        }
-        if (VERBOSE){
-            std::ostringstream oss;
-            oss << std::fixed << std::setprecision(PRINT_PRECISION)
-                << "Verbose: " << "Assign a Quaternion: " << *this << " with a norm of " << std::to_string(this->norm()) << " to a Unit Quaternion. Normalizing is performed.\n";
-            std::cout << oss.str();
-        }
-        this->normalize();
-    }
 public:
     // Scalar Constructor 
     explicit UnitQuat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
@@ -494,11 +456,11 @@ public:
         Quat<qScalar>::operator=(other);
         this->normalize();
     }
-    // Unsafe Quat Assignment 
+    // Quat Assignment 
     template<typename Scalar>
     inline UnitQuat& operator=(const Quat<Scalar>& quat) {
         Quat<qScalar>::operator=(quat);
-        _norm_should_be_one();
+        this->normalize();
     }
     // operator*=
     template<typename Scalar>
@@ -575,11 +537,11 @@ public:
         this->_W_ = 0;
         this->normalize();
     }
-    // Unsafe Quat Assignment
+    // Quat Assignment
     inline UnitPureQuat& operator=(const Quat<qScalar>& other) {
         Quat<qScalar>::operator=(other);
-        this->_real_should_be_zero();
-        this->_norm_should_be_one();
+        this->_W_ = 0;
+        this->normalize();
     } 
     // data
     inline const qScalar* data() const noexcept { return this->_data.data()+1; }
