@@ -368,12 +368,12 @@ public:
     // Copy Assignment
     template<typename Scalar>
     inline PureQuat& operator=(const PureQuat<Scalar>& other) noexcept {
-        this->operator=(other);
+        Quat<qScalar>::operator=(other);
     }
     // Unsafe Quat Assignment
     template<typename Scalar>
     inline PureQuat& operator=(const Quat<Scalar>& quat) {
-        this->operator=(quat);
+        Quat<qScalar>::operator=(quat);
         _real_should_be_zero();
     }
     // operator+=
@@ -491,13 +491,13 @@ public:
     // Copy Assignment 
     template<typename Scalar>
     inline UnitQuat& operator=(const UnitQuat<Scalar>& other) noexcept {
-        this->operator=(other);
+        Quat<qScalar>::operator=(other);
         this->normalize();
     }
     // Unsafe Quat Assignment 
     template<typename Scalar>
     inline UnitQuat& operator=(const Quat<Scalar>& quat) {
-        this->operator=(quat);
+        Quat<qScalar>::operator=(quat);
         _norm_should_be_one();
     }
     // operator*=
