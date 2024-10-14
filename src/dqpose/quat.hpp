@@ -219,16 +219,12 @@ public:
         return *this;
     }
     // normalized
-    inline Quat normalized() const {
-        const qScalar norm = this->norm();
-        if (norm == 0) {
-            throw std::runtime_error("Error: Quat normalized() Cannot normalize a 0 Quaternion.");
-        }
-        return *this * (1 / norm); 
+    inline UnitQuat<qScalar> normalized() const {
+        return UnitQuat<qScalar>(*this); 
     }
     // purified
-    inline Quat purified() const noexcept {
-        return copied().purify(); 
+    inline PureQuat<qScalar> purified() const noexcept {
+        return PureQuat<qScalar>(*this); 
     }
     // conj
     inline Quat conj() const noexcept {
@@ -392,6 +388,10 @@ public:
         const qScalar z_ = this->z() * scalar;
         return PureQuat(x_, y_, z_);
     }
+    // normalized
+    inline UnitPureQuat<qScalar> normalized() const {
+        return UnitPureQuat<qScalar>(*this); 
+    }
     // data
     inline const qScalar* data() const noexcept { return this->_data.data()+1; }
     // Delete unsafe mutable operators    
@@ -461,6 +461,10 @@ public:
         const qScalar y_ = this->y()*other_w + this->z()*other_x + this->w()*other_y - this->x()*other_z; 
         const qScalar z_ = this->z()*other_w - this->y()*other_x + this->x()*other_y + this->w()*other_z; 
         return UnitQuat(w_, x_, y_, z_);
+    }
+    // purified
+    inline UnitPureQuat<qScalar> purified() const noexcept {
+        return UnitPureQuat<qScalar>(*this); 
     }
     // data
     inline const qScalar* data() const noexcept { return this->_data.data(); }
