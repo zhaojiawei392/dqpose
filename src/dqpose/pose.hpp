@@ -316,15 +316,15 @@ public:
     Pose& operator=(Pose&&)=default;
 };
 
-using Rotaf = Rotation<float>;
+using Rotf = Rotation<float>;
 using Tranf = Translation<float>;
 using Unitf = UnitAxis<float>;
 using Posef = Pose<float>;
-using Rotad = Rotation<double>;
+using Rotd = Rotation<double>;
 using Trand = Translation<double>;
 using Unitd = UnitAxis<double>;
 using Posed = Pose<double>;
-using Rotald = Rotation<long double>;
+using Rotld = Rotation<long double>;
 using Tranld = Translation<long double>;
 using Unitld = UnitAxis<long double>;
 using Poseld = Pose<long double>;
