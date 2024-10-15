@@ -32,15 +32,15 @@ void constructors_demo() {
     Rotf r11(Unitf(0,0,1), M_PI/3);                   
     Rotf r12(Quatf(1,2,3,4));             
     Rotf r13(r12);       
-    Rotf r14(Rotf);                      
-    Rotf r15(Rotd);  
+    Rotf r14(Rotf{});                      
+    Rotf r15(Rotd{});  
     std::cout << "Rotation<float> Constructor\n";                               
     std::cout << " - Rotf r10;                                   : " << "\n" << r10 << "\n";
     std::cout << " - Rotf r11(Unitf(0,0,1), M_PI/3);             : " << "\n" << r11 << "\n";
     std::cout << " - Rotf r12(Quatf(1,2,3,4));                   : " << "\n" << r12 << "\n";
     std::cout << " - Rotf r13(r12);                              : " << "\n" << r13 << "\n";
-    std::cout << " - Rotf r14(Rotf());                           : " << "\n" << r14 << "\n";
-    std::cout << " - Rotf r15(Rotd());                           : " << "\n" << r15 << "\n";
+    std::cout << " - Rotf r14(Rotf{});                           : " << "\n" << r14 << "\n";
+    std::cout << " - Rotf r15(Rotd{});                           : " << "\n" << r15 << "\n";
 
 
     std::cout << "\nConstructors of --- Translation<float> ---              \n";
@@ -82,16 +82,16 @@ void constructors_demo() {
     Posef p12(r13);               
     Posef p13(t13);                                  
     Posef p14(p13);                                
-    Posef p15(Posef);                        
-    Posef p16(Posed);                 
+    Posef p15(Posef{});                        
+    Posef p16(Posed{});                 
     std::cout << "Scalar Constructor\n";
     std::cout << " - Posef p10();                                 : " << "\n" << p10 << "\n";
     std::cout << " - Posef p11(r12, t12);                         : " << "\n" << p11 << "\n";
     std::cout << " - Posef p12(r13);                              : " << "\n" << p12 << "\n";
     std::cout << " - Posef p13(t13);                              : " << "\n" << p13 << "\n";
     std::cout << " - Posef p14(p13);                              : " << "\n" << p14 << "\n";
-    std::cout << " - Posef p15(Posef());                          : " << "\n" << p15 << "\n";
-    std::cout << " - Posef p16(Posed());                          : " << "\n" << p15 << "\n";
+    std::cout << " - Posef p15(Posef{});                          : " << "\n" << p15 << "\n";
+    std::cout << " - Posef p16(Posed{});                          : " << "\n" << p15 << "\n";
 }
 
 void assignments_demo() {
