@@ -35,12 +35,12 @@ void constructors_demo() {
     Rotf r14(Rotf{});                      
     Rotf r15(Rotd{});  
     std::cout << "Rotation<float> Constructor\n";                               
-    std::cout << " - Rotf r10;                                   : " << "\n" << r10 << "\n";
-    std::cout << " - Rotf r11(Unitf(0,0,1), M_PI/3);             : " << "\n" << r11 << "\n";
-    std::cout << " - Rotf r12(Quatf(1,2,3,4));                   : " << "\n" << r12 << "\n";
-    std::cout << " - Rotf r13(r12);                              : " << "\n" << r13 << "\n";
-    std::cout << " - Rotf r14(Rotf{});                           : " << "\n" << r14 << "\n";
-    std::cout << " - Rotf r15(Rotd{});                           : " << "\n" << r15 << "\n";
+    std::cout << " - Rotf r10;                                   : " << "\n    " << r10 << "\n";
+    std::cout << " - Rotf r11(Unitf(0,0,1), M_PI/3);             : " << "\n    " << r11 << "\n";
+    std::cout << " - Rotf r12(Quatf(1,2,3,4));                   : " << "\n    " << r12 << "\n";
+    std::cout << " - Rotf r13(r12);                              : " << "\n    " << r13 << "\n";
+    std::cout << " - Rotf r14(Rotf{});                           : " << "\n    " << r14 << "\n";
+    std::cout << " - Rotf r15(Rotd{});                           : " << "\n    " << r15 << "\n";
 
 
     std::cout << "\nConstructors of --- Translation<float> ---              \n";
@@ -53,14 +53,14 @@ void constructors_demo() {
     Tranf t16(Tranf(1,2,3));                                
     Tranf t17(Trand(4,5,6));        
     std::cout << "Scalar Constructor\n";                              
-    std::cout << " - Tranf t10;                                  : " << "\n" << t10 << "\n";
-    std::cout << " - Tranf t11(1);                               : " << "\n" << t11 << "\n";
-    std::cout << " - Tranf t12(1,2);                             : " << "\n" << t12 << "\n";
-    std::cout << " - Tranf t13{1,2,3};                           : " << "\n" << t13 << "\n";
-    std::cout << " - Tranf t14(Quatf(1,2,3,4));                  : " << "\n" << t14 << "\n";
-    std::cout << " - Tranf t15(t14);                             : " << "\n" << t15 << "\n";
-    std::cout << " - Tranf t16(Tranf(1,2,3));                    : " << "\n" << t16 << "\n";
-    std::cout << " - Tranf t17(Trand(4,5,6));                    : " << "\n" << t17 << "\n";
+    std::cout << " - Tranf t10;                                  : " << "\n    " << t10 << "\n";
+    std::cout << " - Tranf t11(1);                               : " << "\n    " << t11 << "\n";
+    std::cout << " - Tranf t12(1,2);                             : " << "\n    " << t12 << "\n";
+    std::cout << " - Tranf t13{1,2,3};                           : " << "\n    " << t13 << "\n";
+    std::cout << " - Tranf t14(Quatf(1,2,3,4));                  : " << "\n    " << t14 << "\n";
+    std::cout << " - Tranf t15(t14);                             : " << "\n    " << t15 << "\n";
+    std::cout << " - Tranf t16(Tranf(1,2,3));                    : " << "\n    " << t16 << "\n";
+    std::cout << " - Tranf t17(Trand(4,5,6));                    : " << "\n    " << t17 << "\n";
 
 
     std::cout << "\nConstructors of --- UnitAxis<float> ---              \n";
@@ -70,11 +70,11 @@ void constructors_demo() {
     Unitf u13(Unitf(0,1,0));                                
     Unitf u14(Unitd(0,0,1));              
     std::cout << "Scalar Constructor\n";                            
-    std::cout << " - Unitf u10(1,0,0);                            : " << "\n" << u10 << "\n";
-    std::cout << " - Unitf u11(Quatf(1,2,3,4));                   : " << "\n" << u11 << "\n";
-    std::cout << " - Unitf u12(u10);                              : " << "\n" << u12 << "\n";
-    std::cout << " - Unitf u13(Unitf(0,1,0));                     : " << "\n" << u13 << "\n";
-    std::cout << " - Unitf u14(Unitd(0,0,1));                     : " << "\n" << u14 << "\n";
+    std::cout << " - Unitf u10(1,0,0);                            : " << "\n    " << u10 << "\n";
+    std::cout << " - Unitf u11(Quatf(1,2,3,4));                   : " << "\n    " << u11 << "\n";
+    std::cout << " - Unitf u12(u10);                              : " << "\n    " << u12 << "\n";
+    std::cout << " - Unitf u13(Unitf(0,1,0));                     : " << "\n    " << u13 << "\n";
+    std::cout << " - Unitf u14(Unitd(0,0,1));                     : " << "\n    " << u14 << "\n";
 
     std::cout << "\nConstructors of --- Pose<float> ---              \n";
     Posef p10;                                  
@@ -85,13 +85,13 @@ void constructors_demo() {
     Posef p15(Posef{});                        
     Posef p16(Posed{});                 
     std::cout << "Scalar Constructor\n";
-    std::cout << " - Posef p10();                                 : " << "\n" << p10 << "\n";
-    std::cout << " - Posef p11(r12, t12);                         : " << "\n" << p11 << "\n";
-    std::cout << " - Posef p12(r13);                              : " << "\n" << p12 << "\n";
-    std::cout << " - Posef p13(t13);                              : " << "\n" << p13 << "\n";
-    std::cout << " - Posef p14(p13);                              : " << "\n" << p14 << "\n";
-    std::cout << " - Posef p15(Posef{});                          : " << "\n" << p15 << "\n";
-    std::cout << " - Posef p16(Posed{});                          : " << "\n" << p15 << "\n";
+    std::cout << " - Posef p10();                                 : " << "\n    " << p10 << "\n";
+    std::cout << " - Posef p11(r12, t12);                         : " << "\n    " << p11 << "\n";
+    std::cout << " - Posef p12(r13);                              : " << "\n    " << p12 << "\n";
+    std::cout << " - Posef p13(t13);                              : " << "\n    " << p13 << "\n";
+    std::cout << " - Posef p14(p13);                              : " << "\n    " << p14 << "\n";
+    std::cout << " - Posef p15(Posef{});                          : " << "\n    " << p15 << "\n";
+    std::cout << " - Posef p16(Posed{});                          : " << "\n    " << p15 << "\n";
 }
 
 void assignments_demo() {
