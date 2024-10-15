@@ -16,7 +16,7 @@
  */
 
 /**
- *     \file examples/quat_example.cpp
+ *     \file examples/example_quat.cpp
  *	   \author Jiawei ZHAO
  *	   \version 1.0
  *	   \date 2024-2025

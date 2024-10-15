@@ -4,6 +4,7 @@ if(dqpose_BUILD_EXAMPLES)
     set(EXAMPLE_NAMES
         example_quat
         example_dualquat
+        example_pose
     )
 
     foreach(EXAMPLE ${EXAMPLE_NAMES})

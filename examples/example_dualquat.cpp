@@ -16,7 +16,7 @@
  */
 
 /**
- *     \file examples/dualquat_example.cpp
+ *     \file examples/example_dualquat.cpp
  *	   \author Jiawei ZHAO
  *	   \version 1.0
  *	   \date 2024-2025
