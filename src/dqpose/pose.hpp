@@ -84,13 +84,13 @@ public:
     }
     // rotation_axis
     inline UnitAxis<qScalar> rotation_axis() const noexcept {
-        const qScalar vec3_norm = std::sqrt( square( x() ) + square( y() ) + square( z() ) );
+        const qScalar vec3_norm = std::sqrt( square( this->x() ) + square( this->y() ) + square( this->z() ) );
         if (vec3_norm == 0){
             return UnitAxis<qScalar>(0,0,1);
         }
-        const qScalar x_ = x() / vec3_norm;
-        const qScalar y_ = y() / vec3_norm;
-        const qScalar z_ = z() / vec3_norm;
+        const qScalar x_ = this->x() / vec3_norm;
+        const qScalar y_ = this->y() / vec3_norm;
+        const qScalar z_ = this->z() / vec3_norm;
         return UnitAxis<qScalar>(x_, y_, z_);
     }
     // rotation_angle
@@ -185,14 +185,13 @@ protected:
     UnitPureQuat<qScalar> _quat; 
 public:
     // Scalar Constructor
-    template <typename T = qScalar, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
     explicit UnitAxis(const qScalar x, const qScalar y, const qScalar z)
         : UnitPureQuat<qScalar>(x,y,z) {
 
     }
     // Quat Constructor
-    template <typename T = qScalar, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-    explicit UnitAxis(const Quat<qScalar>& other)
+    template<typename Scalar>
+    explicit UnitAxis(const Quat<Scalar>& other)
         : UnitPureQuat<qScalar>(other) {
 
     }
@@ -274,7 +273,7 @@ public:
     // Rotation Constructor
     template<typename Scalar>
     explicit Pose(const Rotation<Scalar>& rotation) 
-        : UnitDualQuat<qScalar>(rotation) {
+        : UnitDualQuat<qScalar>(static_cast<Quat<qScalar>>(rotation)) {
 
     }
     // Translation Constructor
@@ -296,17 +295,20 @@ public:
     }
 
     template<typename First_, typename... Args_>
-    explicit Pose(const First_& first, const Args_&... args){
+    static Pose build_from(const First_& first, const Args_&... args){
         return Pose(build_from(first) * build_from(args...));
     }  
-    static Rotation<qScalar> build_from(const Rotation<qScalar_>& rotation){
-        return Pose(rotation);
+    template<typename Scalar>
+    static Rotation<qScalar> build_from(const Rotation<Scalar>& rotation){
+        return static_cast<Rotation<qScalar>>( rotation );
     }
-    static Pose build_from(const Translation<qScalar_>& translation){
-        return Pose(Rotation<qScalar_>(1), translation / 2);
+    template<typename Scalar>
+    static Pose build_from(const Translation<Scalar>& translation){
+        return Pose(Rotation<qScalar>(), translation * 0.5);
     }
-    static Pose build_from(const Pose& pose){
-        return pose;
+    template<typename Scalar>
+    static Pose build_from(const Pose<Scalar>& pose){
+        return Pose<qScalar>(pose);
     }
     // Default
         virtual ~Pose()=default;

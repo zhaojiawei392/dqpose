@@ -350,29 +350,6 @@ public:
         this->z() *= scalar; 
         return *this;
     }
-    // operator+
-    template<typename Scalar> 
-    inline PureQuat operator+(const PureQuat<Scalar>& other) const noexcept {
-        const qScalar x_ = this->x() + static_cast<qScalar>(other.x());
-        const qScalar y_ = this->y() + static_cast<qScalar>(other.y());
-        const qScalar z_ = this->z() + static_cast<qScalar>(other.z());
-        return PureQuat(x_, y_, z_);
-    }
-    // operator-
-    template<typename Scalar> 
-    inline PureQuat operator-(const PureQuat<Scalar>& other) const noexcept {
-        const qScalar x_ = this->x() - static_cast<qScalar>(other.x());
-        const qScalar y_ = this->y() - static_cast<qScalar>(other.y());
-        const qScalar z_ = this->z() - static_cast<qScalar>(other.z());
-        return PureQuat(x_, y_, z_);
-    }
-    // operator*
-    inline PureQuat operator*(const qScalar scalar) const noexcept {
-        const qScalar x_ = this->x() * scalar;
-        const qScalar y_ = this->y() * scalar;
-        const qScalar z_ = this->z() * scalar;
-        return PureQuat(x_, y_, z_);
-    }
     // normalized
     inline UnitPureQuat<qScalar> normalized() const {
         return UnitPureQuat<qScalar>(*this); 
@@ -433,19 +410,6 @@ public:
         this->z() = this->z()*other_w - this->y()*other_x + this->x()*other_y + this->w()*other_z; 
         this->normalize();
         return *this;
-    }
-    // operator*
-    template<typename Scalar>
-    inline UnitQuat operator*(const UnitQuat<Scalar>& other) const noexcept {
-        const qScalar other_w = static_cast<qScalar>(other.w());
-        const qScalar other_x = static_cast<qScalar>(other.x());
-        const qScalar other_y = static_cast<qScalar>(other.y());
-        const qScalar other_z = static_cast<qScalar>(other.z());
-        const qScalar w_ = this->w()*other_w - this->x()*other_x - this->y()*other_y - this->z()*other_z;   
-        const qScalar x_ = this->x()*other_w + this->w()*other_x - this->z()*other_y + this->y()*other_z;
-        const qScalar y_ = this->y()*other_w + this->z()*other_x + this->w()*other_y - this->x()*other_z; 
-        const qScalar z_ = this->z()*other_w - this->y()*other_x + this->x()*other_y + this->w()*other_z; 
-        return UnitQuat(w_, x_, y_, z_);
     }
     // purified
     inline UnitPureQuat<qScalar> purified() const noexcept {
