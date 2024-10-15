@@ -74,13 +74,13 @@ public:
     }
     // Scalar Constructor
     explicit Quat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
-        :_data{ w, x, y, z } {
+        : _data{ w, x, y, z } {
 
     }
     // Copy Constructors 
     template<typename Scalar>
     explicit Quat(const Quat<Scalar>& other) noexcept
-        :_data{ static_cast<qScalar>(other.w()), static_cast<qScalar>(other.x()), static_cast<qScalar>(other.y()), static_cast<qScalar>(other.z()) } {
+        : _data{ static_cast<qScalar>(other.w()), static_cast<qScalar>(other.x()), static_cast<qScalar>(other.y()), static_cast<qScalar>(other.z()) } {
 
     }
     // Copy Assignment
@@ -281,10 +281,10 @@ public:
                       { z(),  y(), -x(),  w() } };            
     }
     // Query const
-    inline qScalar w() const noexcept {return w();}
-    inline qScalar x() const noexcept {return x();}
-    inline qScalar y() const noexcept {return y();}
-    inline qScalar z() const noexcept {return z();}
+    inline qScalar w() const noexcept {return _data[0];}
+    inline qScalar x() const noexcept {return _data[1];}
+    inline qScalar y() const noexcept {return _data[2];}
+    inline qScalar z() const noexcept {return _data[3];}
     // to_string
     inline std::string to_string() const {    
         std::ostringstream oss;
