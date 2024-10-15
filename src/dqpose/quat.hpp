@@ -195,21 +195,6 @@ public:
                 + y() * static_cast<qScalar>(other.y()) 
                 + z() * static_cast<qScalar>(other.z());
     }
-    // rotation_axis
-    inline UnitPureQuat<qScalar> rotation_axis() const noexcept {
-        if (rotation_angle() == 0){
-            return UnitPureQuat<qScalar>(0,0,1);
-        }
-        const qScalar vec3_norm = std::sqrt( square( x() ) + square( y() ) + square( z() ) );
-        const qScalar x_ = x() / vec3_norm;
-        const qScalar y_ = y() / vec3_norm;
-        const qScalar z_ = z() / vec3_norm;
-        return UnitPureQuat<qScalar>(x_, y_, z_);
-    }
-    // rotation_angle
-    inline qScalar rotation_angle() const noexcept {
-        return 2 * acos(w() / norm());
-    }
     // norm
     inline qScalar norm() const noexcept {
         return std::sqrt( square( w() ) + square( x() ) + square( y() ) + square( z() ));
