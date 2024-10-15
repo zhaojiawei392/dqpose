@@ -50,10 +50,12 @@ template<typename qScalar, typename>
 class Rotation : public UnitQuat<qScalar> 
 {
 public:
+    // Default Constructor 
     explicit Rotation() noexcept
         : UnitQuat<qScalar>(1) {
 
     }
+    // Axis-angle Constructor 
     template<typename Scalar>
     explicit Rotation(const UnitAxis<Scalar>& rotate_axis, const qScalar rotate_angle) noexcept
         : UnitQuat<qScalar>(1) {
@@ -62,6 +64,38 @@ public:
         this->x() = rotate_axis.x() * sin_;
         this->y() = rotate_axis.y() * sin_;
         this->z() = rotate_axis.z() * sin_;
+    }
+    // Quat Constructor
+    template<typename Scalar>
+    explicit Rotation(const Quat<Scalar>& other) 
+        : UnitQuat<qScalar>(other) {
+
+    }
+    // Copy Constructor 
+    template<typename Scalar>
+    explicit Rotation(const Rotation<Scalar>& other) noexcept
+        : UnitQuat<qScalar>(other) {
+    }
+    // Copy Assignment 
+    template<typename Scalar>
+    inline Rotation& operator=(const Rotation<Scalar>& other) noexcept {
+        UnitQuat<qScalar>::operator=(other);
+        return *this;
+    }
+    // rotation_axis
+    inline UnitAxis<qScalar> rotation_axis() const noexcept {
+        const qScalar vec3_norm = std::sqrt( square( x() ) + square( y() ) + square( z() ) );
+        if (vec3_norm == 0){
+            return UnitAxis<qScalar>(0,0,1);
+        }
+        const qScalar x_ = x() / vec3_norm;
+        const qScalar y_ = y() / vec3_norm;
+        const qScalar z_ = z() / vec3_norm;
+        return UnitAxis<qScalar>(x_, y_, z_);
+    }
+    // rotation_angle
+    inline qScalar rotation_angle() const noexcept {
+        return 2 * acos(this->w() / this->norm());
     }
 
     // Default
@@ -75,42 +109,68 @@ public:
 template<typename qScalar, typename>
 class Translation : public PureQuat<qScalar> {
 public:
+    // Default Constructor
     explicit Translation() noexcept
         : PureQuat<qScalar>(0) {
 
     }
+    // Scalar Constructor
     explicit Translation(const qScalar x, const qScalar y=0, const qScalar z=0)
         : PureQuat<qScalar>(x, y, z) {
 
     }
+    // Quat Constructor
     template<typename Scalar>
-    explicit Translation(const Quat<Scalar>& quat) 
-        : PureQuat<qScalar>(quat) {
+    explicit Translation(const Quat<Scalar>& other) 
+        : PureQuat<qScalar>(other) {
 
     }
-
+    // Copy Constructor 
+    template<typename Scalar>
+    explicit Translation(const Translation<Scalar>& other) noexcept
+        : PureQuat<qScalar>(other) {
+    }
+    // Copy Assignment 
+    template<typename Scalar>
+    inline Translation& operator=(const Translation<Scalar>& other) noexcept {
+        PureQuat<qScalar>::operator=(other);
+        return *this;
+    }
+    // active_rotate 
     template<typename Scalar>
     inline Translation& active_rotate(const Rotation<Scalar>& rotation) noexcept {
         PureQuat<qScalar>::operator=(rotation * *this * rotation.conj());
         return *this;
-    }    
-    
+    }
+    // passive_rotate 
     template<typename Scalar>
     inline Translation& passive_rotate(const Rotation<Scalar>& rotation) noexcept {
         PureQuat<qScalar>::operator=(rotation.conj() * *this * rotation);
         return *this;
     }
-
+    // active_rotated
     template<typename Scalar>
     inline Translation active_rotated(const Rotation<Scalar>& rotation) const noexcept {
         return Translation(rotation * *this * rotation.conj());
     }    
-    
+    // passive_rotated
     template<typename Scalar>
     inline Translation passive_rotated(const Rotation<Scalar>& rotation) const noexcept {
         return Translation(rotation.conj() * *this * rotation);
     }
-
+    // perpendicular
+    template<typename Scalar>
+    inline UnitAxis<qScalar> perpendicular(const Translation<Scalar>& other) const noexcept {
+        const qScalar axis_x = this->y() * other.z() - this->z() * other.y();
+        const qScalar axis_y = this->z() * other.x() - this->x() * other.z();
+        const qScalar axis_z = this->x() * other.y() - this->y() * other.x();
+        return UnitAxis(axis_x, axis_y, axis_z);
+    }
+    // angle
+    template<typename Scalar>
+    inline qScalar angle(const Translation<Scalar>& other) const noexcept {
+        return std::acos(this->normalized().dot(other.normalized()));
+    }
     // Default
         virtual ~Translation()=default;
                 Translation(const Translation&)=default;
@@ -120,35 +180,75 @@ public:
 };   
 
 template<typename qScalar, typename>
-class UnitAxis {
+class UnitAxis : public UnitPureQuat<qScalar> {
 protected:
     UnitPureQuat<qScalar> _quat; 
 public:
-
+    // Scalar Constructor
     template <typename T = qScalar, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
     explicit UnitAxis(const qScalar x, const qScalar y, const qScalar z)
-    : _quat(x, y, z) {
+        : UnitPureQuat<qScalar>(x,y,z) {
 
     }
-
+    // Quat Constructor
     template <typename T = qScalar, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-    explicit UnitAxis(const Quat<qScalar>& quat)
-    : _quat(quat) {
+    explicit UnitAxis(const Quat<qScalar>& other)
+        : UnitPureQuat<qScalar>(other) {
 
     }
-
-    inline UnitAxis& active_rotate(const Rotation& rotation) {
+    // Copy Constructor 
+    template<typename Scalar>
+    explicit UnitAxis(const UnitAxis<Scalar>& other) noexcept
+        : UnitPureQuat<qScalar>(other) {
+    }
+    // Copy Assignment 
+    template<typename Scalar>
+    inline UnitAxis& operator=(const UnitAxis<Scalar>& other) noexcept {
+        UnitPureQuat<qScalar>::operator=(other);
+        return *this;
+    }
+    // active_rotate 
+    template<typename Scalar>
+    inline UnitAxis& active_rotate(const Rotation<Scalar>& rotation) noexcept {
+        UnitPureQuat<qScalar>::operator=(rotation * *this * rotation.conj());
+        return *this;
+    }
+    // passive_rotate 
+    template<typename Scalar>
+    inline UnitAxis& passive_rotate(const Rotation<Scalar>& rotation) noexcept {
+        UnitPureQuat<qScalar>::operator=(rotation.conj() * *this * rotation);
+        return *this;
+    }
+    // active_rotated
+    template<typename Scalar>
+    inline UnitAxis active_rotated(const Rotation<Scalar>& rotation) const noexcept {
+        return UnitAxis(rotation * *this * rotation.conj());
     }    
-    
-    inline UnitAxis& passive_rotate(const Rotation& rotation) {
+    // passive_rotated
+    template<typename Scalar>
+    inline UnitAxis passive_rotated(const Rotation<Scalar>& rotation) const noexcept {
+        return UnitAxis(rotation.conj() * *this * rotation);
     }
-
-    inline UnitAxis active_rotated(const Rotation& rotation) const {
-    }    
-    
-    inline UnitAxis passive_rotated(const Rotation& rotation) const {
+    // perpendicular
+    template<typename Scalar>
+    inline UnitAxis perpendicular(const UnitAxis<Scalar>& other) const noexcept {
+        const qScalar axis_x = this->y() * other.z() - this->z() * other.y();
+        const qScalar axis_y = this->z() * other.x() - this->x() * other.z();
+        const qScalar axis_z = this->x() * other.y() - this->y() * other.x();
+        return UnitAxis(axis_x, axis_y, axis_z);
     }
-
+    // angle
+    template<typename Scalar>
+    inline qScalar angle(const UnitAxis<Scalar>& other) const noexcept {
+        return std::acos(this->dot(other));
+    }
+    // rotation_to
+    template<typename Scalar>
+    inline Rotation<qScalar> rotation_to(const UnitAxis<Scalar>& other) const noexcept {
+        const UnitAxis axis = perpendicular(other);
+        const qScalar angle = angle(other);
+        return Rotation<qScalar>(axis, angle);
+    }
     // Default
         virtual ~UnitAxis()=default;
                 UnitAxis()=default; // {0,0,0}
@@ -159,25 +259,47 @@ public:
 };    
 
 template<typename qScalar, typename>
-class Pose {
-protecte:
-    UnitDualQuat<qScalar> _dq;
+class Pose : public UnitDualQuat<qScalar> {
 public:
-    template <typename T = qScalar, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-    explicit Pose() 
-    : _dq() {
+    // Default Constructor 
+    explicit Pose() noexcept
+        : UnitDualQuat<qScalar>(1) {
 
     }
-    explicit Pose(const UnitDualQuat& udq) 
-    : _dq(udq) {
+    // Rotation-Translation Constructor 
+    template<typename Scalar1, typename Scalar2>
+    explicit Pose(const Rotation<Scalar1>& rotation, const Translation<Scalar2> translation) noexcept
+        : UnitDualQuat<qScalar>(rotation, translation * rotation * 0.5) {
+    }
+    // Rotation Constructor
+    template<typename Scalar>
+    explicit Pose(const Rotation<Scalar>& rotation) 
+        : UnitDualQuat<qScalar>(rotation) {
 
+    }
+    // Translation Constructor
+    template<typename Scalar>
+    explicit Pose(const Translation<Scalar> translation) 
+        : UnitDualQuat<qScalar>(Quat<qScalar>(1), translation * 0.5) {
+
+    }
+    // Copy Constructor 
+    template<typename Scalar>
+    explicit Pose(const Pose<Scalar>& other) noexcept
+        : UnitDualQuat<qScalar>(other) {
+    }
+    // Copy Assignment 
+    template<typename Scalar>
+    inline Pose& operator=(const Pose<Scalar>& other) noexcept {
+        UnitDualQuat<qScalar>::operator=(other);
+        return *this;
     }
 
     template<typename First_, typename... Args_>
-    static Pose build_from(const First_& first, const Args_&... args){
+    explicit Pose(const First_& first, const Args_&... args){
         return Pose(build_from(first) * build_from(args...));
     }  
-    static Pose build_from(const Rotation<qScalar_>& rotation){
+    static Rotation<qScalar> build_from(const Rotation<qScalar_>& rotation){
         return Pose(rotation);
     }
     static Pose build_from(const Translation<qScalar_>& translation){
@@ -186,8 +308,25 @@ public:
     static Pose build_from(const Pose& pose){
         return pose;
     }
-
+    // Default
+        virtual ~Pose()=default;
+                Pose(const Pose&)=default;
+                Pose(Pose&&)=default;
+    Pose& operator=(const Pose&)=default;
+    Pose& operator=(Pose&&)=default;
 };
 
+using Rotaf = Rotation<float>;
+using Tranf = Translation<float>;
+using Unitf = UnitAxis<float>;
+using Posef = Pose<float>;
+using Rotad = Rotation<double>;
+using Trand = Translation<double>;
+using Unitd = UnitAxis<double>;
+using Posed = Pose<double>;
+using Rotald = Rotation<long double>;
+using Tranld = Translation<long double>;
+using Unitld = UnitAxis<long double>;
+using Poseld = Pose<long double>;
 
 }  // namespace dqpose
