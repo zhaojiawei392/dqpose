@@ -55,7 +55,7 @@ public:
         : UnitQuat<qScalar>(1) {
 
     }
-    // Axis-angle Constructor 
+    // Axis-Angle Constructor 
     template<typename Scalar>
     explicit Rotation(const UnitAxis<Scalar>& rotate_axis, const qScalar rotate_angle) noexcept
         : UnitQuat<qScalar>(1) {
