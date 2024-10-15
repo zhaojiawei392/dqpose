@@ -67,15 +67,20 @@ protected:
     inline qScalar& y() noexcept {return _data[2];};
     inline qScalar& z() noexcept {return _data[3];};
 public:
+    // Default Constructor
+    explicit Quat() noexcept
+        : _data(0,0,0,0) {
+
+    }
     // Scalar Constructor
     explicit Quat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
-    :_data{ w, x, y, z } {
+        :_data{ w, x, y, z } {
 
     }
     // Copy Constructors 
     template<typename Scalar>
     explicit Quat(const Quat<Scalar>& other) noexcept
-    :_data{ static_cast<qScalar>(other.w()), static_cast<qScalar>(other.x()), static_cast<qScalar>(other.y()), static_cast<qScalar>(other.z()) } {
+        :_data{ static_cast<qScalar>(other.w()), static_cast<qScalar>(other.x()), static_cast<qScalar>(other.y()), static_cast<qScalar>(other.z()) } {
 
     }
     // Copy Assignment
@@ -292,8 +297,7 @@ public:
     inline Arr4 vrep_array() const noexcept { return Arr4{x(), y(), z(), w()}; }
     // Defaults
 
-    virtual ~Quat()=default;
-            Quat()=default;        
+    virtual ~Quat()=default;    
             Quat(const Quat&)=default;
             Quat(Quat&&)=default;
     Quat& operator=(const Quat&)=default;
@@ -304,6 +308,11 @@ template<typename qScalar, typename>
 class PureQuat: public Quat<qScalar>
 { 
 public:
+    // Default Constructor
+    explicit PureQuat() noexcept
+    : Quat<qScalar>( ) {
+
+    }
     // Scalar Constructor
     explicit PureQuat(const qScalar x, const qScalar y=0, const qScalar z=0) noexcept
     : Quat<qScalar>( 0, x, y, z ) {
@@ -365,7 +374,6 @@ public:
     inline Quat<qScalar>& operator*=(const Quat<Scalar>& other) noexcept =delete;
     // Defaults
         virtual ~PureQuat()=default;
-                PureQuat()=default;
                 PureQuat(const PureQuat&)=default;
                 PureQuat(PureQuat&&)=default;
     PureQuat& operator=(const PureQuat&)=default;
@@ -376,6 +384,10 @@ template<typename qScalar, typename>
 class UnitQuat : public Quat<qScalar>
 {
 public:
+    // Default Constructor 
+    explicit UnitQuat() noexcept
+    : Quat<qScalar>( 1 ) {
+    }
     // Scalar Constructor 
     explicit UnitQuat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
     : Quat<qScalar>( w, x, y, z ) {
@@ -427,7 +439,6 @@ public:
     inline Quat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;   
     // Defaults
         virtual ~UnitQuat()=default;
-                UnitQuat()=default;
                 UnitQuat(const UnitQuat&)=default;
                 UnitQuat(UnitQuat&&)=default;
     UnitQuat& operator=(const UnitQuat&)=default;
@@ -469,9 +480,9 @@ public:
     template<typename Scalar>
     inline Quat<qScalar>& operator*=(const Quat<Scalar>& ) noexcept =delete;
     inline Quat<qScalar>& operator*=(const qScalar& ) noexcept =delete;
+                    UnitPureQuat()=delete;
     // Default
             virtual ~UnitPureQuat()=default;
-                    UnitPureQuat()=default;
                     UnitPureQuat(const UnitPureQuat&)=default;
                     UnitPureQuat(UnitPureQuat&&)=default;
     UnitPureQuat& operator=(const UnitPureQuat&)=default;
