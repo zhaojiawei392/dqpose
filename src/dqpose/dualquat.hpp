@@ -258,8 +258,8 @@ public:
         return res;
     }
     // query 
-    inline Quat<qScalar> real() const noexcept { return real(); }
-    inline Quat<qScalar> dual() const noexcept { return dual(); }
+    inline Quat<qScalar> real() const noexcept { return _data[0]; }
+    inline Quat<qScalar> dual() const noexcept { return _data[1]; }
     // data
     inline const qScalar* data() const noexcept { return _data.data()[0].data(); }
     inline Arr8 array() const noexcept { 
