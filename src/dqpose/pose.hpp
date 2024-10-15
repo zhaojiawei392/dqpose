@@ -52,7 +52,7 @@ class Rotation : public UnitQuat<qScalar>
 public:
     // Default Constructor 
     explicit Rotation() noexcept
-        : UnitQuat<qScalar>(1) {
+        : UnitQuat<qScalar>() {
 
     }
     // Axis-Angle Constructor 
@@ -111,7 +111,7 @@ class Translation : public PureQuat<qScalar> {
 public:
     // Default Constructor
     explicit Translation() noexcept
-        : PureQuat<qScalar>(0) {
+        : PureQuat<qScalar>( ) {
 
     }
     // Scalar Constructor
@@ -181,8 +181,6 @@ public:
 
 template<typename qScalar, typename>
 class UnitAxis : public UnitPureQuat<qScalar> {
-protected:
-    UnitPureQuat<qScalar> _quat; 
 public:
     // Scalar Constructor
     explicit UnitAxis(const qScalar x, const qScalar y, const qScalar z)
@@ -262,7 +260,7 @@ class Pose : public UnitDualQuat<qScalar> {
 public:
     // Default Constructor 
     explicit Pose() noexcept
-        : UnitDualQuat<qScalar>(1) {
+        : UnitDualQuat<qScalar>() {
 
     }
     // Rotation-Translation Constructor 

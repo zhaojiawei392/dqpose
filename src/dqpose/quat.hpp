@@ -69,7 +69,7 @@ protected:
 public:
     // Default Constructor
     explicit Quat() noexcept
-        : _data(0,0,0,0) {
+        : _data{ 0, 0, 0, 0 } {
 
     }
     // Scalar Constructor
@@ -387,6 +387,7 @@ public:
     // Default Constructor 
     explicit UnitQuat() noexcept
     : Quat<qScalar>( 1 ) {
+        
     }
     // Scalar Constructor 
     explicit UnitQuat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept

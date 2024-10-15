@@ -57,6 +57,11 @@ protected:
     inline Quat<qScalar>& real() {return _data[0];}
     inline Quat<qScalar>& dual() {return _data[1];}
 public:
+    // Default Constructor
+    explicit DualQuat() noexcept
+    : _data{ Quat<qScalar>(), Quat<qScalar>() } {
+
+    }
     // Scalar Constructor
     explicit DualQuat(const qScalar w1, const qScalar x1=0, const qScalar y1=0, const qScalar z1=0, 
                       const qScalar w2=0, const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
@@ -270,7 +275,6 @@ public:
     }
     // Default
             virtual ~DualQuat()=default;
-                    DualQuat()=default;
                     DualQuat(const DualQuat& dq)=default;
                     DualQuat(DualQuat&& dq)=default;
     DualQuat& operator=(const DualQuat& dq)=default;
@@ -280,6 +284,11 @@ public:
 template<typename qScalar, typename>
 class PureDualQuat: public DualQuat<qScalar>{
 public:
+    // Default Constructor
+    explicit PureDualQuat() noexcept
+    : DualQuat<qScalar>( ) {
+
+    }
     // Scalar Constructor
     explicit PureDualQuat(const qScalar x1, const qScalar y1=0, const qScalar z1=0, 
                           const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
@@ -360,7 +369,6 @@ public:
     inline DualQuat<qScalar>& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
     // Default
             virtual ~PureDualQuat()=default;
-                    PureDualQuat()=default;
                     PureDualQuat(const PureDualQuat& dq)=default;
                     PureDualQuat(PureDualQuat&& dq)=default;
     PureDualQuat& operator=(const PureDualQuat& dq)=default;
@@ -371,6 +379,10 @@ public:
 template<typename qScalar, typename>
 class UnitDualQuat: public DualQuat<qScalar>{
 public:
+    // Default Constructor
+    explicit UnitDualQuat() noexcept
+    : DualQuat<qScalar>( 1 ) {
+    }
     // Scalar Constructor
     explicit UnitDualQuat(const qScalar w1, const qScalar x1=0, const qScalar y1=0, const qScalar z1=0, 
                           const qScalar w2=0, const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
@@ -428,7 +440,6 @@ public:
     inline DualQuat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;
     // Default
             virtual ~UnitDualQuat()=default;
-                    UnitDualQuat()=default;
                     UnitDualQuat(const UnitDualQuat& dq)=default;
                     UnitDualQuat(UnitDualQuat&& dq)=default;
     UnitDualQuat& operator=(const UnitDualQuat& dq)=default;
@@ -481,9 +492,9 @@ public:
     template<typename Scalar>
     inline DualQuat<qScalar>& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
     inline DualQuat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;
+                    UnitPureDualQuat()=delete;
     // Default
             virtual ~UnitPureDualQuat()=default;
-                    UnitPureDualQuat()=default;
                     UnitPureDualQuat(const UnitPureDualQuat& dq)=default;
                     UnitPureDualQuat(UnitPureDualQuat&& dq)=default;
     UnitPureDualQuat& operator=(const UnitPureDualQuat& dq)=default;
