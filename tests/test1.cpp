@@ -1,5 +1,5 @@
 
-#include "../src/dqpose/quat.hpp"
+#include "../include/dqpose/quat.hpp"
 
 
 int main() {
