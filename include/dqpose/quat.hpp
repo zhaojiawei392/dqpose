@@ -16,7 +16,7 @@
  */
 
 /**
- *     \file src/dqpose/quat.hpp
+ *     \file include/dqpose/quat.hpp
  *	   \author Jiawei ZHAO
  *	   \version 1.0
  *	   \date 2024-2025

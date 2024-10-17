@@ -16,7 +16,7 @@
  */
 
 /**
- *     \file src/dqpose/dualquat.hpp
+ *     \file include/dqpose/dualquat.hpp
  *	   \author Jiawei ZHAO
  *	   \version 1.0
  *	   \date 2024-2025
