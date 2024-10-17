@@ -22,7 +22,7 @@
  *	   \date 2024-2025
  */
 
-#include "../include/dqpose/quat.hpp"
+#include "dqpose/quat.hpp"
 
 void constructors_demo() {
     using namespace dqpose;

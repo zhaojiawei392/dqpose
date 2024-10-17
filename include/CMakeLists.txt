@@ -22,12 +22,9 @@
  ##	   Date 2024-2025
  ##
 
- add_library(dqpose INTERFACE)
- 
- set_property(TARGET dqpose PROPERTY VERSION ${PACKAGE_VERSION})
- set_property(TARGET dqpose PROPERTY SOVERSION ${PACKAGE_SO_VERSION})
- 
- target_include_directories(dqpose INTERFACE
+add_library(dqpose INTERFACE)
+
+target_include_directories(dqpose INTERFACE
                             INTERFACE
                             $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
                             $<INSTALL_INTERFACE:include>
@@ -37,30 +34,3 @@
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ 
     DESTINATION include 
     FILES_MATCHING PATTERN "*.hpp")
- 
-# Install the target and create the export set (dqposeConfig)
-install(TARGETS dqpose
-    EXPORT dqposeTargets
-    DESTINATION lib/cmake/dqpose
-)
-
-# Generate dqposeConfig.cmake and dqposeConfigVersion.cmake
-install(EXPORT dqposeTargets
-    FILE dqposeConfig.cmake
-    NAMESPACE dqpose::
-    DESTINATION lib/cmake/dqpose
-)
-
-# Optionally create a version file (dqposeConfigVersion.cmake) for version checking
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/dqposeConfigVersion.cmake"
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY AnyNewerVersion
-)
-
-# Install the version file
-install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/dqposeConfigVersion.cmake"
-    DESTINATION lib/cmake/dqpose
-)

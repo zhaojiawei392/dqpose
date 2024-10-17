@@ -35,14 +35,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_DEBUG_POSTFIX d)
 
-# Package metadata
-set(PACKAGE_NAME "dqpose")
-set(PACKAGE_VERSION "1.0.0")
-set(PACKAGE_SO_VERSION "1.0")
-set(PACKAGE_AUTHOR "Jiawei ZHAO")
-set(PACKAGE_MAINTAINER "Jiawei ZHAO")
-set(PACKAGE_URL "https://github.com/zhaojiawei392/dqpose")
-
 add_library(dqpose_compiler_flags INTERFACE)
 target_compile_features(dqpose_compiler_flags INTERFACE cxx_std_17)
 
