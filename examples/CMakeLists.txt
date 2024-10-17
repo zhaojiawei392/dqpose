@@ -1,9 +1,10 @@
 message(STATUS "dqpose_BUILD_EXAMPLES is set to ${dqpose_BUILD_EXAMPLES}")
 
 if(dqpose_BUILD_EXAMPLES)
-    # Compile dq1 examples
     set(EXAMPLE_NAMES
-        example1
+        example_quat
+        example_dualquat
+        example_pose
     )
 
     foreach(EXAMPLE ${EXAMPLE_NAMES})

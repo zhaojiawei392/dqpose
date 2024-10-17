@@ -24,17 +24,16 @@
 
 cmake_minimum_required(VERSION 3.25)
 
-# set the project name and version
-project(dqpose VERSION 1.0 LANGUAGES CXX)
-set(CMAKE_DEBUG_POSTFIX d)
+# Macro options
+set(dqpose_BUILD_EXAMPLES ON CACHE BOOL "Build examples for dqpose" FORCE)
+set(dqpose_BUILD_TESTS ON CACHE BOOL "Build examples for dqpose" FORCE)
 
-# Package metadata
-set(PACKAGE_NAME "dqpose")
-set(PACKAGE_VERSION "1.0.0")
-set(PACKAGE_SO_VERSION "1.0")
-set(PACKAGE_AUTHOR "Jiawei ZHAO")
-set(PACKAGE_MAINTAINER "Jiawei ZHAO")
-set(PACKAGE_URL "https://github.com/zhaojiawei392/DualQuaternion/tree/2024-1.0a1")
+# Set the project name and version
+project(dqpose VERSION 1.0 LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_DEBUG_POSTFIX d)
 
 add_library(dqpose_compiler_flags INTERFACE)
 target_compile_features(dqpose_compiler_flags INTERFACE cxx_std_17)
@@ -48,58 +47,11 @@ target_compile_options(dqpose_compiler_flags INTERFACE
   "$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
 )
 
-# control where the static and shared libraries are built so that on windows
-# we don't need to tinker with the path to run the executable
+# Make static, shared, executables all built in build dir
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
-set(dqpose_BUILD_EXAMPLES ON CACHE BOOL "Build examples for dqpose" FORCE)
-set(dqpose_BUILD_TESTS ON CACHE BOOL "Build examples for dqpose" FORCE)
-
-if(APPLE)
-  set(CMAKE_INSTALL_RPATH "@executable_path/../lib")
-elseif(UNIX)
-  set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
-endif()
-
+add_subdirectory(include)
 add_subdirectory(examples)
 add_subdirectory(tests)
-
-# enable testing
-enable_testing()
-
-# does the application run
-add_test(NAME Runs COMMAND example1)
-
-# setup installer
-include(InstallRequiredSystemLibraries)
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/License.txt")
-set(CPACK_PACKAGE_VERSION_MAJOR "${dqpose_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR "${dqpose_VERSION_MINOR}")
-set(CPACK_GENERATOR "TGZ")
-set(CPACK_SOURCE_GENERATOR "TGZ")
-include(CPack)
-
-include(CMakePackageConfigHelpers)
-# generate the config file that includes the exports
-configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/dqposeConfig.cmake.in
-  "${CMAKE_CURRENT_BINARY_DIR}/dqposeConfig.cmake"
-  INSTALL_DESTINATION "lib/cmake/dqpose"
-  NO_SET_AND_CHECK_MACRO
-  NO_CHECK_REQUIRED_COMPONENTS_MACRO
-  )
-# generate the version file for the config file
-write_basic_package_version_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/dqposeConfigVersion.cmake"
-  VERSION "${dqpose_VERSION_MAJOR}.${dqpose_VERSION_MINOR}"
-  COMPATIBILITY AnyNewerVersion
-)
-
-# install the generated configuration files
-install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/dqposeConfig.cmake
-  ${CMAKE_CURRENT_BINARY_DIR}/dqposeConfigVersion.cmake
-  DESTINATION lib/cmake/dqpose
-  )
