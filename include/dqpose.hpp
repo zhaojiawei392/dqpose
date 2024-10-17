@@ -16,7 +16,7 @@
  */
 
 /**
- *     \file src/dqpose.hpp
+ *     \file include/dqpose.hpp
  *	   \author Jiawei ZHAO
  *	   \version 2.0
  *	   \date 2024-2025
