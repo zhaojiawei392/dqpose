@@ -450,8 +450,13 @@ template<typename qScalar, typename>
 class UnitPureQuat : public Quat<qScalar>
 {
 public:
+    // Default Constructor
+    explicit UnitPureQuat() noexcept 
+    : Quat<qScalar>(0, 1, 0, 0) {
+
+    }
     // Scalar Constructor
-    explicit UnitPureQuat(const qScalar x, const qScalar y, const qScalar z) noexcept
+    explicit UnitPureQuat(const qScalar x, const qScalar y=0, const qScalar z=0) noexcept
     : Quat<qScalar>(0, x, y, z) {
         this->normalize();
     }
@@ -481,7 +486,6 @@ public:
     template<typename Scalar>
     inline Quat<qScalar>& operator*=(const Quat<Scalar>& ) noexcept =delete;
     inline Quat<qScalar>& operator*=(const qScalar& ) noexcept =delete;
-                    UnitPureQuat()=delete;
     // Default
             virtual ~UnitPureQuat()=default;
                     UnitPureQuat(const UnitPureQuat&)=default;

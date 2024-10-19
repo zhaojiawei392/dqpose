@@ -18,7 +18,7 @@
 /**
  *     \file include/dqpose.hpp
  *	   \author Jiawei ZHAO
- *	   \version 2.0
+ *	   \version 1.0
  *	   \date 2024-2025
  *
  *     \brief A header file defining dual-quaternion-based pose operations

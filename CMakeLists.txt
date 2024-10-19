@@ -26,7 +26,7 @@ cmake_minimum_required(VERSION 3.25)
 
 # Macro options
 set(dqpose_BUILD_EXAMPLES ON CACHE BOOL "Build examples for dqpose" FORCE)
-set(dqpose_BUILD_TESTS ON CACHE BOOL "Build examples for dqpose" FORCE)
+message(STATUS "dqpose_BUILD_EXAMPLES is set to ${dqpose_BUILD_EXAMPLES}")
 
 # Set the project name and version
 project(dqpose VERSION 1.0 LANGUAGES CXX)
@@ -35,23 +35,30 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_DEBUG_POSTFIX d)
 
-add_library(dqpose_compiler_flags INTERFACE)
-target_compile_features(dqpose_compiler_flags INTERFACE cxx_std_17)
-
 # add compiler warning flags just when building this project via
 # the BUILD_INTERFACE genex
 set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU,LCC>")
 set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
-target_compile_options(dqpose_compiler_flags INTERFACE
-  "$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused>>"
-  "$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
-)
 
 # Make static, shared, executables all built in build dir
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-add_subdirectory(include)
-add_subdirectory(examples)
-add_subdirectory(tests)
+if(dqpose_BUILD_EXAMPLES)
+    set(EXAMPLE_NAMES
+        example_quat
+        example_dualquat
+        example_pose
+    )
+
+    foreach(EXAMPLE ${EXAMPLE_NAMES})
+        add_executable(${EXAMPLE} examples/${EXAMPLE}.cpp)
+        target_include_directories(${EXAMPLE} PRIVATE ${PROJECT_SOURCE_DIR}/include)
+    endforeach()
+endif()
+
+# Install the headers
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ 
+    DESTINATION include 
+    FILES_MATCHING PATTERN "*.hpp")

@@ -71,7 +71,7 @@ public:
     // Real Constructor
     template<typename Scalar>
     explicit DualQuat(const Quat<Scalar>& real) noexcept
-    : _data{ Quat<qScalar>(real), Quat<qScalar>(0) } {
+    : _data{ Quat<qScalar>(real), Quat<qScalar>() } {
 
     }
     // Real-Dual Constructor
@@ -450,6 +450,11 @@ public:
 template<typename qScalar, typename>
 class UnitPureDualQuat: public DualQuat<qScalar>{
 public:
+    // Default Constructor
+    explicit UnitPureDualQuat() noexcept
+    : DualQuat<qScalar>( 0, 1, 0, 0, 0, 0, 0, 0 ) {
+        this->normalize();
+    }
     // Scalar Constructor
     explicit UnitPureDualQuat(const qScalar x1, const qScalar y1=0, const qScalar z1=0, 
                               const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
@@ -492,7 +497,6 @@ public:
     template<typename Scalar>
     inline DualQuat<qScalar>& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
     inline DualQuat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;
-                    UnitPureDualQuat()=delete;
     // Default
             virtual ~UnitPureDualQuat()=default;
                     UnitPureDualQuat(const UnitPureDualQuat& dq)=default;
