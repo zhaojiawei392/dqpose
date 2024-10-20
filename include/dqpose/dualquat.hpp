@@ -59,31 +59,31 @@ protected:
 public:
     // Default Constructor
     explicit DualQuat() noexcept
-    : _data{ Quat<qScalar>(), Quat<qScalar>() } {
+        : _data{ Quat<qScalar>(), Quat<qScalar>() } {
 
     }
     // Scalar Constructor
     explicit DualQuat(const qScalar w1, const qScalar x1=0, const qScalar y1=0, const qScalar z1=0, 
                       const qScalar w2=0, const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
-    : _data{ Quat<qScalar>(w1, x1, y1, z1), Quat<qScalar>(w2, x2, y2, z2) } {
+        : _data{ Quat<qScalar>(w1, x1, y1, z1), Quat<qScalar>(w2, x2, y2, z2) } {
 
     }
     // Real Constructor
     template<typename Scalar>
     explicit DualQuat(const Quat<Scalar>& real) noexcept
-    : _data{ Quat<qScalar>(real), Quat<qScalar>() } {
+        : _data{ Quat<qScalar>(real), Quat<qScalar>() } {
 
     }
     // Real-Dual Constructor
     template<typename Scalar1, typename Scalar2>
     explicit DualQuat(const Quat<Scalar1>& real, const Quat<Scalar2>& dual) noexcept
-    : _data{ Quat<qScalar>(real), Quat<qScalar>(dual) } {
+        : _data{ Quat<qScalar>(real), Quat<qScalar>(dual) } {
 
     }
     // Copy Constructor
     template<typename Scalar>
     explicit DualQuat(const DualQuat<Scalar>& other) noexcept
-    : _data{ Quat<qScalar>(other.real()), Quat<qScalar>(other.dual()) } {
+        : _data{ Quat<qScalar>(other.real()), Quat<qScalar>(other.dual()) } {
 
     }
     // Copy Assignment
@@ -286,31 +286,31 @@ class PureDualQuat: public DualQuat<qScalar>{
 public:
     // Default Constructor
     explicit PureDualQuat() noexcept
-    : DualQuat<qScalar>( ) {
+        : DualQuat<qScalar>( ) {
 
     }
     // Scalar Constructor
     explicit PureDualQuat(const qScalar x1, const qScalar y1=0, const qScalar z1=0, 
                           const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
-    : DualQuat<qScalar>( 0, x1, y1, z1, 0, x2, y2, z2 ) {
+        : DualQuat<qScalar>( 0, x1, y1, z1, 0, x2, y2, z2 ) {
 
     }
     // Real Constructor
     template<typename Scalar>
     explicit PureDualQuat(const Quat<Scalar>& real) noexcept
-    : DualQuat<qScalar>{ real } {
+        : DualQuat<qScalar>{ real } {
 
     }
     // Real-Dual Constructor
     template<typename Scalar1, typename Scalar2>
     explicit PureDualQuat(const PureQuat<Scalar1>& real, const PureQuat<Scalar2>& dual) noexcept
-    : DualQuat<qScalar>( real, dual ) {
+        : DualQuat<qScalar>( real, dual ) {
 
     }
     // DualQuat Constructor
     template <typename Scalar>
     explicit PureDualQuat(const DualQuat<Scalar>& other) noexcept
-    : DualQuat<qScalar>( other )  {
+        : DualQuat<qScalar>( other )  {
         this->purify();
     }
     // DualQuat Assignment
@@ -381,30 +381,30 @@ class UnitDualQuat: public DualQuat<qScalar>{
 public:
     // Default Constructor
     explicit UnitDualQuat() noexcept
-    : DualQuat<qScalar>( 1 ) {
+        : DualQuat<qScalar>( 1 ) {
     }
     // Scalar Constructor
     explicit UnitDualQuat(const qScalar w1, const qScalar x1=0, const qScalar y1=0, const qScalar z1=0, 
                           const qScalar w2=0, const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
-    : DualQuat<qScalar>( w1, x1, y1, z1, w2, x2, y2, z2 ) {
+        : DualQuat<qScalar>( w1, x1, y1, z1, w2, x2, y2, z2 ) {
         this->normalize();
     }
     // Real Constructor
     template<typename Scalar>
     explicit UnitDualQuat(const Quat<Scalar>& real) noexcept
-    : DualQuat<qScalar>{ real } {
+        : DualQuat<qScalar>{ real } {
 
     }
     // Real-Dual Constructor
     template<typename Scalar1, typename Scalar2>
     explicit UnitDualQuat(const Quat<Scalar1>& real, const Quat<Scalar2>& dual) noexcept
-    : DualQuat<qScalar>( real, dual ) {
+        : DualQuat<qScalar>( real, dual ) {
         this->normalize();
     }
     // DualQuat Constructor
     template <typename Scalar>
     explicit UnitDualQuat(const DualQuat<Scalar>& other) noexcept
-    : DualQuat<qScalar>( other ) {
+        : DualQuat<qScalar>( other ) {
         this->normalize();
     }
     // DualQuat Assignment
@@ -452,31 +452,31 @@ class UnitPureDualQuat: public DualQuat<qScalar>{
 public:
     // Default Constructor
     explicit UnitPureDualQuat() noexcept
-    : DualQuat<qScalar>( 0, 1, 0, 0, 0, 0, 0, 0 ) {
+        : DualQuat<qScalar>( 0, 1, 0, 0, 0, 0, 0, 0 ) {
         this->normalize();
     }
     // Scalar Constructor
     explicit UnitPureDualQuat(const qScalar x1, const qScalar y1=0, const qScalar z1=0, 
                               const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
-    : DualQuat<qScalar>( 0, x1, y1, z1, 0, x2, y2, z2 ) {
+        : DualQuat<qScalar>( 0, x1, y1, z1, 0, x2, y2, z2 ) {
         this->normalize();
     }
     // Real Constructor
     template<typename Scalar>
     explicit UnitPureDualQuat(const Quat<Scalar>& real) noexcept
-    : DualQuat<qScalar>{ real } {
+        : DualQuat<qScalar>{ real } {
 
     }
     // Real-Dual Constructor
     template<typename Scalar1, typename Scalar2>
     explicit UnitPureDualQuat(const PureQuat<Scalar1>& real, const PureQuat<Scalar2>& dual) noexcept
-    : DualQuat<qScalar>( real, dual ) {
+        : DualQuat<qScalar>( real, dual ) {
         this->normalize();
     }
     // DualQuat Constructor
     template <typename Scalar>
     explicit UnitPureDualQuat(const DualQuat<Scalar>& other) noexcept
-    : DualQuat<qScalar>( other ) {
+        : DualQuat<qScalar>( other ) {
         this->purify();
         this->normalize();
     }

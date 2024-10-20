@@ -310,18 +310,18 @@ class PureQuat: public Quat<qScalar>
 public:
     // Default Constructor
     explicit PureQuat() noexcept
-    : Quat<qScalar>( ) {
+        : Quat<qScalar>( ) {
 
     }
     // Scalar Constructor
     explicit PureQuat(const qScalar x, const qScalar y=0, const qScalar z=0) noexcept
-    : Quat<qScalar>( 0, x, y, z ) {
+        : Quat<qScalar>( 0, x, y, z ) {
 
     }
     // Quat Constructor
     template<typename Scalar>
     explicit PureQuat(const Quat<Scalar>& other) noexcept
-    : Quat<qScalar>( other ) {
+        : Quat<qScalar>( other ) {
         this->w() = 0;
     }
     // Quat Assignment
@@ -386,18 +386,18 @@ class UnitQuat : public Quat<qScalar>
 public:
     // Default Constructor 
     explicit UnitQuat() noexcept
-    : Quat<qScalar>( 1 ) {
+        : Quat<qScalar>( 1 ) {
         
     }
     // Scalar Constructor 
     explicit UnitQuat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
-    : Quat<qScalar>( w, x, y, z ) {
+        : Quat<qScalar>( w, x, y, z ) {
         this->normalize();
     }
     // Quat Constructor
     template<typename Scalar>
     explicit UnitQuat(const Quat<Scalar>& other) noexcept
-    : Quat<qScalar>(other) {
+        : Quat<qScalar>(other) {
         this->normalize();
     }
     // Quat Assignment 
@@ -452,18 +452,18 @@ class UnitPureQuat : public Quat<qScalar>
 public:
     // Default Constructor
     explicit UnitPureQuat() noexcept 
-    : Quat<qScalar>(0, 1, 0, 0) {
+        : Quat<qScalar>(0, 1, 0, 0) {
 
     }
     // Scalar Constructor
     explicit UnitPureQuat(const qScalar x, const qScalar y=0, const qScalar z=0) noexcept
-    : Quat<qScalar>(0, x, y, z) {
+        : Quat<qScalar>(0, x, y, z) {
         this->normalize();
     }
     // Quat Constructor
     template<typename Scalar>
     explicit UnitPureQuat(const Quat<Scalar>& other) noexcept
-    : Quat<qScalar>(other) {
+        : Quat<qScalar>(other) {
         this->w() = 0;
         this->normalize();
     }
