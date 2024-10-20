@@ -50,6 +50,7 @@ if(dqpose_BUILD_EXAMPLES)
         example_quat
         example_dualquat
         example_pose
+        example_time
     )
 
     foreach(EXAMPLE ${EXAMPLE_NAMES})
