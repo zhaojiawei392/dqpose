@@ -33,6 +33,7 @@
 
 #include "quat.hpp"
 #include "dualquat.hpp"
+#include <cstdint>
 
 namespace dqpose
 {
@@ -328,5 +329,9 @@ using Rotld = Rotation<long double>;
 using Tranld = Translation<long double>;
 using Unitld = UnitAxis<long double>;
 using Poseld = Pose<long double>;
+
+const UnitAxis<std::uint8_t> i_(1,0,0);
+const UnitAxis<std::uint8_t> j_(0,1,0);
+const UnitAxis<std::uint8_t> k_(0,0,1);
 
 }  // namespace dqpose
