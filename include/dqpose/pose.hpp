@@ -56,6 +56,11 @@ public:
         : UnitQuat<qScalar>() {
 
     }
+    // Scalar Constructor
+    constexpr explicit Rotation(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
+        : UnitQuat<qScalar>( w, x, y, z ) {
+
+    }
     // Axis-Angle Constructor 
     template<typename Scalar>
     constexpr explicit Rotation(const UnitAxis<Scalar>& rotate_axis, const qScalar rotate_angle) noexcept
@@ -262,6 +267,12 @@ public:
     // Default Constructor 
     constexpr explicit Pose() noexcept
         : UnitDualQuat<qScalar>() {
+
+    }
+    // Scalar Constructor
+    constexpr explicit Pose(const qScalar w1, const qScalar x1=0, const qScalar y1=0, const qScalar z1=0, 
+                      const qScalar w2=0, const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
+        : UnitDualQuat<qScalar>( w1, x1, y1, z1, w2, x2, y2, z2 ) {
 
     }
     // Rotation-Translation Constructor 
