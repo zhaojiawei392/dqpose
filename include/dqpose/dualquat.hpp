@@ -54,74 +54,79 @@ using Mat44 = std::array<std::array<qScalar, 4>, 4>;
 using Mat88 = std::array<std::array<qScalar, 8>, 8>;
 protected:
     std::array<Quat<qScalar>, 2> _data;
-    inline Quat<qScalar>& real() {return _data[0];}
-    inline Quat<qScalar>& dual() {return _data[1];}
+    constexpr inline Quat<qScalar>& real() {return _data[0];}
+    constexpr inline Quat<qScalar>& dual() {return _data[1];}
 public:
     // Default Constructor
-    explicit DualQuat() noexcept
+    constexpr explicit DualQuat() noexcept
         : _data{ Quat<qScalar>(), Quat<qScalar>() } {
 
     }
+    // Array Constructor
+    constexpr explicit DualQuat(const std::array<qScalar, 8> arr8) noexcept
+        : _data{ Quat<qScalar>(arr8[0], arr8[1], arr8[2], arr8[3]), Quat<qScalar>(arr8[4], arr8[5], arr8[6], arr8[7]) } {
+
+    }
     // Scalar Constructor
-    explicit DualQuat(const qScalar w1, const qScalar x1=0, const qScalar y1=0, const qScalar z1=0, 
+    constexpr explicit DualQuat(const qScalar w1, const qScalar x1=0, const qScalar y1=0, const qScalar z1=0, 
                       const qScalar w2=0, const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
         : _data{ Quat<qScalar>(w1, x1, y1, z1), Quat<qScalar>(w2, x2, y2, z2) } {
 
     }
     // Real Constructor
     template<typename Scalar>
-    explicit DualQuat(const Quat<Scalar>& real) noexcept
+    constexpr explicit DualQuat(const Quat<Scalar>& real) noexcept
         : _data{ Quat<qScalar>(real), Quat<qScalar>() } {
 
     }
     // Real-Dual Constructor
     template<typename Scalar1, typename Scalar2>
-    explicit DualQuat(const Quat<Scalar1>& real, const Quat<Scalar2>& dual) noexcept
+    constexpr explicit DualQuat(const Quat<Scalar1>& real, const Quat<Scalar2>& dual) noexcept
         : _data{ Quat<qScalar>(real), Quat<qScalar>(dual) } {
 
     }
     // Copy Constructor
     template<typename Scalar>
-    explicit DualQuat(const DualQuat<Scalar>& other) noexcept
+    constexpr explicit DualQuat(const DualQuat<Scalar>& other) noexcept
         : _data{ Quat<qScalar>(other.real()), Quat<qScalar>(other.dual()) } {
 
     }
     // Copy Assignment
     template<typename Scalar>
-    inline DualQuat& operator=(const DualQuat<Scalar>& other) noexcept {
+    constexpr inline DualQuat& operator=(const DualQuat<Scalar>& other) noexcept {
         real() = other.real();
         dual() = other.dual();
         return *this;
     }
     // operator+=    
     template<typename Scalar>
-    inline DualQuat& operator+=(const DualQuat<Scalar>& other) noexcept {
+    constexpr inline DualQuat& operator+=(const DualQuat<Scalar>& other) noexcept {
         real() += other.real();
         dual() += other.dual(); 
         return *this;
     }
     // operator-= 
     template<typename Scalar>
-    inline DualQuat& operator-=(const DualQuat<Scalar>& other) noexcept {
+    constexpr inline DualQuat& operator-=(const DualQuat<Scalar>& other) noexcept {
         real() -= other.real();
         dual() -= other.dual();   
         return *this;
     }
     // operator*= 
     template<typename Scalar>
-    inline DualQuat& operator*=(const DualQuat<Scalar>& other) noexcept {
+    constexpr inline DualQuat& operator*=(const DualQuat<Scalar>& other) noexcept {
         dual() = real() * other.dual() + dual() * other.real();
         real() *= other.real();
         return *this;
     }
     // operator*= 
-    inline DualQuat& operator*=(const qScalar scalar) noexcept {
+    constexpr inline DualQuat& operator*=(const qScalar scalar) noexcept {
         real() *= scalar;
         dual() *= scalar;
         return *this;
     }
     // normalize
-    inline DualQuat& normalize() {
+    constexpr inline DualQuat& normalize() {
         const qScalar norm = real().norm();
         if (norm == 0) {
             throw std::runtime_error("Error: DualQuat& normalize() Cannot normalize a 0 Dual Quaternion.");
@@ -131,51 +136,51 @@ public:
         return *this;
     }
     // purifiy
-    inline DualQuat& purify() noexcept {
+    constexpr inline DualQuat& purify() noexcept {
         real().purify();
         dual().purify();
         return *this;
     }
     // operator+    
     template<typename Scalar>
-    inline DualQuat operator+(const DualQuat<Scalar>& other) const noexcept {
+    constexpr inline DualQuat operator+(const DualQuat<Scalar>& other) const noexcept {
         return DualQuat( real() + other.real(), dual() + other.dual() );
     }
     // operator-
     template<typename Scalar>
-    inline DualQuat operator-(const DualQuat<Scalar>& other) const noexcept {
+    constexpr inline DualQuat operator-(const DualQuat<Scalar>& other) const noexcept {
         return DualQuat( real() - other.real(), dual() - other.dual() );
     }
     // operator*  
     template<typename Scalar>
-    inline DualQuat operator*(const DualQuat<Scalar>& other) const noexcept {
+    constexpr inline DualQuat operator*(const DualQuat<Scalar>& other) const noexcept {
         const Quat<qScalar>& dual_ = real() * other.dual() + dual() * other.real();
         const Quat<qScalar>& real_ = real() * other.real();
         return DualQuat( real_, dual_ );
     }
     // operator*  
     template<typename Scalar>
-    inline DualQuat operator*(const Quat<Scalar>& quat) const noexcept {
+    constexpr inline DualQuat operator*(const Quat<Scalar>& quat) const noexcept {
         return DualQuat( real() * quat, dual() * quat );
     }
     // operator*  
-    inline DualQuat operator*(const qScalar scalar) const noexcept {
+    constexpr inline DualQuat operator*(const qScalar scalar) const noexcept {
         return DualQuat( real() * scalar, dual() * scalar );
     }
     // -operator  
-    inline DualQuat operator-() const noexcept {
+    constexpr inline DualQuat operator-() const noexcept {
         return DualQuat( -real(), -dual() );
     }
     // operator== 
-    inline bool operator==(const DualQuat& other) const noexcept {
+    constexpr inline bool operator==(const DualQuat& other) const noexcept {
         return real() == other.real() && dual() == other.dual();
     }
     // operator!= 
-    inline bool operator!=(const DualQuat& other) const noexcept {
+    constexpr inline bool operator!=(const DualQuat& other) const noexcept {
         return real() != other.real() || dual() != other.dual();
     }
     // norm
-    inline DualQuat norm() const noexcept {
+    constexpr inline DualQuat norm() const noexcept {
         const qScalar real_norm = real().norm();
         if (real_norm == 0) 
             return DualQuat(0);
@@ -183,11 +188,11 @@ public:
         return DualQuat(Quat<qScalar>(real_norm), Quat<qScalar>(res_dual_norm));
     }
     // copied
-    inline DualQuat copied() const noexcept {
+    constexpr inline DualQuat copied() const noexcept {
         return *this;
     }
     // normalized
-    inline DualQuat normalized() const {
+    constexpr inline DualQuat normalized() const {
         const qScalar norm = real().norm();
         if (norm == 0) {
             throw std::runtime_error("Error: DualQuat normalized() Cannot normalize a 0 Dual Quaternion.");
@@ -195,37 +200,37 @@ public:
         return *this * ( 1 / real().norm() );
     }
     // purified
-    inline DualQuat purified() const noexcept {
+    constexpr inline DualQuat purified() const noexcept {
         return copied().purify();
     }
     // conj
-    inline DualQuat conj() const noexcept {
+    constexpr inline DualQuat conj() const noexcept {
         return DualQuat(real().conj(), dual().conj());
     }
     // inv
-    inline DualQuat inv() const noexcept {
+    constexpr inline DualQuat inv() const noexcept {
         const Quat<qScalar>& real_ = real().inv();
         const Quat<qScalar>& dual_ = - real_ * dual() * real_;
         return DualQuat( real_, dual_ );
     }
     // log
-    inline DualQuat log() const noexcept {
+    constexpr inline DualQuat log() const noexcept {
         const Quat<qScalar>& real_ = real().log();
         const Quat<qScalar>& dual_ = real().inv() * dual();
         return DualQuat( real_, dual_ );
     }
     // exp
-    inline DualQuat exp() const noexcept {
+    constexpr inline DualQuat exp() const noexcept {
         const Quat<qScalar>& real_ = real().exp();
         const Quat<qScalar>& dual_ = real_ * real().inv() * dual();
         return DualQuat( real_, dual_ );
     }
     // pow
-    inline DualQuat pow(const qScalar index) const noexcept {
+    constexpr inline DualQuat pow(const qScalar index) const noexcept {
         return (this->log() * index).exp();
     }
     // hamiplus
-    inline Mat88 hamiplus() const noexcept {
+    constexpr inline Mat88 hamiplus() const noexcept {
         const Mat44 real_hami = real().hamiplus();
         const Mat44 dual_hami = dual().hamiplus();
         // Initialize a zero container
@@ -241,7 +246,7 @@ public:
         return res;
     }
     // haminus
-    inline Mat88 haminus() const noexcept {        
+    constexpr inline Mat88 haminus() const noexcept {        
         const Mat44 real_hami = real().haminus();
         const Mat44 dual_hami = dual().haminus();
         // Initialize a zero container
@@ -258,17 +263,17 @@ public:
         return res;
     }
     // query 
-    inline Quat<qScalar> real() const noexcept { return _data[0]; }
-    inline Quat<qScalar> dual() const noexcept { return _data[1]; }
+    constexpr inline Quat<qScalar> real() const noexcept { return _data[0]; }
+    constexpr inline Quat<qScalar> dual() const noexcept { return _data[1]; }
     // data
-    inline const qScalar* data() const noexcept { return _data.data()[0].data(); }
-    inline Arr8 array() const noexcept { 
+    constexpr inline const qScalar* data() const noexcept { return _data.data()[0].data(); }
+    constexpr inline Arr8 array() const noexcept { 
         Arr8 res;
         std::copy(data(), data()+8, res.begin());
         return res; 
     }
     // to_string
-    inline std::string to_string() const {
+    constexpr inline std::string to_string() const {
         std::ostringstream oss;
         oss << std::fixed << std::setprecision(PRINT_PRECISION) <<  real() << " + " << " ϵ ( " << dual() << " )";
         return oss.str();
@@ -285,37 +290,42 @@ template<typename qScalar, typename>
 class PureDualQuat: public DualQuat<qScalar>{
 public:
     // Default Constructor
-    explicit PureDualQuat() noexcept
+    constexpr explicit PureDualQuat() noexcept
         : DualQuat<qScalar>( ) {
 
     }
+    // Array Constructor
+    constexpr explicit PureDualQuat(const std::array<qScalar, 6> arr6) noexcept
+        : DualQuat<qScalar>( 0, arr6[0], arr6[1], arr6[2], 0, arr6[3], arr6[4], arr6[5] ) {
+
+    }
     // Scalar Constructor
-    explicit PureDualQuat(const qScalar x1, const qScalar y1=0, const qScalar z1=0, 
+    constexpr explicit PureDualQuat(const qScalar x1, const qScalar y1=0, const qScalar z1=0, 
                           const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
         : DualQuat<qScalar>( 0, x1, y1, z1, 0, x2, y2, z2 ) {
 
     }
     // Real Constructor
     template<typename Scalar>
-    explicit PureDualQuat(const Quat<Scalar>& real) noexcept
+    constexpr explicit PureDualQuat(const Quat<Scalar>& real) noexcept
         : DualQuat<qScalar>{ real } {
 
     }
     // Real-Dual Constructor
     template<typename Scalar1, typename Scalar2>
-    explicit PureDualQuat(const PureQuat<Scalar1>& real, const PureQuat<Scalar2>& dual) noexcept
+    constexpr explicit PureDualQuat(const PureQuat<Scalar1>& real, const PureQuat<Scalar2>& dual) noexcept
         : DualQuat<qScalar>( real, dual ) {
 
     }
     // DualQuat Constructor
     template <typename Scalar>
-    explicit PureDualQuat(const DualQuat<Scalar>& other) noexcept
+    constexpr explicit PureDualQuat(const DualQuat<Scalar>& other) noexcept
         : DualQuat<qScalar>( other )  {
         this->purify();
     }
     // DualQuat Assignment
     template<typename Scalar>
-    inline PureDualQuat& operator=(const DualQuat<Scalar>& other) noexcept {
+    constexpr inline PureDualQuat& operator=(const DualQuat<Scalar>& other) noexcept {
         this->real() = other.real();
         this->dual() = other.dual();
         this->purify();
@@ -323,7 +333,7 @@ public:
     }
     // operator+=    
     template<typename Scalar>
-    inline PureDualQuat& operator+=(const PureDualQuat<Scalar>& other) noexcept {
+    constexpr inline PureDualQuat& operator+=(const PureDualQuat<Scalar>& other) noexcept {
         this->real() += other.real();
         this->dual() += other.dual();
         this->purify();
@@ -331,14 +341,14 @@ public:
     }
     // operator-= 
     template<typename Scalar>
-    inline PureDualQuat& operator-=(const PureDualQuat<Scalar>& other) noexcept {
+    constexpr inline PureDualQuat& operator-=(const PureDualQuat<Scalar>& other) noexcept {
         this->real() -= other.real();
         this->dual() -= other.dual(); 
         this->purify();
         return *this;
     }
     // operator*= 
-    inline PureDualQuat& operator*=(const qScalar scalar) noexcept {
+    constexpr inline PureDualQuat& operator*=(const qScalar scalar) noexcept {
         this->real() *= scalar;
         this->dual() *= scalar;
         this->purify();
@@ -346,27 +356,27 @@ public:
     }
     // operator+
     template<typename Scalar>
-    inline PureDualQuat operator+(const PureDualQuat<Scalar>& other) const noexcept {
+    constexpr inline PureDualQuat operator+(const PureDualQuat<Scalar>& other) const noexcept {
         return PureDualQuat( this->real() + other.real(), this->dual() + other.dual() );
     } 
     // operator-
     template<typename Scalar>
-    inline PureDualQuat operator-(const PureDualQuat<Scalar>& other) const noexcept {
+    constexpr inline PureDualQuat operator-(const PureDualQuat<Scalar>& other) const noexcept {
         return PureDualQuat( this->real() - other.real(), this->dual() - other.dual() );
     } 
     // operator*
-    inline PureDualQuat operator*(const qScalar scalar) noexcept {
+    constexpr inline PureDualQuat operator*(const qScalar scalar) noexcept {
         this->purify();
         return PureDualQuat( this->real() * scalar, this->dual() * scalar );
     }
 
     // Delete 
     template<typename Scalar>
-    inline DualQuat<qScalar>& operator+=(const DualQuat<Scalar>& other) noexcept =delete;
+    constexpr inline DualQuat<qScalar>& operator+=(const DualQuat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline DualQuat<qScalar>& operator-=(const DualQuat<Scalar>& other) noexcept =delete;
+    constexpr inline DualQuat<qScalar>& operator-=(const DualQuat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline DualQuat<qScalar>& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
+    constexpr inline DualQuat<qScalar>& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
     // Default
             virtual ~PureDualQuat()=default;
                     PureDualQuat(const PureDualQuat& dq)=default;
@@ -380,36 +390,41 @@ template<typename qScalar, typename>
 class UnitDualQuat: public DualQuat<qScalar>{
 public:
     // Default Constructor
-    explicit UnitDualQuat() noexcept
+    constexpr explicit UnitDualQuat() noexcept
         : DualQuat<qScalar>( 1 ) {
     }
+    // Array Constructor
+    constexpr explicit UnitDualQuat(const std::array<qScalar, 8> arr8) noexcept
+        : DualQuat<qScalar>( arr8 ) {
+        this->normalize();
+    }
     // Scalar Constructor
-    explicit UnitDualQuat(const qScalar w1, const qScalar x1=0, const qScalar y1=0, const qScalar z1=0, 
+    constexpr explicit UnitDualQuat(const qScalar w1, const qScalar x1=0, const qScalar y1=0, const qScalar z1=0, 
                           const qScalar w2=0, const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
         : DualQuat<qScalar>( w1, x1, y1, z1, w2, x2, y2, z2 ) {
         this->normalize();
     }
     // Real Constructor
     template<typename Scalar>
-    explicit UnitDualQuat(const Quat<Scalar>& real) noexcept
+    constexpr explicit UnitDualQuat(const Quat<Scalar>& real) noexcept
         : DualQuat<qScalar>{ real } {
 
     }
     // Real-Dual Constructor
     template<typename Scalar1, typename Scalar2>
-    explicit UnitDualQuat(const Quat<Scalar1>& real, const Quat<Scalar2>& dual) noexcept
+    constexpr explicit UnitDualQuat(const Quat<Scalar1>& real, const Quat<Scalar2>& dual) noexcept
         : DualQuat<qScalar>( real, dual ) {
         this->normalize();
     }
     // DualQuat Constructor
     template <typename Scalar>
-    explicit UnitDualQuat(const DualQuat<Scalar>& other) noexcept
+    constexpr explicit UnitDualQuat(const DualQuat<Scalar>& other) noexcept
         : DualQuat<qScalar>( other ) {
         this->normalize();
     }
     // DualQuat Assignment
     template<typename Scalar>
-    inline UnitDualQuat& operator=(const DualQuat<Scalar>& other) noexcept {
+    constexpr inline UnitDualQuat& operator=(const DualQuat<Scalar>& other) noexcept {
         this->real() = other.real();
         this->dual() = other.dual();
         this->normalize();
@@ -417,7 +432,7 @@ public:
     }
     // operator*=
     template<typename Scalar>
-    inline UnitDualQuat& operator*=(const UnitDualQuat<Scalar>& other) noexcept {
+    constexpr inline UnitDualQuat& operator*=(const UnitDualQuat<Scalar>& other) noexcept {
         this->dual() = this->real() * other.dual() + this->dual() * other.real();
         this->real() *= other.real();
         this->normalize();
@@ -425,19 +440,19 @@ public:
     } 
     // operator*
     template<typename Scalar>
-    inline UnitDualQuat operator*(const UnitDualQuat<Scalar>& other) const noexcept {
+    constexpr inline UnitDualQuat operator*(const UnitDualQuat<Scalar>& other) const noexcept {
         const Quat<qScalar>& dual_ = this->real() * other.dual() + this->dual() * other.real();
         const Quat<qScalar>& real_ = this->real() * other.real();
         return UnitDualQuat( real_, dual_ );
     } 
     // Delete 
     template<typename Scalar>
-    inline DualQuat<qScalar>& operator+=(const DualQuat<Scalar>& other) noexcept =delete;
+    constexpr inline DualQuat<qScalar>& operator+=(const DualQuat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline DualQuat<qScalar>& operator-=(const DualQuat<Scalar>& other) noexcept =delete;
+    constexpr inline DualQuat<qScalar>& operator-=(const DualQuat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline DualQuat<qScalar>& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
-    inline DualQuat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;
+    constexpr inline DualQuat<qScalar>& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
+    constexpr inline DualQuat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;
     // Default
             virtual ~UnitDualQuat()=default;
                     UnitDualQuat(const UnitDualQuat& dq)=default;
@@ -451,38 +466,43 @@ template<typename qScalar, typename>
 class UnitPureDualQuat: public DualQuat<qScalar>{
 public:
     // Default Constructor
-    explicit UnitPureDualQuat() noexcept
+    constexpr explicit UnitPureDualQuat() noexcept
         : DualQuat<qScalar>( 0, 1, 0, 0, 0, 0, 0, 0 ) {
         this->normalize();
     }
+    // Array Constructor
+    constexpr explicit UnitPureDualQuat(const std::array<qScalar, 6> arr6) noexcept
+        : DualQuat<qScalar>( 0, arr6[0], arr6[1], arr6[2], 0, arr6[3], arr6[4], arr6[5] ) {
+        this->normalize();
+    }
     // Scalar Constructor
-    explicit UnitPureDualQuat(const qScalar x1, const qScalar y1=0, const qScalar z1=0, 
+    constexpr explicit UnitPureDualQuat(const qScalar x1, const qScalar y1=0, const qScalar z1=0, 
                               const qScalar x2=0, const qScalar y2=0, const qScalar z2=0) noexcept
         : DualQuat<qScalar>( 0, x1, y1, z1, 0, x2, y2, z2 ) {
         this->normalize();
     }
     // Real Constructor
     template<typename Scalar>
-    explicit UnitPureDualQuat(const Quat<Scalar>& real) noexcept
+    constexpr explicit UnitPureDualQuat(const Quat<Scalar>& real) noexcept
         : DualQuat<qScalar>{ real } {
 
     }
     // Real-Dual Constructor
     template<typename Scalar1, typename Scalar2>
-    explicit UnitPureDualQuat(const PureQuat<Scalar1>& real, const PureQuat<Scalar2>& dual) noexcept
+    constexpr explicit UnitPureDualQuat(const PureQuat<Scalar1>& real, const PureQuat<Scalar2>& dual) noexcept
         : DualQuat<qScalar>( real, dual ) {
         this->normalize();
     }
     // DualQuat Constructor
     template <typename Scalar>
-    explicit UnitPureDualQuat(const DualQuat<Scalar>& other) noexcept
+    constexpr explicit UnitPureDualQuat(const DualQuat<Scalar>& other) noexcept
         : DualQuat<qScalar>( other ) {
         this->purify();
         this->normalize();
     }
     // DualQuat Assignment
     template<typename Scalar>
-    inline UnitPureDualQuat& operator=(const DualQuat<Scalar>& other) noexcept {
+    constexpr inline UnitPureDualQuat& operator=(const DualQuat<Scalar>& other) noexcept {
         this->real() = other.real();
         this->dual() = other.dual();
         this->purify();
@@ -491,12 +511,12 @@ public:
     }
     // Delete 
     template<typename Scalar>
-    inline DualQuat<qScalar>& operator+=(const DualQuat<Scalar>& other) noexcept =delete;
+    constexpr inline DualQuat<qScalar>& operator+=(const DualQuat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline DualQuat<qScalar>& operator-=(const DualQuat<Scalar>& other) noexcept =delete;
+    constexpr inline DualQuat<qScalar>& operator-=(const DualQuat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline DualQuat<qScalar>& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
-    inline DualQuat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;
+    constexpr inline DualQuat<qScalar>& operator*=(const DualQuat<Scalar>& other) noexcept =delete;
+    constexpr inline DualQuat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;
     // Default
             virtual ~UnitPureDualQuat()=default;
                     UnitPureDualQuat(const UnitPureDualQuat& dq)=default;
