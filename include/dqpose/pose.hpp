@@ -68,13 +68,13 @@ public:
     }
     // Quat Constructor
     template<typename Scalar>
-    constexpr explicit Rotation(const Quat<Scalar>& other) 
+    constexpr Rotation(const Quat<Scalar>& other) 
         : UnitQuat<qScalar>(other) {
 
     }
     // Copy Constructor 
     template<typename Scalar>
-    constexpr explicit Rotation(const Rotation<Scalar>& other) noexcept
+    constexpr Rotation(const Rotation<Scalar>& other) noexcept
         : UnitQuat<qScalar>(other) {
     }
     // Copy Assignment 
@@ -122,13 +122,13 @@ public:
     }
     // Quat Constructor
     template<typename Scalar>
-    constexpr explicit Translation(const Quat<Scalar>& other) 
+    constexpr Translation(const Quat<Scalar>& other) 
         : PureQuat<qScalar>(other) {
 
     }
     // Copy Constructor 
     template<typename Scalar>
-    constexpr explicit Translation(const Translation<Scalar>& other) noexcept
+    constexpr Translation(const Translation<Scalar>& other) noexcept
         : PureQuat<qScalar>(other) {
     }
     // Copy Assignment 
@@ -190,13 +190,13 @@ public:
     }
     // Quat Constructor
     template<typename Scalar>
-    constexpr explicit UnitAxis(const Quat<Scalar>& other)
+    constexpr UnitAxis(const Quat<Scalar>& other)
         : UnitPureQuat<qScalar>(other) {
 
     }
     // Copy Constructor 
     template<typename Scalar>
-    constexpr explicit UnitAxis(const UnitAxis<Scalar>& other) noexcept
+    constexpr UnitAxis(const UnitAxis<Scalar>& other) noexcept
         : UnitPureQuat<qScalar>(other) {
     }
     // Copy Assignment 
@@ -281,9 +281,14 @@ public:
         : UnitDualQuat<qScalar>(Quat<qScalar>(1), translation * 0.5) {
 
     }
+    // DualQuat Constructor 
+    template<typename Scalar>
+    constexpr Pose(const DualQuat<Scalar>& other) noexcept
+        : UnitDualQuat<qScalar>(other) {
+    }
     // Copy Constructor 
     template<typename Scalar>
-    constexpr explicit Pose(const Pose<Scalar>& other) noexcept
+    constexpr Pose(const Pose<Scalar>& other) noexcept
         : UnitDualQuat<qScalar>(other) {
     }
     // Copy Assignment 
@@ -292,6 +297,9 @@ public:
         UnitDualQuat<qScalar>::operator=(other);
         return *this;
     }
+
+    constexpr Rotation<qScalar> rotation() const noexcept { return Rotation<qScalar>(this->real()); }
+    constexpr Translation<qScalar> translation() const noexcept { return Translation<qScalar>(this->dual() * this->real().conj() * 2); }
 
     template<typename First_, typename... Args_>
     constexpr static Pose build_from(const First_& first, const Args_&... args){

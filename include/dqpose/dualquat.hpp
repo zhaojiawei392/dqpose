@@ -87,7 +87,7 @@ public:
     }
     // Copy Constructor
     template<typename Scalar>
-    constexpr explicit DualQuat(const DualQuat<Scalar>& other) noexcept
+    constexpr DualQuat(const DualQuat<Scalar>& other) noexcept
         : _data{ Quat<qScalar>(other.real()), Quat<qScalar>(other.dual()) } {
 
     }
@@ -319,7 +319,7 @@ public:
     }
     // DualQuat Constructor
     template <typename Scalar>
-    constexpr explicit PureDualQuat(const DualQuat<Scalar>& other) noexcept
+    constexpr PureDualQuat(const DualQuat<Scalar>& other) noexcept
         : DualQuat<qScalar>( other )  {
         this->purify();
     }
@@ -418,7 +418,7 @@ public:
     }
     // DualQuat Constructor
     template <typename Scalar>
-    constexpr explicit UnitDualQuat(const DualQuat<Scalar>& other) noexcept
+    constexpr UnitDualQuat(const DualQuat<Scalar>& other) noexcept
         : DualQuat<qScalar>( other ) {
         this->normalize();
     }
@@ -495,7 +495,7 @@ public:
     }
     // DualQuat Constructor
     template <typename Scalar>
-    constexpr explicit UnitPureDualQuat(const DualQuat<Scalar>& other) noexcept
+    constexpr UnitPureDualQuat(const DualQuat<Scalar>& other) noexcept
         : DualQuat<qScalar>( other ) {
         this->purify();
         this->normalize();

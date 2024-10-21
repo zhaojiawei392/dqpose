@@ -82,7 +82,7 @@ public:
     }
     // Copy Constructors 
     template<typename Scalar>
-    constexpr explicit Quat(const Quat<Scalar>& other) noexcept
+    constexpr Quat(const Quat<Scalar>& other) noexcept
         : _data{ static_cast<qScalar>(other.w()), static_cast<qScalar>(other.x()), static_cast<qScalar>(other.y()), static_cast<qScalar>(other.z()) } {
 
     }
@@ -328,7 +328,7 @@ public:
     }
     // Quat Constructor
     template<typename Scalar>
-    constexpr explicit PureQuat(const Quat<Scalar>& other) noexcept
+    constexpr PureQuat(const Quat<Scalar>& other) noexcept
         : Quat<qScalar>( other ) {
         this->w() = 0;
     }
@@ -411,7 +411,7 @@ public:
     }
     // Quat Constructor
     template<typename Scalar>
-    constexpr explicit UnitQuat(const Quat<Scalar>& other) noexcept
+    constexpr UnitQuat(const Quat<Scalar>& other) noexcept
         : Quat<qScalar>(other) {
         this->normalize();
     }
@@ -480,7 +480,7 @@ public:
     }
     // Quat Constructor
     template<typename Scalar>
-    constexpr explicit UnitPureQuat(const Quat<Scalar>& other) noexcept
+    constexpr UnitPureQuat(const Quat<Scalar>& other) noexcept
         : Quat<qScalar>( other ) {
         this->w() = 0;
         this->normalize();
