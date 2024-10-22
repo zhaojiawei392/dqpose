@@ -29,11 +29,8 @@ void constructors_demo() {
 
     std::cout << " Constructors of float Quaternion --- Quat<float> ---              \n";
     // Quaternion of scalar type of float inside
-    // The default constructor, all values are uninitialized
-    // Directly use a default Quaternion without initialization will produce undefined behavior
-    // Initialize it before use
-    // Quatf q0;                   
-    // std::cout << "Default constructor       - Quatf q0;                   : " << q0 << "\n";  // Undefined behavior
+    Quatf q0;                                           // 0.000000000000 + 0.000000000000 î + 0.000000000000 ĵ + 0.000000000000 k̂
+    std::cout << "Default constructor       - Quatf q0;                   : " << q0 << "\n";  // Undefined behavior
     // A Constructor accepts 1 to 4 scalar values
     Quatf q10(0);                                       // 0.000000000000 + 0.000000000000 î + 0.000000000000 ĵ + 0.000000000000 k̂
     Quatf q11(0,1);                                     // 0.000000000000 + 1.000000000000 î + 0.000000000000 ĵ + 0.000000000000 k̂
@@ -54,8 +51,8 @@ void constructors_demo() {
 
 
     std::cout << "\nConstructors of float Pure Quaternion --- PureQuat<float> ---              \n";
-    // PureQuatf pq0;                   
-    // std::cout << "Default constructor       - PureQuatf pq0;                                    : " << pq0 << "\n";  // Undefined behavior
+    PureQuatf pq0;                                      // 0.000000000000 + 0.000000000000 î + 0.000000000000 ĵ + 0.000000000000 k̂
+    std::cout << "Default constructor       - PureQuatf pq0;                             : " << pq0 << "\n";  // Undefined behavior
     // A Constructor accepts 1 to 3 scalar values
     PureQuatf pq10(1);                                  // 0.000000000000 + 1.000000000000 î + 0.000000000000 ĵ + 0.000000000000 k̂
     PureQuatf pq11(1,2);                                // 0.000000000000 + 1.000000000000 î + 2.000000000000 ĵ + 0.000000000000 k̂
@@ -79,8 +76,8 @@ void constructors_demo() {
 
 
     std::cout << "\nConstructors of float Unit Quaternion --- UnitQuat<float> ---              \n";
-    // UnitQuatf uq0;                   
-    // std::cout << "Default constructor       - UnitQuatf uq0;                                    : " << uq0 << "\n";  // Undefined behavior
+    UnitQuatf uq0;                                      // 1.000000000000 + 0.000000000000 î + 0.000000000000 ĵ + 0.000000000000 k̂
+    std::cout << "Default constructor       - UnitQuatf uq0;                             : " << uq0 << "\n";  // Undefined behavior
     // A Constructor accepts 1 to 4 scalar values, normalization is performed for each constructor
     // ensuring it's a Unit Quaternion
     UnitQuatf uq10{1};                                  // 1.000000000000 + 0.000000000000 î + 0.000000000000 ĵ + 0.000000000000 k̂
@@ -104,8 +101,8 @@ void constructors_demo() {
     // std::cout << "Unsafe Quat constructor    - UnitQuatf(Quat<double>(0));               : " << UnitQuatf(Quat<double>(0)) << "\n"; // invalid
 
     std::cout << "\nConstructors of float Unit Pure Quaternion --- UnitPureQuat<float> ---              \n";
-    // UnitPureQuatf upq0;                   
-    // std::cout << "Default constructor       - UnitPureQuatf upq0;                                    : " << upq0 << "\n";  // Undefined behavior
+    UnitPureQuatf upq0;                                  // 0.000000000000 + 1.000000000000 î + 0.000000000000 ĵ + 0.000000000000 k̂
+    std::cout << "Default constructor       - UnitPureQuatf upq0;                             : " << upq0 << "\n";  // Undefined behavior
     // A Constructor accepts 3 scalar values, normalization is performed for each constructor
     // ensuring it's a Unit Quaternion
     UnitPureQuatf upq10(1,0,0);                          // 0.000000000000 + 1.000000000000 î + 0.000000000000 ĵ + 0.000000000000 k̂

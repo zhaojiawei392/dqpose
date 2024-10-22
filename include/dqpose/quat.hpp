@@ -39,7 +39,7 @@ namespace dqpose
 {
 
 template <typename T>
-inline T square(const T& x) {
+constexpr inline T square(const T& x) {
     return x * x;
 }
 
@@ -58,81 +58,84 @@ class UnitPureQuat;
 template<typename qScalar, typename>
 class Quat {
 public:
-using Arr4 = std::array<qScalar, 4>;
-using Mat44 = std::array<std::array<qScalar, 4>, 4>;
 protected:
-    Arr4 _data;
-    inline qScalar& w() noexcept {return _data[0];};
-    inline qScalar& x() noexcept {return _data[1];};
-    inline qScalar& y() noexcept {return _data[2];};
-    inline qScalar& z() noexcept {return _data[3];};
+    std::array<qScalar, 4> _data;
+    constexpr inline qScalar& _w() noexcept {return _data[0];};
+    constexpr inline qScalar& _x() noexcept {return _data[1];};
+    constexpr inline qScalar& _y() noexcept {return _data[2];};
+    constexpr inline qScalar& _z() noexcept {return _data[3];};
 public:
     // Default Constructor
-    explicit Quat() noexcept
+    constexpr explicit Quat() noexcept
         : _data{ 0, 0, 0, 0 } {
 
     }
+    // Array Constructor
+    constexpr explicit Quat(const std::array<qScalar, 4>& arr4) noexcept
+        : _data( arr4 ) {
+
+    }
     // Scalar Constructor
-    explicit Quat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
+    constexpr explicit Quat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
         : _data{ w, x, y, z } {
 
     }
     // Copy Constructors 
     template<typename Scalar>
-    explicit Quat(const Quat<Scalar>& other) noexcept
+    constexpr Quat(const Quat<Scalar>& other) noexcept
         : _data{ static_cast<qScalar>(other.w()), static_cast<qScalar>(other.x()), static_cast<qScalar>(other.y()), static_cast<qScalar>(other.z()) } {
 
     }
     // Copy Assignment
     template<typename Scalar>
-    inline Quat& operator=(const Quat<Scalar>& other) noexcept {
-        w() = static_cast<qScalar>(other.w());
-        x() = static_cast<qScalar>(other.x());
-        y() = static_cast<qScalar>(other.y());
-        z() = static_cast<qScalar>(other.z());
+    constexpr inline Quat& operator=(const Quat<Scalar>& other) noexcept {
+        _w() = static_cast<qScalar>(other.w());
+        _x() = static_cast<qScalar>(other.x());
+        _y() = static_cast<qScalar>(other.y());
+        _z() = static_cast<qScalar>(other.z());
         return *this;
     }
     // operator+=
     template<typename Scalar>
-    inline Quat& operator+=(const Quat<Scalar>& other) noexcept {
-        w() += static_cast<qScalar>(other.w());  
-        x() += static_cast<qScalar>(other.x()); 
-        y() += static_cast<qScalar>(other.y()); 
-        z() += static_cast<qScalar>(other.z());
+    constexpr inline Quat& operator+=(const Quat<Scalar>& other) noexcept {
+        _w() += static_cast<qScalar>(other.w());  
+        _x() += static_cast<qScalar>(other.x()); 
+        _y() += static_cast<qScalar>(other.y()); 
+        _z() += static_cast<qScalar>(other.z());
         return *this; 
     }
     // operator-=
     template<typename Scalar>
-    inline Quat& operator-=(const Quat<Scalar>& other) noexcept {
-        w() -= static_cast<qScalar>(other.w());  
-        x() -= static_cast<qScalar>(other.x()); 
-        y() -= static_cast<qScalar>(other.y()); 
-        z() -= static_cast<qScalar>(other.z());
+    constexpr inline Quat& operator-=(const Quat<Scalar>& other) noexcept {
+        _w() -= static_cast<qScalar>(other.w());  
+        _x() -= static_cast<qScalar>(other.x()); 
+        _y() -= static_cast<qScalar>(other.y()); 
+        _z() -= static_cast<qScalar>(other.z());
         return *this; 
     }
     // operator*=
     template<typename Scalar>
-    inline Quat& operator*=(const Quat<Scalar>& other) noexcept {
+    constexpr inline Quat& operator*=(const Quat<Scalar>& other) noexcept {
         const qScalar other_w = static_cast<qScalar>(other.w());
         const qScalar other_x = static_cast<qScalar>(other.x());
         const qScalar other_y = static_cast<qScalar>(other.y());
         const qScalar other_z = static_cast<qScalar>(other.z());
-        w() = w()*other_w - x()*other_x - y()*other_y - z()*other_z;  
-        x() = x()*other_w + w()*other_x - z()*other_y + y()*other_z; 
-        y() = y()*other_w + z()*other_x + w()*other_y - x()*other_z; 
-        z() = z()*other_w - y()*other_x + x()*other_y + w()*other_z; 
+        _w() = w()*other_w - x()*other_x - y()*other_y - z()*other_z;  
+        _x() = x()*other_w + w()*other_x - z()*other_y + y()*other_z; 
+        _y() = y()*other_w + z()*other_x + w()*other_y - x()*other_z; 
+        _z() = z()*other_w - y()*other_x + x()*other_y + w()*other_z; 
         return *this;
     }
     // operator*=
-    inline Quat& operator*=(const qScalar scalar) noexcept {
-        w() *= scalar;  
-        x() *= scalar; 
-        y() *= scalar; 
-        z() *= scalar; 
+    constexpr inline Quat& operator*=(const qScalar scalar) noexcept {
+        _w() *= scalar;  
+        _x() *= scalar; 
+        _y() *= scalar; 
+        _z() *= scalar; 
         return *this;
     }
     // normalize
-    inline Quat& normalize() {
+    constexpr inline Quat& normalize() {
         const qScalar norm = this->norm();
         if (norm == 0) {
             throw std::runtime_error("Error: Quat& normalize() Cannot normalize a 0 Quaternion.");
@@ -141,13 +144,13 @@ public:
         return *this;
     }
     // purify
-    inline Quat& purify() noexcept {
-        w() = 0;
+    constexpr inline Quat& purify() noexcept {
+        _w() = 0;
         return *this;
     }
     // operator+
     template<typename Scalar>
-    inline Quat operator+(const Quat<Scalar>& other) const noexcept {
+    constexpr inline Quat operator+(const Quat<Scalar>& other) const noexcept {
         const qScalar w_ = w() + static_cast<qScalar>(other.w());
         const qScalar x_ = x() + static_cast<qScalar>(other.x()); 
         const qScalar y_ = y() + static_cast<qScalar>(other.y()); 
@@ -156,7 +159,7 @@ public:
     }
     // operator-
     template<typename Scalar>
-    inline Quat operator-(const Quat<Scalar>& other) const noexcept {
+    constexpr inline Quat operator-(const Quat<Scalar>& other) const noexcept {
         const qScalar w_ = w() - static_cast<qScalar>(other.w());
         const qScalar x_ = x() - static_cast<qScalar>(other.x());
         const qScalar y_ = y() - static_cast<qScalar>(other.y());
@@ -165,7 +168,7 @@ public:
     }
     // operator*
     template<typename Scalar>
-    inline Quat operator*(const Quat<Scalar>& other) const noexcept {
+    constexpr inline Quat operator*(const Quat<Scalar>& other) const noexcept {
         const qScalar other_w = static_cast<qScalar>(other.w());
         const qScalar other_x = static_cast<qScalar>(other.x());
         const qScalar other_y = static_cast<qScalar>(other.y());
@@ -177,7 +180,7 @@ public:
         return Quat(w_, x_, y_, z_);
     }
     // operator*
-    inline Quat operator*(const qScalar scalar) const noexcept {
+    constexpr inline Quat operator*(const qScalar scalar) const noexcept {
         const qScalar w_ = w() * scalar;  
         const qScalar x_ = x() * scalar; 
         const qScalar y_ = y() * scalar; 
@@ -185,39 +188,39 @@ public:
         return Quat(w_, x_, y_, z_);
     }
     // -operator
-    inline Quat operator-() const noexcept { return Quat(-w(), -x(), -y(), -z()); }
+    constexpr inline Quat operator-() const noexcept { return Quat(-w(), -x(), -y(), -z()); }
     // operator==
     template<typename Scalar>
-    inline bool operator==(const Quat<Scalar>& other) const noexcept { return _data == other._data; }
+    constexpr inline bool operator==(const Quat<Scalar>& other) const noexcept { return _data == other._data; }
     // operator!=
     template<typename Scalar>
-    inline bool operator!=(const Quat<Scalar>& other) const noexcept { return _data != other._data; }
+    constexpr inline bool operator!=(const Quat<Scalar>& other) const noexcept { return _data != other._data; }
     // dot
     template<typename Scalar>
-    inline qScalar dot(const Quat<Scalar>& other) const noexcept {
+    constexpr inline qScalar dot(const Quat<Scalar>& other) const noexcept {
         return    w() * static_cast<qScalar>(other.w()) 
                 + x() * static_cast<qScalar>(other.x()) 
                 + y() * static_cast<qScalar>(other.y()) 
                 + z() * static_cast<qScalar>(other.z());
     }
     // norm
-    inline qScalar norm() const noexcept {
+    constexpr inline qScalar norm() const noexcept {
         return std::sqrt( square( w() ) + square( x() ) + square( y() ) + square( z() ));
     }
     // copied
-    inline Quat copied() const noexcept {
+    constexpr inline Quat copied() const noexcept {
         return *this;
     }
     // normalized
-    inline UnitQuat<qScalar> normalized() const {
+    constexpr inline UnitQuat<qScalar> normalized() const {
         return UnitQuat<qScalar>(*this); 
     }
     // purified
-    inline PureQuat<qScalar> purified() const noexcept {
+    constexpr inline PureQuat<qScalar> purified() const noexcept {
         return PureQuat<qScalar>(*this); 
     }
     // conj
-    inline Quat conj() const noexcept {
+    constexpr inline Quat conj() const noexcept {
         const qScalar w_ = w();  
         const qScalar x_ = - x(); 
         const qScalar y_ = - y(); 
@@ -225,7 +228,7 @@ public:
         return Quat(w_, x_, y_, z_);  
     }
     // inv
-    inline Quat inv() const noexcept {
+    constexpr inline Quat inv() const noexcept {
         const qScalar norm2 = square(norm());
         const qScalar w_ = w() / norm2;  
         const qScalar x_ = - x() / norm2; 
@@ -234,7 +237,7 @@ public:
         return Quat(w_, x_, y_, z_);  
     }
     // log
-    inline Quat log() const noexcept {
+    constexpr inline Quat log() const noexcept {
         const qScalar vec3_norm = std::sqrt( square( x() ) + square( y() ) + square( z() ));
         if (vec3_norm == 0) {
             return Quat(std::log(w()));
@@ -248,7 +251,7 @@ public:
         return Quat(w_, x_, y_, z_);  
     }
     // exp
-    inline Quat exp() const noexcept {        
+    constexpr inline Quat exp() const noexcept {        
         const qScalar vec3_norm = std::sqrt( square( x() ) + square( y() ) + square( z() ));
         const qScalar exp_ = std::exp(w());        
         if (vec3_norm == 0) {
@@ -263,38 +266,38 @@ public:
         return Quat(w_, x_, y_, z_); 
     }
     // pow
-    inline Quat pow(const qScalar index) const noexcept{
+    constexpr inline Quat pow(const qScalar index) const noexcept{
         return (this->log() * index).exp();
     }
     // hamiplus
-    inline Mat44 hamiplus() const noexcept {
-        return Mat44 { { w(), -x(), -y(), -z() },
-                      { x(),  w(), -z(),  y() },
-                      { y(),  z(),  w(), -x() },
-                      { z(), -y(),  x(),  w() } };
+    constexpr inline std::array<std::array<qScalar, 4>, 4> hamiplus() const noexcept {
+        return std::array<std::array<qScalar, 4>, 4> { { w(), -x(), -y(), -z() },
+                                                    { x(),  w(), -z(),  y() },
+                                                    { y(),  z(),  w(), -x() },
+                                                    { z(), -y(),  x(),  w() } };
     }
     // haminus
-    inline Mat44 haminus() const noexcept {
-        return Mat44 { { w(), -x(), -y(), -z() },
-                      { x(),  w(),  z(), -y() },
-                      { y(), -z(),  w(),  x() },
-                      { z(),  y(), -x(),  w() } };            
+    constexpr inline std::array<std::array<qScalar, 4>, 4> haminus() const noexcept {
+        return std::array<std::array<qScalar, 4>, 4> { { w(), -x(), -y(), -z() },
+                                                    { x(),  w(),  z(), -y() },
+                                                    { y(), -z(),  w(),  x() },
+                                                    { z(),  y(), -x(),  w() } };            
     }
     // Query const
-    inline qScalar w() const noexcept {return _data[0];}
-    inline qScalar x() const noexcept {return _data[1];}
-    inline qScalar y() const noexcept {return _data[2];}
-    inline qScalar z() const noexcept {return _data[3];}
+    constexpr inline qScalar w() const noexcept {return _data[0];}
+    constexpr inline qScalar x() const noexcept {return _data[1];}
+    constexpr inline qScalar y() const noexcept {return _data[2];}
+    constexpr inline qScalar z() const noexcept {return _data[3];}
     // to_string
-    inline std::string to_string() const {    
+    constexpr inline std::string to_string() const {    
         std::ostringstream oss;
         oss << std::fixed << std::setprecision(PRINT_PRECISION) << w() << " + " << x() << " î + " << y() << " ĵ + " << z() << " k̂";
         return oss.str();
     };
     // data
-    inline const qScalar* data() const noexcept { return _data.data(); }
-    inline Arr4 array() const noexcept { return _data; }
-    inline Arr4 vrep_array() const noexcept { return Arr4{x(), y(), z(), w()}; }
+    constexpr inline const qScalar* data() const noexcept { return _data.data(); }
+    constexpr inline std::array<qScalar, 4> array() const noexcept { return _data; }
+    constexpr inline std::array<qScalar, 4> vrep_array() const noexcept { return std::array<qScalar, 4>{x(), y(), z(), w()}; }
     // Defaults
 
     virtual ~Quat()=default;    
@@ -309,69 +312,76 @@ class PureQuat: public Quat<qScalar>
 { 
 public:
     // Default Constructor
-    explicit PureQuat() noexcept
-    : Quat<qScalar>( ) {
+    constexpr explicit PureQuat() noexcept
+        : Quat<qScalar>( ) {
+
+    }
+    // Array Constructor
+    constexpr explicit PureQuat(const std::array<qScalar, 3> arr3) noexcept
+        : Quat<qScalar>( 0, arr3[0], arr3[1], arr3[2] ) {
 
     }
     // Scalar Constructor
-    explicit PureQuat(const qScalar x, const qScalar y=0, const qScalar z=0) noexcept
-    : Quat<qScalar>( 0, x, y, z ) {
+    constexpr explicit PureQuat(const qScalar x, const qScalar y=0, const qScalar z=0) noexcept
+        : Quat<qScalar>( 0, x, y, z ) {
 
     }
     // Quat Constructor
     template<typename Scalar>
-    explicit PureQuat(const Quat<Scalar>& other) noexcept
-    : Quat<qScalar>( other ) {
-        this->w() = 0;
+    constexpr PureQuat(const Quat<Scalar>& other) noexcept
+        : Quat<qScalar>( other ) {
+        this->_w() = 0;
     }
     // Quat Assignment
     template<typename Scalar>
-    inline PureQuat& operator=(const Quat<Scalar>& other) noexcept {
-        this->w() = 0;
-        this->x() = static_cast<qScalar>(other.x());
-        this->y() = static_cast<qScalar>(other.y());
-        this->z() = static_cast<qScalar>(other.z());
+    constexpr inline PureQuat& operator=(const Quat<Scalar>& other) noexcept {
+        this->_w() = 0;
+        this->_x() = static_cast<qScalar>(other.x());
+        this->_y() = static_cast<qScalar>(other.y());
+        this->_z() = static_cast<qScalar>(other.z());
         return *this;
     }
     // operator+=
     template<typename Scalar>
-    inline PureQuat& operator+=(const PureQuat<Scalar>& other) noexcept {
-        this->w() = 0;  
-        this->x() += static_cast<qScalar>(other.x()); 
-        this->y() += static_cast<qScalar>(other.y()); 
-        this->z() += static_cast<qScalar>(other.z());
+    constexpr inline PureQuat& operator+=(const PureQuat<Scalar>& other) noexcept {
+        this->_w() = 0;  
+        this->_x() += static_cast<qScalar>(other.x()); 
+        this->_y() += static_cast<qScalar>(other.y()); 
+        this->_z() += static_cast<qScalar>(other.z());
         return *this; 
     }  
     // operator-=  
     template<typename Scalar>
-    inline PureQuat& operator-=(const PureQuat& other) noexcept {
-        this->w() = 0;  
-        this->x() -= static_cast<qScalar>(other.x()); 
-        this->y() -= static_cast<qScalar>(other.y()); 
-        this->z() -= static_cast<qScalar>(other.z());
+    constexpr inline PureQuat& operator-=(const PureQuat& other) noexcept {
+        this->_w() = 0;  
+        this->_x() -= static_cast<qScalar>(other.x()); 
+        this->_y() -= static_cast<qScalar>(other.y()); 
+        this->_z() -= static_cast<qScalar>(other.z());
         return *this; 
     }
     // operator*=
-    inline PureQuat& operator*=(const qScalar scalar) noexcept {
-        this->w() = 0;  
-        this->x() *= scalar; 
-        this->y() *= scalar; 
-        this->z() *= scalar; 
+    constexpr inline PureQuat& operator*=(const qScalar scalar) noexcept {
+        this->_w() = 0;  
+        this->_x() *= scalar; 
+        this->_y() *= scalar; 
+        this->_z() *= scalar; 
         return *this;
     }
     // normalized
-    inline UnitPureQuat<qScalar> normalized() const {
+    constexpr inline UnitPureQuat<qScalar> normalized() const {
         return UnitPureQuat<qScalar>(*this); 
     }
     // data
-    inline const qScalar* data() const noexcept { return this->_data.data()+1; }
+    constexpr inline const qScalar* data() const noexcept { return this->_data.data()+1; }
+    // array
+    constexpr inline std::array<qScalar, 3> array() const noexcept { return std::array<qScalar, 3>{ this->x(), this->y(), this->z()}; }
     // Delete unsafe mutable operators    
     template<typename Scalar>
-    inline Quat<qScalar>& operator+=(const Quat<Scalar>& other) noexcept =delete;
+    constexpr inline Quat<qScalar>& operator+=(const Quat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline Quat<qScalar>& operator-=(const Quat<Scalar>& other) noexcept =delete;
+    constexpr inline Quat<qScalar>& operator-=(const Quat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline Quat<qScalar>& operator*=(const Quat<Scalar>& other) noexcept =delete;
+    constexpr inline Quat<qScalar>& operator*=(const Quat<Scalar>& other) noexcept =delete;
     // Defaults
         virtual ~PureQuat()=default;
                 PureQuat(const PureQuat&)=default;
@@ -385,59 +395,62 @@ class UnitQuat : public Quat<qScalar>
 {
 public:
     // Default Constructor 
-    explicit UnitQuat() noexcept
-    : Quat<qScalar>( 1 ) {
+    constexpr explicit UnitQuat() noexcept
+        : Quat<qScalar>( 1 ) {
         
     }
+    // Array Constructor
+    constexpr explicit UnitQuat(const std::array<qScalar, 4>& arr4) noexcept
+        : Quat<qScalar>( arr4 ) {
+        this->normalize();
+    }
     // Scalar Constructor 
-    explicit UnitQuat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
-    : Quat<qScalar>( w, x, y, z ) {
+    constexpr explicit UnitQuat(const qScalar w, const qScalar x=0, const qScalar y=0, const qScalar z=0) noexcept
+        : Quat<qScalar>( w, x, y, z ) {
         this->normalize();
     }
     // Quat Constructor
     template<typename Scalar>
-    explicit UnitQuat(const Quat<Scalar>& other) noexcept
-    : Quat<qScalar>(other) {
+    constexpr UnitQuat(const Quat<Scalar>& other) noexcept
+        : Quat<qScalar>(other) {
         this->normalize();
     }
     // Quat Assignment 
     template<typename Scalar>
-    inline UnitQuat& operator=(const Quat<Scalar>& other) noexcept {
-        this->w() = static_cast<qScalar>(other.w());
-        this->x() = static_cast<qScalar>(other.x());
-        this->y() = static_cast<qScalar>(other.y());
-        this->z() = static_cast<qScalar>(other.z());
+    constexpr inline UnitQuat& operator=(const Quat<Scalar>& other) noexcept {
+        this->_w() = static_cast<qScalar>(other.w());
+        this->_x() = static_cast<qScalar>(other.x());
+        this->_y() = static_cast<qScalar>(other.y());
+        this->_z() = static_cast<qScalar>(other.z());
         this->normalize();
         return *this;
     }
     // operator*=
     template<typename Scalar>
-    inline UnitQuat& operator*=(const UnitQuat<Scalar>& other) noexcept {
+    constexpr inline UnitQuat& operator*=(const UnitQuat<Scalar>& other) noexcept {
         const qScalar other_w = static_cast<qScalar>(other.w());
         const qScalar other_x = static_cast<qScalar>(other.x());
         const qScalar other_y = static_cast<qScalar>(other.y());
         const qScalar other_z = static_cast<qScalar>(other.z());
-        this->w() = this->w()*other_w - this->x()*other_x - this->y()*other_y - this->z()*other_z; 
-        this->x() = this->x()*other_w + this->w()*other_x - this->z()*other_y + this->y()*other_z; 
-        this->y() = this->y()*other_w + this->z()*other_x + this->w()*other_y - this->x()*other_z; 
-        this->z() = this->z()*other_w - this->y()*other_x + this->x()*other_y + this->w()*other_z; 
+        this->_w() = this->w()*other_w - this->x()*other_x - this->y()*other_y - this->z()*other_z; 
+        this->_x() = this->x()*other_w + this->w()*other_x - this->z()*other_y + this->y()*other_z; 
+        this->_y() = this->y()*other_w + this->z()*other_x + this->w()*other_y - this->x()*other_z; 
+        this->_z() = this->z()*other_w - this->y()*other_x + this->x()*other_y + this->w()*other_z; 
         this->normalize();
         return *this;
     }
     // purified
-    inline UnitPureQuat<qScalar> purified() const noexcept {
-        return UnitPureQuat<qScalar>(*this); 
-    }
+    constexpr inline UnitPureQuat<qScalar> purified() const noexcept { return UnitPureQuat<qScalar>(*this); }
     // data
-    inline const qScalar* data() const noexcept { return this->_data.data(); }
+    constexpr inline const qScalar* data() const noexcept { return this->_data.data(); }
     // Delete unsafe mutable operators
     template<typename Scalar>
-    inline Quat<qScalar>& operator+=(const Quat<Scalar>& other) noexcept =delete;
+    constexpr inline Quat<qScalar>& operator+=(const Quat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline Quat<qScalar>& operator-=(const Quat<Scalar>& other) noexcept =delete;
+    constexpr inline Quat<qScalar>& operator-=(const Quat<Scalar>& other) noexcept =delete;
     template<typename Scalar>
-    inline Quat<qScalar>& operator*=(const Quat<Scalar>& other) noexcept =delete;
-    inline Quat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;   
+    constexpr inline Quat<qScalar>& operator*=(const Quat<Scalar>& other) noexcept =delete;
+    constexpr inline Quat<qScalar>& operator*=(const qScalar scalar) noexcept =delete;   
     // Defaults
         virtual ~UnitQuat()=default;
                 UnitQuat(const UnitQuat&)=default;
@@ -450,38 +463,49 @@ template<typename qScalar, typename>
 class UnitPureQuat : public Quat<qScalar>
 {
 public:
+    // Default Constructor
+    constexpr explicit UnitPureQuat() noexcept 
+        : Quat<qScalar>( 0, 1, 0, 0 ) {
+
+    }
+    // Array Constructor
+    constexpr explicit UnitPureQuat(const std::array<qScalar, 3> arr3) noexcept
+        : Quat<qScalar>( 0, arr3[0], arr3[1], arr3[2] ) {
+        this->normalize();
+    }
     // Scalar Constructor
-    explicit UnitPureQuat(const qScalar x, const qScalar y, const qScalar z) noexcept
-    : Quat<qScalar>(0, x, y, z) {
+    constexpr explicit UnitPureQuat(const qScalar x, const qScalar y=0, const qScalar z=0) noexcept
+        : Quat<qScalar>( 0, x, y, z ) {
         this->normalize();
     }
     // Quat Constructor
     template<typename Scalar>
-    explicit UnitPureQuat(const Quat<Scalar>& other) noexcept
-    : Quat<qScalar>(other) {
-        this->w() = 0;
+    constexpr UnitPureQuat(const Quat<Scalar>& other) noexcept
+        : Quat<qScalar>( other ) {
+        this->_w() = 0;
         this->normalize();
     }
     // Quat Assignment
-    inline UnitPureQuat& operator=(const Quat<qScalar>& other) noexcept {
-        this->w() = 0;
-        this->x() = static_cast<qScalar>(other.x());
-        this->y() = static_cast<qScalar>(other.y());
-        this->z() = static_cast<qScalar>(other.z());
+    constexpr inline UnitPureQuat& operator=(const Quat<qScalar>& other) noexcept {
+        this->_w() = 0;
+        this->_x() = static_cast<qScalar>(other.x());
+        this->_y() = static_cast<qScalar>(other.y());
+        this->_z() = static_cast<qScalar>(other.z());
         this->normalize();
         return *this;
     } 
     // data
-    inline const qScalar* data() const noexcept { return this->_data.data()+1; }
+    constexpr inline const qScalar* data() const noexcept { return this->_data.data()+1; }
+    // array
+    constexpr inline std::array<qScalar, 3> array() const noexcept { return std::array<qScalar, 3>{ this->x(), this->y(), this->z() }; }
     // Delete unsafe mutable operators
     template<typename Scalar>
-    inline Quat<qScalar>& operator+=(const Quat<Scalar>& ) noexcept =delete;
+    constexpr inline Quat<qScalar>& operator+=(const Quat<Scalar>& ) noexcept =delete;
     template<typename Scalar>
-    inline Quat<qScalar>& operator-=(const Quat<Scalar>& ) noexcept =delete;
+    constexpr inline Quat<qScalar>& operator-=(const Quat<Scalar>& ) noexcept =delete;
     template<typename Scalar>
-    inline Quat<qScalar>& operator*=(const Quat<Scalar>& ) noexcept =delete;
-    inline Quat<qScalar>& operator*=(const qScalar& ) noexcept =delete;
-                    UnitPureQuat()=delete;
+    constexpr inline Quat<qScalar>& operator*=(const Quat<Scalar>& ) noexcept =delete;
+    constexpr inline Quat<qScalar>& operator*=(const qScalar& ) noexcept =delete;
     // Default
             virtual ~UnitPureQuat()=default;
                     UnitPureQuat(const UnitPureQuat&)=default;
@@ -512,4 +536,5 @@ using Quatld = Quat<long double>;
 using UnitQuatld = UnitQuat<long double>;
 using PureQuatld = PureQuat<long double>;
 using UnitPureQuatld = UnitPureQuat<long double>;
+
 }

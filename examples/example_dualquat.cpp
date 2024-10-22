@@ -29,11 +29,8 @@ void constructors_demo() {
 
     std::cout << " Constructors of float Dual Quaternion --- DualQuat<float> ---              \n";
     // Dual Quaternion of scalar type of float inside
-    // The default Constructor, all values are uninitialized
-    // Directly use a default Dual Quaternion without initialization will produce undefined behavior
-    // Initialize it before use !!!
-    // DualQuatf q0;                   
-    // std::cout << "Default Constructor       - DualQuatf q0;                   : " << q0 << "\n";  // Undefined behavior
+    DualQuatf q0;                   
+    std::cout << "Default Constructor       - DualQuatf q0;  : " << "\n" << q0 << "\n";  // Undefined behavior
     // A Constructor accepts 0 to 8 scalar values
     DualQuatf q10(1);                                    
     DualQuatf q11(1,1);                                    
@@ -65,8 +62,8 @@ void constructors_demo() {
 
 
     std::cout << "\nConstructors of float Pure Dual Quaternion --- PureDualQuat<float> ---              \n";
-    // PureDualQuatf pq0;                   
-    // std::cout << "Default Constructor       - PureDualQuatf pq0;                                    : " << pq0 << "\n";  // Undefined behavior
+    PureDualQuatf pq0;                   
+    std::cout << "Default Constructor       - PureDualQuatf pq0;           : " << "\n"  << pq0 << "\n";  // Undefined behavior
     // A Constructor accepts 1 to 6 scalar values
     PureDualQuatf pq10(1);                                  
     PureDualQuatf pq11(1,2);                                
@@ -100,8 +97,8 @@ void constructors_demo() {
 
 
     std::cout << "\nConstructors of float Unit Dual Quaternion --- UnitDualQuat<float> ---              \n";
-    // UnitDualQuatf uq0;                   
-    // std::cout << "Default Constructor       - UnitDualQuatf uq0;                                    : " << uq0 << "\n";  // Undefined behavior
+    UnitDualQuatf uq0;                   
+    std::cout << "Default Constructor       - UnitDualQuatf uq0;             : " << "\n"  << uq0 << "\n";  // Undefined behavior
     // A Constructor accepts 1 to 8 scalar values, normalization is performed for each Constructor
     // ensuring it's a Unit Quaternion
     UnitDualQuatf uq10(1);                                    
@@ -141,8 +138,8 @@ void constructors_demo() {
     // std::cout << "  - UnitDualQuatf(DualQuat<double>(0));               : " << UnitDualQuatf(DualQuat<double>(0,0,0,0)) << "\n"; // invalid
 
     std::cout << "\nConstructors of float Unit Pure Dual Quaternion --- UnitPureQuat<float> ---              \n";
-    // UnitPureDualQuatf upq0;                   
-    // std::cout << "Default Constructor       - UnitPureDualQuatf upq0;                                    : " << upq0 << "\n";  // Undefined behavior
+    UnitPureDualQuatf upq0;                   
+    std::cout << "Default Constructor       - UnitPureDualQuatf upq0;             : " << "\n"  << upq0 << "\n";  // Undefined behavior
     // A Constructor accepts 1 to 6 scalar values, normalization is performed for each Constructor
     // ensuring it's a Unit Quaternion
     UnitPureDualQuatf upq10(1);                                  
