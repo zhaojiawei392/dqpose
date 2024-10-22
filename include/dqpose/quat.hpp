@@ -60,10 +60,10 @@ class Quat {
 public:
 protected:
     std::array<qScalar, 4> _data;
-    constexpr inline qScalar& w() noexcept {return _data[0];};
-    constexpr inline qScalar& x() noexcept {return _data[1];};
-    constexpr inline qScalar& y() noexcept {return _data[2];};
-    constexpr inline qScalar& z() noexcept {return _data[3];};
+    constexpr inline qScalar& _w() noexcept {return _data[0];};
+    constexpr inline qScalar& _x() noexcept {return _data[1];};
+    constexpr inline qScalar& _y() noexcept {return _data[2];};
+    constexpr inline qScalar& _z() noexcept {return _data[3];};
 public:
     // Default Constructor
     constexpr explicit Quat() noexcept
@@ -89,28 +89,28 @@ public:
     // Copy Assignment
     template<typename Scalar>
     constexpr inline Quat& operator=(const Quat<Scalar>& other) noexcept {
-        w() = static_cast<qScalar>(other.w());
-        x() = static_cast<qScalar>(other.x());
-        y() = static_cast<qScalar>(other.y());
-        z() = static_cast<qScalar>(other.z());
+        _w() = static_cast<qScalar>(other.w());
+        _x() = static_cast<qScalar>(other.x());
+        _y() = static_cast<qScalar>(other.y());
+        _z() = static_cast<qScalar>(other.z());
         return *this;
     }
     // operator+=
     template<typename Scalar>
     constexpr inline Quat& operator+=(const Quat<Scalar>& other) noexcept {
-        w() += static_cast<qScalar>(other.w());  
-        x() += static_cast<qScalar>(other.x()); 
-        y() += static_cast<qScalar>(other.y()); 
-        z() += static_cast<qScalar>(other.z());
+        _w() += static_cast<qScalar>(other.w());  
+        _x() += static_cast<qScalar>(other.x()); 
+        _y() += static_cast<qScalar>(other.y()); 
+        _z() += static_cast<qScalar>(other.z());
         return *this; 
     }
     // operator-=
     template<typename Scalar>
     constexpr inline Quat& operator-=(const Quat<Scalar>& other) noexcept {
-        w() -= static_cast<qScalar>(other.w());  
-        x() -= static_cast<qScalar>(other.x()); 
-        y() -= static_cast<qScalar>(other.y()); 
-        z() -= static_cast<qScalar>(other.z());
+        _w() -= static_cast<qScalar>(other.w());  
+        _x() -= static_cast<qScalar>(other.x()); 
+        _y() -= static_cast<qScalar>(other.y()); 
+        _z() -= static_cast<qScalar>(other.z());
         return *this; 
     }
     // operator*=
@@ -120,18 +120,18 @@ public:
         const qScalar other_x = static_cast<qScalar>(other.x());
         const qScalar other_y = static_cast<qScalar>(other.y());
         const qScalar other_z = static_cast<qScalar>(other.z());
-        w() = w()*other_w - x()*other_x - y()*other_y - z()*other_z;  
-        x() = x()*other_w + w()*other_x - z()*other_y + y()*other_z; 
-        y() = y()*other_w + z()*other_x + w()*other_y - x()*other_z; 
-        z() = z()*other_w - y()*other_x + x()*other_y + w()*other_z; 
+        _w() = w()*other_w - x()*other_x - y()*other_y - z()*other_z;  
+        _x() = x()*other_w + w()*other_x - z()*other_y + y()*other_z; 
+        _y() = y()*other_w + z()*other_x + w()*other_y - x()*other_z; 
+        _z() = z()*other_w - y()*other_x + x()*other_y + w()*other_z; 
         return *this;
     }
     // operator*=
     constexpr inline Quat& operator*=(const qScalar scalar) noexcept {
-        w() *= scalar;  
-        x() *= scalar; 
-        y() *= scalar; 
-        z() *= scalar; 
+        _w() *= scalar;  
+        _x() *= scalar; 
+        _y() *= scalar; 
+        _z() *= scalar; 
         return *this;
     }
     // normalize
@@ -145,7 +145,7 @@ public:
     }
     // purify
     constexpr inline Quat& purify() noexcept {
-        w() = 0;
+        _w() = 0;
         return *this;
     }
     // operator+
@@ -330,41 +330,41 @@ public:
     template<typename Scalar>
     constexpr PureQuat(const Quat<Scalar>& other) noexcept
         : Quat<qScalar>( other ) {
-        this->w() = 0;
+        this->_w() = 0;
     }
     // Quat Assignment
     template<typename Scalar>
     constexpr inline PureQuat& operator=(const Quat<Scalar>& other) noexcept {
-        this->w() = 0;
-        this->x() = static_cast<qScalar>(other.x());
-        this->y() = static_cast<qScalar>(other.y());
-        this->z() = static_cast<qScalar>(other.z());
+        this->_w() = 0;
+        this->_x() = static_cast<qScalar>(other.x());
+        this->_y() = static_cast<qScalar>(other.y());
+        this->_z() = static_cast<qScalar>(other.z());
         return *this;
     }
     // operator+=
     template<typename Scalar>
     constexpr inline PureQuat& operator+=(const PureQuat<Scalar>& other) noexcept {
-        this->w() = 0;  
-        this->x() += static_cast<qScalar>(other.x()); 
-        this->y() += static_cast<qScalar>(other.y()); 
-        this->z() += static_cast<qScalar>(other.z());
+        this->_w() = 0;  
+        this->_x() += static_cast<qScalar>(other.x()); 
+        this->_y() += static_cast<qScalar>(other.y()); 
+        this->_z() += static_cast<qScalar>(other.z());
         return *this; 
     }  
     // operator-=  
     template<typename Scalar>
     constexpr inline PureQuat& operator-=(const PureQuat& other) noexcept {
-        this->w() = 0;  
-        this->x() -= static_cast<qScalar>(other.x()); 
-        this->y() -= static_cast<qScalar>(other.y()); 
-        this->z() -= static_cast<qScalar>(other.z());
+        this->_w() = 0;  
+        this->_x() -= static_cast<qScalar>(other.x()); 
+        this->_y() -= static_cast<qScalar>(other.y()); 
+        this->_z() -= static_cast<qScalar>(other.z());
         return *this; 
     }
     // operator*=
     constexpr inline PureQuat& operator*=(const qScalar scalar) noexcept {
-        this->w() = 0;  
-        this->x() *= scalar; 
-        this->y() *= scalar; 
-        this->z() *= scalar; 
+        this->_w() = 0;  
+        this->_x() *= scalar; 
+        this->_y() *= scalar; 
+        this->_z() *= scalar; 
         return *this;
     }
     // normalized
@@ -418,10 +418,10 @@ public:
     // Quat Assignment 
     template<typename Scalar>
     constexpr inline UnitQuat& operator=(const Quat<Scalar>& other) noexcept {
-        this->w() = static_cast<qScalar>(other.w());
-        this->x() = static_cast<qScalar>(other.x());
-        this->y() = static_cast<qScalar>(other.y());
-        this->z() = static_cast<qScalar>(other.z());
+        this->_w() = static_cast<qScalar>(other.w());
+        this->_x() = static_cast<qScalar>(other.x());
+        this->_y() = static_cast<qScalar>(other.y());
+        this->_z() = static_cast<qScalar>(other.z());
         this->normalize();
         return *this;
     }
@@ -432,10 +432,10 @@ public:
         const qScalar other_x = static_cast<qScalar>(other.x());
         const qScalar other_y = static_cast<qScalar>(other.y());
         const qScalar other_z = static_cast<qScalar>(other.z());
-        this->w() = this->w()*other_w - this->x()*other_x - this->y()*other_y - this->z()*other_z; 
-        this->x() = this->x()*other_w + this->w()*other_x - this->z()*other_y + this->y()*other_z; 
-        this->y() = this->y()*other_w + this->z()*other_x + this->w()*other_y - this->x()*other_z; 
-        this->z() = this->z()*other_w - this->y()*other_x + this->x()*other_y + this->w()*other_z; 
+        this->_w() = this->w()*other_w - this->x()*other_x - this->y()*other_y - this->z()*other_z; 
+        this->_x() = this->x()*other_w + this->w()*other_x - this->z()*other_y + this->y()*other_z; 
+        this->_y() = this->y()*other_w + this->z()*other_x + this->w()*other_y - this->x()*other_z; 
+        this->_z() = this->z()*other_w - this->y()*other_x + this->x()*other_y + this->w()*other_z; 
         this->normalize();
         return *this;
     }
@@ -482,15 +482,15 @@ public:
     template<typename Scalar>
     constexpr UnitPureQuat(const Quat<Scalar>& other) noexcept
         : Quat<qScalar>( other ) {
-        this->w() = 0;
+        this->_w() = 0;
         this->normalize();
     }
     // Quat Assignment
     constexpr inline UnitPureQuat& operator=(const Quat<qScalar>& other) noexcept {
-        this->w() = 0;
-        this->x() = static_cast<qScalar>(other.x());
-        this->y() = static_cast<qScalar>(other.y());
-        this->z() = static_cast<qScalar>(other.z());
+        this->_w() = 0;
+        this->_x() = static_cast<qScalar>(other.x());
+        this->_y() = static_cast<qScalar>(other.y());
+        this->_z() = static_cast<qScalar>(other.z());
         this->normalize();
         return *this;
     } 

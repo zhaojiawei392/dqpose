@@ -65,11 +65,11 @@ public:
     template<typename Scalar>
     constexpr explicit Rotation(const UnitAxis<Scalar>& rotate_axis, const qScalar rotate_angle) noexcept
         : UnitQuat<qScalar>(1) {
-        this->w() = cos(0.5 * rotate_angle);
+        this->_w() = cos(0.5 * rotate_angle);
         const qScalar sin_ = sin(0.5 * rotate_angle);
-        this->x() = rotate_axis.x() * sin_;
-        this->y() = rotate_axis.y() * sin_;
-        this->z() = rotate_axis.z() * sin_;
+        this->_x() = rotate_axis.x() * sin_;
+        this->_y() = rotate_axis.y() * sin_;
+        this->_z() = rotate_axis.z() * sin_;
     }
     // Quat Constructor
     template<typename Scalar>
