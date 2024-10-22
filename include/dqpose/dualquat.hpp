@@ -354,21 +354,6 @@ public:
         this->purify();
         return *this;
     }
-    // operator+
-    template<typename Scalar>
-    constexpr inline PureDualQuat operator+(const PureDualQuat<Scalar>& other) const noexcept {
-        return PureDualQuat( this->real() + other.real(), this->dual() + other.dual() );
-    } 
-    // operator-
-    template<typename Scalar>
-    constexpr inline PureDualQuat operator-(const PureDualQuat<Scalar>& other) const noexcept {
-        return PureDualQuat( this->real() - other.real(), this->dual() - other.dual() );
-    } 
-    // operator*
-    constexpr inline PureDualQuat operator*(const qScalar scalar) noexcept {
-        this->purify();
-        return PureDualQuat( this->real() * scalar, this->dual() * scalar );
-    }
 
     // Delete 
     template<typename Scalar>
@@ -437,13 +422,6 @@ public:
         this->_real() *= other.real();
         this->normalize();
         return *this;
-    } 
-    // operator*
-    template<typename Scalar>
-    constexpr inline UnitDualQuat operator*(const UnitDualQuat<Scalar>& other) const noexcept {
-        const Quat<qScalar>& dual_ = this->real() * other.dual() + this->dual() * other.real();
-        const Quat<qScalar>& real_ = this->real() * other.real();
-        return UnitDualQuat( real_, dual_ );
     } 
     // Delete 
     template<typename Scalar>
