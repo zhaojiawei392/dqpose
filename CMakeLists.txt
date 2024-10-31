@@ -25,7 +25,7 @@
 cmake_minimum_required(VERSION 3.25)
 
 # Macro options
-set(dqpose_BUILD_EXAMPLES ON CACHE BOOL "Build examples for dqpose" FORCE)
+set(dqpose_BUILD_EXAMPLES ON "Build examples for dqpose")
 message(STATUS "dqpose_BUILD_EXAMPLES is set to ${dqpose_BUILD_EXAMPLES}")
 
 # Set the project name and version
