@@ -322,7 +322,7 @@ public:
     }
     template<typename Scalar>
     constexpr static Pose build_from(const Translation<Scalar>& translation){
-        return Pose(Rotation<qScalar>(), Translation<qScalar>(translation * 0.5));
+        return Pose(Rotation<qScalar>(), translation);
     }
     template<typename Scalar>
     constexpr static Pose build_from(const Pose<Scalar>& pose){
