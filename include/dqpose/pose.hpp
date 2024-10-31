@@ -317,16 +317,16 @@ public:
         return Pose(build_from(first) * build_from(args...));
     }  
     template<typename Scalar>
-    constexpr static Rotation<qScalar> build_from(const Rotation<Scalar>& rotation){
-        return static_cast<Rotation<qScalar>>( rotation );
+    constexpr static Rotation<qScalar>& build_from(const Rotation<Scalar>& rotation){
+        return rotation;
     }
     template<typename Scalar>
     constexpr static Pose build_from(const Translation<Scalar>& translation){
-        return Pose(Rotation<qScalar>(), translation * 0.5);
+        return Pose(Rotation<qScalar>(), Translation<qScalar>(translation * 0.5));
     }
     template<typename Scalar>
-    constexpr static Pose build_from(const Pose<Scalar>& pose){
-        return Pose<qScalar>(pose);
+    constexpr static Pose& build_from(const Pose<Scalar>& pose){
+        return pose;
     }
     // Default
         virtual ~Pose()=default;

@@ -516,7 +516,7 @@ operator*(const Scalar1 scalar, const DualQuat<Scalar2>& dq) noexcept {return dq
 // operator*
 template<typename Scalar1, typename Scalar2>
 inline DualQuat<Scalar1> operator*(const Quat<Scalar1>& quat, const DualQuat<Scalar2>& dq) noexcept {
-    return DualQuat( quat * dq.real(), quat * dq.dual() );
+    return DualQuat<Scalar1>( quat * dq.real(), quat * dq.dual() );
 }
 
 using DualQuatf = DualQuat<float>;
