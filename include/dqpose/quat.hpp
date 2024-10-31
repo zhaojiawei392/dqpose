@@ -151,20 +151,20 @@ public:
     // operator+
     template<typename Scalar>
     constexpr inline Quat operator+(const Quat<Scalar>& other) const noexcept {
-        const qScalar w_ = w() + static_cast<qScalar>(other.w());
-        const qScalar x_ = x() + static_cast<qScalar>(other.x()); 
-        const qScalar y_ = y() + static_cast<qScalar>(other.y()); 
-        const qScalar z_ = z() + static_cast<qScalar>(other.z()); 
-        return Quat(w_, x_, y_, z_);
+        const qScalar result_w = w() + static_cast<qScalar>(other.w());
+        const qScalar result_x = x() + static_cast<qScalar>(other.x()); 
+        const qScalar result_y = y() + static_cast<qScalar>(other.y()); 
+        const qScalar result_z = z() + static_cast<qScalar>(other.z()); 
+        return Quat(result_w, result_x, result_y, result_z);
     }
     // operator-
     template<typename Scalar>
     constexpr inline Quat operator-(const Quat<Scalar>& other) const noexcept {
-        const qScalar w_ = w() - static_cast<qScalar>(other.w());
-        const qScalar x_ = x() - static_cast<qScalar>(other.x());
-        const qScalar y_ = y() - static_cast<qScalar>(other.y());
-        const qScalar z_ = z() - static_cast<qScalar>(other.z());
-        return Quat(w_, x_, y_, z_);
+        const qScalar result_w = w() - static_cast<qScalar>(other.w());
+        const qScalar result_x = x() - static_cast<qScalar>(other.x());
+        const qScalar result_y = y() - static_cast<qScalar>(other.y());
+        const qScalar result_z = z() - static_cast<qScalar>(other.z());
+        return Quat(result_w, result_x, result_y, result_z);
     }
     // operator*
     template<typename Scalar>
@@ -173,19 +173,19 @@ public:
         const qScalar other_x = static_cast<qScalar>(other.x());
         const qScalar other_y = static_cast<qScalar>(other.y());
         const qScalar other_z = static_cast<qScalar>(other.z());
-        const qScalar w_ = w()*other_w - x()*other_x - y()*other_y - z()*other_z;  
-        const qScalar x_ = x()*other_w + w()*other_x - z()*other_y + y()*other_z; 
-        const qScalar y_ = y()*other_w + z()*other_x + w()*other_y - x()*other_z; 
-        const qScalar z_ = z()*other_w - y()*other_x + x()*other_y + w()*other_z; 
-        return Quat(w_, x_, y_, z_);
+        const qScalar result_w = w()*other_w - x()*other_x - y()*other_y - z()*other_z;  
+        const qScalar result_x = x()*other_w + w()*other_x - z()*other_y + y()*other_z; 
+        const qScalar result_y = y()*other_w + z()*other_x + w()*other_y - x()*other_z; 
+        const qScalar result_z = z()*other_w - y()*other_x + x()*other_y + w()*other_z; 
+        return Quat(result_w, result_x, result_y, result_z);
     }
     // operator*
     constexpr inline Quat operator*(const qScalar scalar) const noexcept {
-        const qScalar w_ = w() * scalar;  
-        const qScalar x_ = x() * scalar; 
-        const qScalar y_ = y() * scalar; 
-        const qScalar z_ = z() * scalar; 
-        return Quat(w_, x_, y_, z_);
+        const qScalar result_w = w() * scalar;  
+        const qScalar result_x = x() * scalar; 
+        const qScalar result_y = y() * scalar; 
+        const qScalar result_z = z() * scalar; 
+        return Quat(result_w, result_x, result_y, result_z);
     }
     // -operator
     constexpr inline Quat operator-() const noexcept { return Quat(-w(), -x(), -y(), -z()); }
@@ -221,20 +221,20 @@ public:
     }
     // conj
     constexpr inline Quat conj() const noexcept {
-        const qScalar w_ = w();  
-        const qScalar x_ = - x(); 
-        const qScalar y_ = - y(); 
-        const qScalar z_ = - z(); 
-        return Quat(w_, x_, y_, z_);  
+        const qScalar result_w = w();  
+        const qScalar result_x = - x(); 
+        const qScalar result_y = - y(); 
+        const qScalar result_z = - z(); 
+        return Quat(result_w, result_x, result_y, result_z);  
     }
     // inv
     constexpr inline Quat inv() const noexcept {
         const qScalar norm2 = square(norm());
-        const qScalar w_ = w() / norm2;  
-        const qScalar x_ = - x() / norm2; 
-        const qScalar y_ = - y() / norm2; 
-        const qScalar z_ = - z() / norm2; 
-        return Quat(w_, x_, y_, z_);  
+        const qScalar result_w = w() / norm2;  
+        const qScalar result_x = - x() / norm2; 
+        const qScalar result_y = - y() / norm2; 
+        const qScalar result_z = - z() / norm2; 
+        return Quat(result_w, result_x, result_y, result_z);  
     }
     // log
     constexpr inline Quat log() const noexcept {
@@ -244,11 +244,11 @@ public:
         }
         const qScalar this_norm = norm();
         const qScalar this_theta = acos(w() / this_norm);
-        const qScalar w_ = std::log(this_norm);
-        const qScalar x_ = this_theta * x() / vec3_norm;
-        const qScalar y_ = this_theta * y() / vec3_norm;
-        const qScalar z_ = this_theta * z() / vec3_norm;
-        return Quat(w_, x_, y_, z_);  
+        const qScalar result_w = std::log(this_norm);
+        const qScalar result_x = this_theta * x() / vec3_norm;
+        const qScalar result_y = this_theta * y() / vec3_norm;
+        const qScalar result_z = this_theta * z() / vec3_norm;
+        return Quat(result_w, result_x, result_y, result_z);  
     }
     // exp
     constexpr inline Quat exp() const noexcept {        
@@ -259,11 +259,11 @@ public:
         }
         const qScalar cos_ = cos(vec3_norm);
         const qScalar sin_ = sin(vec3_norm);
-        const qScalar w_ = exp_ * cos_;
-        const qScalar x_ = exp_ * sin_ * x() / vec3_norm;
-        const qScalar y_ = exp_ * sin_ * y() / vec3_norm;
-        const qScalar z_ = exp_ * sin_ * z() / vec3_norm;
-        return Quat(w_, x_, y_, z_); 
+        const qScalar result_w = exp_ * cos_;
+        const qScalar result_x = exp_ * sin_ * x() / vec3_norm;
+        const qScalar result_y = exp_ * sin_ * y() / vec3_norm;
+        const qScalar result_z = exp_ * sin_ * z() / vec3_norm;
+        return Quat(result_w, result_x, result_y, result_z); 
     }
     // pow
     constexpr inline Quat pow(const qScalar index) const noexcept{
