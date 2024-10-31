@@ -296,8 +296,9 @@ public:
     };
     // data
     constexpr inline const qScalar* data() const noexcept { return _data.data(); }
-    constexpr inline std::array<qScalar, 4> array() const noexcept { return _data; }
-    constexpr inline std::array<qScalar, 4> vrep_array() const noexcept { return std::array<qScalar, 4>{x(), y(), z(), w()}; }
+    constexpr inline std::array<qScalar, 3> arr3() const noexcept { return std::array<qScalar, 3>{x(), y(), z()}; }
+    constexpr inline std::array<qScalar, 4> arr4() const noexcept { return _data; }
+    constexpr inline std::array<qScalar, 4> vrep_arr4() const noexcept { return std::array<qScalar, 4>{x(), y(), z(), w()}; }
     // Defaults
 
     virtual ~Quat()=default;    
@@ -367,12 +368,6 @@ public:
         this->_z() *= scalar; 
         return *this;
     }
-    // normalized
-    constexpr inline UnitPureQuat<qScalar> normalized() const {
-        return UnitPureQuat<qScalar>(*this); 
-    }
-    // data
-    constexpr inline const qScalar* data() const noexcept { return this->_data.data()+1; }
     // array
     constexpr inline std::array<qScalar, 3> array() const noexcept { return std::array<qScalar, 3>{ this->x(), this->y(), this->z()}; }
     // Delete unsafe mutable operators    
@@ -439,10 +434,6 @@ public:
         this->normalize();
         return *this;
     }
-    // purified
-    constexpr inline UnitPureQuat<qScalar> purified() const noexcept { return UnitPureQuat<qScalar>(*this); }
-    // data
-    constexpr inline const qScalar* data() const noexcept { return this->_data.data(); }
     // Delete unsafe mutable operators
     template<typename Scalar>
     constexpr inline Quat<qScalar>& operator+=(const Quat<Scalar>& other) noexcept =delete;
@@ -494,10 +485,6 @@ public:
         this->normalize();
         return *this;
     } 
-    // data
-    constexpr inline const qScalar* data() const noexcept { return this->_data.data()+1; }
-    // array
-    constexpr inline std::array<qScalar, 3> array() const noexcept { return std::array<qScalar, 3>{ this->x(), this->y(), this->z() }; }
     // Delete unsafe mutable operators
     template<typename Scalar>
     constexpr inline Quat<qScalar>& operator+=(const Quat<Scalar>& ) noexcept =delete;
