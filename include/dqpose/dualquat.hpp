@@ -154,9 +154,9 @@ public:
     // operator*  
     template<typename Scalar>
     constexpr inline DualQuat operator*(const DualQuat<Scalar>& other) const noexcept {
-        const Quat<qScalar>& dual_ = real() * other.dual() + dual() * other.real();
-        const Quat<qScalar>& real_ = real() * other.real();
-        return DualQuat( real_, dual_ );
+        const Quat<qScalar>& result_dual = real() * other.dual() + dual() * other.real();
+        const Quat<qScalar>& result_real = real() * other.real();
+        return DualQuat( result_real, result_dual );
     }
     // operator*  
     template<typename Scalar>
@@ -181,11 +181,11 @@ public:
     }
     // norm
     constexpr inline DualQuat norm() const noexcept {
-        const qScalar real_norm = real().norm();
-        if (real_norm == 0) 
+        const qScalar result_realnorm = real().norm();
+        if (result_realnorm == 0) 
             return DualQuat(0);
-        const qScalar res_dual_norm = real().dot(dual()) / real_norm;
-        return DualQuat(Quat<qScalar>(real_norm), Quat<qScalar>(res_dual_norm));
+        const qScalar res_result_dualnorm = real().dot(dual()) / result_realnorm;
+        return DualQuat(Quat<qScalar>(result_realnorm), Quat<qScalar>(res_result_dualnorm));
     }
     // copied
     constexpr inline DualQuat copied() const noexcept {
@@ -209,21 +209,21 @@ public:
     }
     // inv
     constexpr inline DualQuat inv() const noexcept {
-        const Quat<qScalar>& real_ = real().inv();
-        const Quat<qScalar>& dual_ = - real_ * dual() * real_;
-        return DualQuat( real_, dual_ );
+        const Quat<qScalar>& result_real = real().inv();
+        const Quat<qScalar>& result_dual = - result_real * dual() * result_real;
+        return DualQuat( result_real, result_dual );
     }
     // log
     constexpr inline DualQuat log() const noexcept {
-        const Quat<qScalar>& real_ = real().log();
-        const Quat<qScalar>& dual_ = real().inv() * dual();
-        return DualQuat( real_, dual_ );
+        const Quat<qScalar>& result_real = real().log();
+        const Quat<qScalar>& result_dual = real().inv() * dual();
+        return DualQuat( result_real, result_dual );
     }
     // exp
     constexpr inline DualQuat exp() const noexcept {
-        const Quat<qScalar>& real_ = real().exp();
-        const Quat<qScalar>& dual_ = real_ * real().inv() * dual();
-        return DualQuat( real_, dual_ );
+        const Quat<qScalar>& result_real = real().exp();
+        const Quat<qScalar>& result_dual = result_real * real().inv() * dual();
+        return DualQuat( result_real, result_dual );
     }
     // pow
     constexpr inline DualQuat pow(const qScalar index) const noexcept {
@@ -231,34 +231,34 @@ public:
     }
     // hamiplus
     constexpr inline Mat88 hamiplus() const noexcept {
-        const Mat44 real_hami = real().hamiplus();
-        const Mat44 dual_hami = dual().hamiplus();
+        const Mat44 result_realhami = real().hamiplus();
+        const Mat44 result_dualhami = dual().hamiplus();
         // Initialize a zero container
         Mat88 res{}; 
         for (int i=0; i<4; ++i) {
             // fill the first 4x4 block
-            std::copy(real_hami[i].begin(), real_hami[i].end(), res[i].begin());
+            std::copy(result_realhami[i].begin(), result_realhami[i].end(), res[i].begin());
             // the Second 4x4 block is [0]
             // fill the third 4x4 block
-            std::copy(dual_hami[i].begin(), dual_hami[i].end(), res[i+4].begin());
-            std::copy(real_hami[i].begin(), real_hami[i].end(), res[i+4].begin()+4);
+            std::copy(result_dualhami[i].begin(), result_dualhami[i].end(), res[i+4].begin());
+            std::copy(result_realhami[i].begin(), result_realhami[i].end(), res[i+4].begin()+4);
         }
         return res;
     }
     // haminus
     constexpr inline Mat88 haminus() const noexcept {        
-        const Mat44 real_hami = real().haminus();
-        const Mat44 dual_hami = dual().haminus();
+        const Mat44 result_realhami = real().haminus();
+        const Mat44 result_dualhami = dual().haminus();
         // Initialize a zero container
         Mat88 res{};
         for (int i=0; i<4; ++i) {
             // fill the first 4x4 block
-            std::copy(real_hami[i].begin(), real_hami[i].end(), res[i].begin());
+            std::copy(result_realhami[i].begin(), result_realhami[i].end(), res[i].begin());
             // the Second 4x4 block is [0]
             // fill the third 4x4 block
-            std::copy(dual_hami[i].begin(), dual_hami[i].end(), res[i+4].begin());
+            std::copy(result_dualhami[i].begin(), result_dualhami[i].end(), res[i+4].begin());
             // fill the fourth 4x4 block
-            std::copy(real_hami[i].begin(), real_hami[i].end(), res[i+4].begin()+4);
+            std::copy(result_realhami[i].begin(), result_realhami[i].end(), res[i+4].begin()+4);
         }
         return res;
     }
