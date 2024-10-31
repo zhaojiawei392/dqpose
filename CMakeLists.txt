@@ -25,7 +25,7 @@
 cmake_minimum_required(VERSION 3.25)
 
 # Macro options
-set(dqpose_BUILD_EXAMPLES ON "Build examples for dqpose")
+Option(dqpose_BUILD_EXAMPLES "Build examples for dqpose" ON)
 message(STATUS "dqpose_BUILD_EXAMPLES is set to ${dqpose_BUILD_EXAMPLES}")
 
 # Set the project name and version
@@ -39,6 +39,10 @@ set(CMAKE_DEBUG_POSTFIX d)
 # the BUILD_INTERFACE genex
 set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU,LCC>")
 set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
+add_compile_options(dq1_compiler_flags INTERFACE
+  "$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused>>"
+  "$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
+)
 
 # Make static, shared, executables all built in build dir
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
